@@ -1,5 +1,5 @@
 const PREC = {
-  impl: 1,
+  //impl: 1,
   or: 2,
   and: 3,
   eq: 4,
@@ -8,19 +8,19 @@ const PREC = {
   '>': 5,
   leq: 5,
   geq: 5,
-  update: 6,
+  concat_records: 6,
   not: 7,
   '+': 8,
   '-': 8,
   '*': 9,
   '/': 9,
-  concat: 10,
-  '?': 11,
+  concat_arrays: 10,
+  //'?': 11,
   negate: 12
 }
 
 module.exports = grammar({
-  name: 'nix',
+  name: 'nickel',
 
   extras: $ => [
     /\s/,
@@ -45,37 +45,42 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_expression: $ => field('expression', $._expression),
+    source_expression: $ => field('expression', $._expression), // TODO rename?
     _expression: $ => $._expr_function,
 
     // Keywords go before identifiers to let them take precedence when both are expected.
     // Test `let missing value (last)` would fail without this.
     // Workaround before https://github.com/tree-sitter/tree-sitter/pull/246
-    keyword: $ => /if|then|else|let|inherit|in|rec|with|assert/,
+    //keyword: $ => /if|then|else|let|inherit|in|rec|with|assert/,
+    keyword: $ => /if|then|else|let|in/,
 
     identifier: $ => /[a-zA-Z_][a-zA-Z0-9_\'\-]*/,
     integer: $ => /[0-9]+/,
-    float: $ => /(([1-9][0-9]*\.[0-9]*)|(0?\.[0-9]+))([Ee][+-]?[0-9]+)?/,
-    path: $ => /[a-zA-Z0-9\._\-\+]*(\/[a-zA-Z0-9\._\-\+]+)+\/?/,
-    hpath: $ => /\~(\/[a-zA-Z0-9\._\-\+]+)+\/?/,
-    spath: $ => /<[a-zA-Z0-9\._\-\+]+(\/[a-zA-Z0-9\._\-\+]+)*>/,
-    uri: $ => /[a-zA-Z][a-zA-Z0-9\+\-\.]*:[a-zA-Z0-9%\/\?:@\&=\+\$,\-_\.\!\~\*\']+/,
+    float: $ => /(([1-9][0-9]*\.[0-9]*)|(0?\.[0-9]+))([Ee][+-]?[0-9]+)?/, // wait, nix has float??
+    //path: $ => /[a-zA-Z0-9\._\-\+]*(\/[a-zA-Z0-9\._\-\+]+)+\/?/,
+    //hpath: $ => /\~(\/[a-zA-Z0-9\._\-\+]+)+\/?/,
+    //spath: $ => /<[a-zA-Z0-9\._\-\+]+(\/[a-zA-Z0-9\._\-\+]+)*>/,
+    //uri: $ => /[a-zA-Z][a-zA-Z0-9\+\-\.]*:[a-zA-Z0-9%\/\?:@\&=\+\$,\-_\.\!\~\*\']+/,
 
     _expr_function: $ => choice(
       $.function,
-      $.assert,
-      $.with,
+      //$.assert,
+      //$.with,
       $.let,
-      $._expr_if
+      $._expr_if // TODO?
     ),
 
-    function: $ => choice(
-      seq(field('universal', $.identifier), ':', field('body', $._expr_function)),
-      seq(field('formals', $.formals), ":", field('body', $._expr_function)),
-      seq(field('formals', $.formals), '@', field('universal', $.identifier), ':', field('body', $._expr_function)),
-      seq(field('universal', $.identifier), '@', field('formals', $.formals), ':', field('body', $._expr_function)),
+    function: $ => seq(
+      'fun',
+      choice(
+        seq(field('universal', $.identifier), '=>', field('body', $._expr_function)),
+        //seq(field('formals', $.formals), "=>", field('body', $._expr_function)),
+        //seq(field('formals', $.formals), '@', field('universal', $.identifier), '=>', field('body', $._expr_function)),
+        //seq(field('universal', $.identifier), '@', field('formals', $.formals), '=>', field('body', $._expr_function)),
+      )
     ),
 
+    /*
     formals: $ => choice(
       seq('{', '}'),
       seq('{', commaSep1(field('formal', $.formal)), '}'),
@@ -84,10 +89,11 @@ module.exports = grammar({
     ),
     formal: $ => seq(field("name", $.identifier), optional(seq('?', field('default', $._expression)))),
     ellipses: $ => '...',
+    */
 
-    assert: $ => seq('assert', field('condition', $._expression), ';', field('body', $._expr_function)),
-    with: $ => seq('with', field('environment', $._expression), ';', field('body', $._expr_function)),
-    let: $ => seq('let', optional($._binds), 'in', field('body', $._expr_function)),
+    //assert: $ => seq('assert', field('condition', $._expression), ';', field('body', $._expr_function)),
+    //with: $ => seq('with', field('environment', $._expression), ';', field('body', $._expr_function)),
+    let: $ => seq('let', optional($._binds), 'in', field('body', $._expr_function)), // TODO only one bind? no ; after bind
 
     _expr_if: $ => choice(
       $.if,
@@ -125,7 +131,7 @@ module.exports = grammar({
         ['>=', PREC.geq],
         ['&&', PREC.and],
         ['||', PREC.or],
-        ['?', PREC['?']],
+        //['?', PREC['?']],
         ['+', PREC['+']],
         ['-', PREC['-']],
         ['*', PREC['*']],
@@ -138,9 +144,9 @@ module.exports = grammar({
       ))),
       // right assoc.
       ...[
-        ['->', PREC.impl],
-        ['//', PREC.update],
-        ['++', PREC.concat],
+        //['->', PREC.impl],
+        ['&', PREC.concat_records],
+        ['@', PREC.concat_arrays],
       ].map(([operator, precedence]) =>
       prec.right(precedence, seq(
         field('left', $._expr_op),
@@ -172,50 +178,51 @@ module.exports = grammar({
       $.float,
       $.string,
       $.indented_string,
-      $.path,
-      $.hpath,
-      $.spath,
-      $.uri,
+      //$.path,
+      //$.hpath,
+      //$.spath,
+      //$.uri,
       $.parenthesized,
-      $.attrset,
-      $.let_attrset,
-      $.rec_attrset,
-      $.list
+      $.record,
+      $.let_record,
+      //$.rec_attrset,
+      $.array
     ),
 
     parenthesized: $ => seq('(', field('expression', $._expression), ')'),
 
-    attrset: $ => seq('{', optional($._binds), '}'),
-    let_attrset: $ => seq('let', '{', optional($._binds), '}'),
-    rec_attrset: $ => seq('rec', '{', optional($._binds), '}'),
+    record: $ => seq('{', optional($._binds), '}'),
+    let_record: $ => seq('let', '{', optional($._binds), '}'),
+    //rec_attrset: $ => seq('rec', '{', optional($._binds), '}'),
 
     string: $ => seq(
       '"',
       repeat(choice(
         $._string_fragment,
         $.interpolation,
-        $.escape_sequence
+        //$.escape_sequence
       )),
       '"'
     ),
-    escape_sequence: $ => token.immediate(/\\(.|\s)/), // Can also escape newline.
+    //escape_sequence: $ => token.immediate(/\\(.|\s)/), // Can also escape newline.
 
     indented_string: $ => seq(
-      "''",
+      '%m"', // TODO allow multiple %
       repeat(choice(
         $._indented_string_fragment,
-        $.interpolation,
-        alias($.indented_escape_sequence, $.escape_sequence),
+        $.interpolation, // TODO require multiple % = same number as in string delimiters
+        //alias($.indented_escape_sequence, $.escape_sequence),
       )),
-      "''"
+      '"%m'
     ),
-    indented_escape_sequence: $ => token.immediate(/'''|''\$|''\\(.|\s)/), // Can also escape newline.
+    //indented_escape_sequence: $ => token.immediate(/'''|''\$|''\\(.|\s)/), // Can also escape newline.
 
-    _binds: $ => repeat1(field('bind', choice($.bind, $.inherit, $.inherit_from))),
-    bind: $ => seq(field('attrpath', $.attrpath), '=', field('expression', $._expression), ';'),
-    inherit: $ => seq('inherit', field('attrs', $.attrs_inherited), ';'),
-    inherit_from: $ =>
-      seq('inherit', '(', field('expression', $._expression), ')', field('attrs', $.attrs_inherited_from), ';'),
+    //_binds: $ => repeat1(field('bind', choice($.bind, $.inherit, $.inherit_from))),
+    _binds: $ => repeat1(field('bind', choice($.bind))),
+    bind: $ => seq(field('attrpath', $.attrpath), '=', field('expression', $._expression)), // note: no ;
+    //inherit: $ => seq('inherit', field('attrs', $.attrs_inherited), ';'),
+    //inherit_from: $ =>
+    //  seq('inherit', '(', field('expression', $._expression), ')', field('attrs', $.attrs_inherited_from), ';'),
 
     attrpath: $ => sep1(field('attr', choice(
       alias($.identifier, $.attr_identifier),
@@ -223,22 +230,31 @@ module.exports = grammar({
       $.interpolation,
     )), "."),
 
+    /*
     attrs_inherited: $ => repeat1(field('attr', choice(
       $.identifier,
       $.string,
       $.interpolation,
     ))),
+    */
 
+    /*
     attrs_inherited_from: $ => repeat1(field('attr', choice(
       alias($.identifier, $.attr_identifier),
       $.string,
       $.interpolation,
     ))),
+    */
 
-    interpolation: $ => seq('${', field('expression', $._expression), '}'),
+    interpolation: $ => seq('%{', field('expression', $._expression), '}'),
+    // TODO require multiple %
 
-    list: $ => seq('[', repeat(field('element', $._expr_select)), ']'),
+    // baed on json grammar https://github.com/tree-sitter/tree-sitter-json
+    array: $ => seq(
+      "[", commaSep(field('element', $._expr_select)), "]"
+    ),
 
+    // TODO?
     comment: $ => token(choice(
       seq('#', /.*/),
       seq(

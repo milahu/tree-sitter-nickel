@@ -1,5 +1,5 @@
 {
-  "name": "tree-sitter-nix",
+  "name": "tree-sitter-nickel",
   "version": "0.0.2",
   "description": "Tree Sitter grammar for Nix",
   "main": "bindings/node",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cstrahan/tree-sitter-nix.git"
+    "url": "git+https://github.com/milahu/tree-sitter-nickel.git"
   },
   "author": "Charles Strahan",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cstrahan/tree-sitter-nix/issues"
+    "url": "https://github.com/milahu/tree-sitter-nickel/issues"
   },
-  "homepage": "https://github.com/cstrahan/tree-sitter-nix#readme",
+  "homepage": "https://github.com/milahu/tree-sitter-nickel#readme",
   "dependencies": {
     "nan": "^2.14.2"
   },

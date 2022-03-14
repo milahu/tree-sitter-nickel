@@ -2,6 +2,12 @@
 
 https://nickel-lang.org/user-manual/syntax
 
+https://github.com/tweag/nickel/blob/master/src/parser/lexer.rs
+
+https://github.com/tweag/nickel/blob/master/src/parser/tests.rs
+
+https://github.com/tweag/nickel/tree/master/tests/pass
+
 * minus must be spaced
 * floats are supported
 * string interpolation is "%{expr}" not "${expr}"

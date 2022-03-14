@@ -12,37 +12,37 @@ This is also a comment.
 
 ---
 
-(source_expression (comment) (comment) (string))
+(source_expression (comment) (comment) (StrChunks (StrChunk (StrChunkLiteral))))
 
 ====================
-identifier
+Id
 ====================
 
 abc
 
 ---
 
-(source_expression (identifier))
+(source_expression (Id))
 
 ====================
-integer
+Num
 ====================
 
 123
 
 ---
 
-(source_expression (integer))
+(source_expression (Num))
 
 ====================
-float
+Num
 ====================
 
 123.456
 
 ---
 
-(source_expression (float))
+(source_expression (Num))
 
 ====================
 array (empty)
@@ -62,27 +62,17 @@ array
 
 ---
 
-(source_expression (array (identifier) (integer) (float)))
+(source_expression (array (Id) (Num) (Num)))
 
 ====================
-if
+Ite (if then else)
 ====================
 
 if a then b else c
 
 ---
 
-(source_expression (if (identifier) (identifier) (identifier)))
-
-====================
-let (empty)
-====================
-
-let in a
-
----
-
-(source_expression (let (identifier)))
+(source_expression (Ite (Id) (Id) (Id)))
 
 ====================
 let (bind)
@@ -96,8 +86,8 @@ let a = b in c
     (let
         (bind
             (attrpath (attr_identifier))
-            (identifier))
-        (identifier)))
+            (Id))
+        (Id)))
 
 ====================
 let (bind, comments)
@@ -116,11 +106,10 @@ let
 (source_expression
     (let
         (comment)
-        (bind (attrpath (attr_identifier)) (identifier))
+        (bind (attrpath (attr_identifier)) (Id))
         (comment)
-        (bind (attrpath (attr_identifier)) (identifier))
         (comment)
-        (identifier)))
+        (Id)))
 
 ====================
 function
@@ -130,30 +119,30 @@ fun a => b
 
 ---
 
-(source_expression (function (identifier) (identifier)))
+(source_expression (function (Id) (Id)))
 
 ====================
-let record (empty)
+let RecRecord (empty)
 ====================
 
-let { }
+let a = 1 in { }
 
 ---
 
-(source_expression (let_attrset))
+(source_expression (let (bind (attrpath (attr_identifier)) (Num)) (RecRecord)))
 
 ====================
-record (empty)
+RecRecord (empty)
 ====================
 
 { }
 
 ---
 
-(source_expression (record))
+(source_expression (RecRecord))
 
 ====================
-record
+RecRecord
 ====================
 
 { a = 1, %{b} = "quux", "c" = 3.14, x.y.z = "foo" }
@@ -161,11 +150,11 @@ record
 ---
 
 (source_expression
-    (record
-        (bind (attrpath (attr_identifier)) (integer))
-        (bind (attrpath (interpolation (identifier))) (string))
-        (bind (attrpath (string)) (float))
-        (bind (attrpath (attr_identifier) (attr_identifier) (attr_identifier)) (string))))
+    (RecRecord
+        (bind (attrpath (attr_identifier)) (Num))
+        (bind (attrpath (RichTerm (Id))) (StrChunks (StrChunk (StrChunkLiteral))))
+        (bind (attrpath (StrChunks (StrChunk (StrChunkLiteral)))) (Num))
+        (bind (attrpath (attr_identifier) (attr_identifier) (attr_identifier)) (StrChunks (StrChunk (StrChunkLiteral)))))))
 
 ====================
 select
@@ -177,26 +166,49 @@ u.v.%{w}."x%{y}z"
 
 (source_expression
     (select
-        (identifier)
+        (Id)
         (attrpath
             (attr_identifier)
-            (interpolation (identifier))
-            (string (interpolation (identifier))))))
+            (RichTerm (Id))
+            (StrChunks (StrChunk (StrChunkLiteral))))))
 
 ====================
 apply
 ====================
 
-a 1 2.0
+a b 2.0
 
 ---
 
 (source_expression
-    (app
-        (app
-            (identifier)
-            (integer))
-        (float)))
+    (App
+        (App
+            (Id)
+            (Num)
+        )
+        (Num)
+    )
+)
+
+====================
+apply precedence (TODO)
+====================
+
+let
+  y = f x
+in y
+
+---
+
+(source_expression
+    (App
+        (App
+            (Id)
+            (Num)
+        )
+        (Num)
+    )
+)
 
 ====================
 operators
@@ -207,11 +219,11 @@ square 2 + -pi - 42.0
 ---
 
 (source_expression
-    (binary
-        (binary
-            (app (identifier) (integer))
-            (unary (identifier)))
-        (float)))
+    (BinaryOp
+        (BinaryOp
+            (App (Id) (Num))
+            (UnaryOp (Id)))
+        (Num)))
 
 ====================
 parens
@@ -222,4 +234,4 @@ parens
 ---
 
 (source_expression
-    (parenthesized (integer)))
+    (parenthesized (Num)))

@@ -1,3 +1,6 @@
+// TODO rename tokens to match https://github.com/tweag/nickel/blob/master/src/parser/lexer.rs
+
+
 const PREC = {
   //impl: 1,
   or: 2,
@@ -8,15 +11,17 @@ const PREC = {
   '>': 5,
   leq: 5,
   geq: 5,
-  concat_records: 6,
+  RecConcat: 6, // TODO rename?
   not: 7,
-  '+': 8,
-  '-': 8,
+  '+': 8, // Plus
+  ' - ': 8, // minus must be spaced. TODO allow \t \n ?
   '*': 9,
   '/': 9,
-  concat_arrays: 10,
+  ArrConcat: 10, // TODO rename?
+  StrConcat: 10, // TODO prec?
   //'?': 11,
-  negate: 12
+  negate: 12,
+  //App: 12, // solve conflict between _expr_op and App. TODO verify
 }
 
 module.exports = grammar({
@@ -35,7 +40,7 @@ module.exports = grammar({
   ],
 
   externals: $ => [
-    $._string_fragment,
+    $.StrChunkLiteral, // _string_fragment
     $._indented_string_fragment,
   ],
 
@@ -52,11 +57,20 @@ module.exports = grammar({
     // Test `let missing value (last)` would fail without this.
     // Workaround before https://github.com/tree-sitter/tree-sitter/pull/246
     //keyword: $ => /if|then|else|let|inherit|in|rec|with|assert/,
-    keyword: $ => /if|then|else|let|in/,
+    keyword: $ => /if|then|else|let|in|true|false|fun|import|switch/,
 
-    identifier: $ => /[a-zA-Z_][a-zA-Z0-9_\'\-]*/,
-    integer: $ => /[0-9]+/,
-    float: $ => /(([1-9][0-9]*\.[0-9]*)|(0?\.[0-9]+))([Ee][+-]?[0-9]+)?/, // wait, nix has float??
+    //Bool: $ => /true|false/, // TODO
+
+    // identifier, Ident
+    Id: $ => /_?[a-zA-Z][_a-zA-Z0-9-]*/,
+
+    // `x -> Enum(Id(x))
+    //Enum: $ => TODO,
+
+    Num: $ => choice($._integer, $._float),
+    _integer: $ => /[0-9]+/,
+    _float: $ => /[0-9]*\\.?[0-9]+/,
+
     //path: $ => /[a-zA-Z0-9\._\-\+]*(\/[a-zA-Z0-9\._\-\+]+)+\/?/,
     //hpath: $ => /\~(\/[a-zA-Z0-9\._\-\+]+)+\/?/,
     //spath: $ => /<[a-zA-Z0-9\._\-\+]+(\/[a-zA-Z0-9\._\-\+]+)*>/,
@@ -73,10 +87,10 @@ module.exports = grammar({
     function: $ => seq(
       'fun',
       choice(
-        seq(field('universal', $.identifier), '=>', field('body', $._expr_function)),
+        seq(field('universal', $.Id), '=>', field('body', $._expr_function)),
         //seq(field('formals', $.formals), "=>", field('body', $._expr_function)),
-        //seq(field('formals', $.formals), '@', field('universal', $.identifier), '=>', field('body', $._expr_function)),
-        //seq(field('universal', $.identifier), '@', field('formals', $.formals), '=>', field('body', $._expr_function)),
+        //seq(field('formals', $.formals), '@', field('universal', $.Id), '=>', field('body', $._expr_function)),
+        //seq(field('universal', $.Id), '@', field('formals', $.formals), '=>', field('body', $._expr_function)),
       )
     ),
 
@@ -87,7 +101,7 @@ module.exports = grammar({
       seq('{', commaSep1(field('formal', $.formal)), ',', field('ellipses', $.ellipses), '}'),
       seq('{', field('ellipses', $.ellipses), '}'),
     ),
-    formal: $ => seq(field("name", $.identifier), optional(seq('?', field('default', $._expression)))),
+    formal: $ => seq(field("name", $.Id), optional(seq('?', field('default', $._expression)))),
     ellipses: $ => '...',
     */
 
@@ -96,19 +110,20 @@ module.exports = grammar({
     let: $ => seq('let', optional($._binds), 'in', field('body', $._expr_function)), // TODO only one bind? no ; after bind
 
     _expr_if: $ => choice(
-      $.if,
+      $.Ite,
       $._expr_op
     ),
 
-    if: $ => seq('if', field('condition', $._expression), 'then', field('consequence', $._expression), 'else', field('alternative', $._expression)),
+    // if then else
+    Ite: $ => seq('if', field('condition', $._expression), 'then', field('consequence', $._expression), 'else', field('alternative', $._expression)),
 
     _expr_op: $ => choice(
-      $.unary,
-      $.binary,
+      $.UnaryOp,
+      $.BinaryOp,
       $._expr_app
     ),
 
-    unary: $ => choice(
+    UnaryOp: $ => choice(
       ...[
         ['!', PREC.not],
         ['-', PREC.negate],
@@ -120,7 +135,7 @@ module.exports = grammar({
       )
     ),
 
-    binary: $ => choice(
+    BinaryOp: $ => choice(
       // left assoc.
       ...[
         ['==', PREC.eq],
@@ -133,7 +148,7 @@ module.exports = grammar({
         ['||', PREC.or],
         //['?', PREC['?']],
         ['+', PREC['+']],
-        ['-', PREC['-']],
+        [' - ', PREC[' - ']],
         ['*', PREC['*']],
         ['/', PREC['/']],
       ].map(([operator, precedence]) =>
@@ -145,8 +160,9 @@ module.exports = grammar({
       // right assoc.
       ...[
         //['->', PREC.impl],
-        ['&', PREC.concat_records],
-        ['@', PREC.concat_arrays],
+        ['&', PREC.RecConcat],
+        ['@', PREC.ArrConcat],
+        ['++', PREC.StrConcat],
       ].map(([operator, precedence]) =>
       prec.right(precedence, seq(
         field('left', $._expr_op),
@@ -155,53 +171,104 @@ module.exports = grammar({
       )))
     ),
 
+    // TODO solve conflict between App and _expr_select
+    // or conflict between App and _expr_op?
     _expr_app: $ => choice(
-      $.app,
+      $.App, // recursion
       $._expr_select
     ),
+    /*
 
-    app: $ => seq(field('function', $._expr_app), field('argument', $._expr_select)),
+    Unresolved conflict for symbol sequence:
+
+      'let'  attrpath  '='  _expr_app  •  Id  …
+
+    Possible interpretations:
+
+      1:  'let'  attrpath  '='  (App  _expr_app  •  _expr_select)
+      2:  'let'  attrpath  '='  (_expr_op  _expr_app)  •  Id  …
+
+
+
+    _expr_op: $ => choice(
+      $.UnaryOp,
+      $.BinaryOp,
+      $._expr_app
+    ),
+
+    input
+    let
+      y = f x
+    in y
+
+    1.
+    let
+      y = (f x)
+    in y
+
+    2.
+    ???
+    let
+      y = (f x) i
+    in y
+
+    */
+
+    App: $ => seq(field('function', $._expr_app), field('argument', $._expr_select)),
+    /*
+    App: $ => prec(PREC.App,
+      seq(field('function', $._expr_app), field('argument', $._expr_select))
+    ),
+    */
 
     _expr_select: $ => choice(
       $.select,
       $._expr_simple
     ),
 
+    // access
     select: $ => choice(
       seq(field('expression', $._expr_simple), '.', field('attrpath', $.attrpath)),
       seq(field('expression', $._expr_simple), '.', field('attrpath', $.attrpath), 'or', field('default', $._expr_select)),
     ),
 
     _expr_simple: $ => choice(
-      $.identifier,
-      $.integer,
-      $.float,
-      $.string,
+      $.Id,
+      $.Num,
+      $.StrChunks, // string
       $.indented_string,
       //$.path,
       //$.hpath,
       //$.spath,
       //$.uri,
       $.parenthesized,
-      $.record,
-      $.let_record,
+      $.RecRecord, // "recursive record"? are there nonrecursive records in nickel?
+      //$.let_record,
       //$.rec_attrset,
       $.array
     ),
 
     parenthesized: $ => seq('(', field('expression', $._expression), ')'),
 
-    record: $ => seq('{', optional($._binds), '}'),
-    let_record: $ => seq('let', '{', optional($._binds), '}'),
+    RecRecord: $ => seq('{', optional($._binds), '}'),
+    //let_record: $ => seq('let', '{', optional($._binds), '}'), // what is this...?
     //rec_attrset: $ => seq('rec', '{', optional($._binds), '}'),
 
-    string: $ => seq(
+    StrChunk: $ => choice(
+      $.StrChunkLiteral, // _string_fragment
+      $.RichTerm, // interpolation
+    ),
+
+    StrChunks: $ => seq(
       '"',
+      repeat($.StrChunk),
+      /* nix:
       repeat(choice(
         $._string_fragment,
         $.interpolation,
         //$.escape_sequence
       )),
+      */
       '"'
     ),
     //escape_sequence: $ => token.immediate(/\\(.|\s)/), // Can also escape newline.
@@ -210,7 +277,7 @@ module.exports = grammar({
       '%m"', // TODO allow multiple %
       repeat(choice(
         $._indented_string_fragment,
-        $.interpolation, // TODO require multiple % = same number as in string delimiters
+        $.RichTerm, // TODO require multiple % = same number as in string delimiters
         //alias($.indented_escape_sequence, $.escape_sequence),
       )),
       '"%m'
@@ -225,28 +292,29 @@ module.exports = grammar({
     //  seq('inherit', '(', field('expression', $._expression), ')', field('attrs', $.attrs_inherited_from), ';'),
 
     attrpath: $ => sep1(field('attr', choice(
-      alias($.identifier, $.attr_identifier),
-      $.string,
-      $.interpolation,
+      alias($.Id, $.attr_identifier),
+      $.StrChunks,
+      $.RichTerm,
     )), "."),
 
     /*
     attrs_inherited: $ => repeat1(field('attr', choice(
-      $.identifier,
-      $.string,
-      $.interpolation,
+      $.Id,
+      $.StrChunks,
+      $.RichTerm,
     ))),
     */
 
     /*
     attrs_inherited_from: $ => repeat1(field('attr', choice(
-      alias($.identifier, $.attr_identifier),
-      $.string,
-      $.interpolation,
+      alias($.Id, $.attr_identifier),
+      $.StrChunks,
+      $.RichTerm,
     ))),
     */
 
-    interpolation: $ => seq('%{', field('expression', $._expression), '}'),
+    // interpolation
+    RichTerm: $ => seq('%{', field('expression', $._expression), '}'),
     // TODO require multiple %
 
     // baed on json grammar https://github.com/tree-sitter/tree-sitter-json

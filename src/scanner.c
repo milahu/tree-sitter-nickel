@@ -76,11 +76,11 @@ static bool scan_indented_string_fragment(TSLexer *lexer) {
   }
 }
 
-void *tree_sitter_nix_external_scanner_create() {
+void *tree_sitter_nickel_external_scanner_create() {
   return NULL;
 }
 
-bool tree_sitter_nix_external_scanner_scan(void *payload, TSLexer *lexer,
+bool tree_sitter_nickel_external_scanner_scan(void *payload, TSLexer *lexer,
                                             const bool *valid_symbols) {
   // This never happens in valid grammar. Only during error recovery, everything becomes valid.
   // See: https://github.com/tree-sitter/tree-sitter/issues/1259
@@ -99,10 +99,10 @@ bool tree_sitter_nix_external_scanner_scan(void *payload, TSLexer *lexer,
   return false;
 }
 
-unsigned tree_sitter_nix_external_scanner_serialize(void *payload, char *buffer) {
+unsigned tree_sitter_nickel_external_scanner_serialize(void *payload, char *buffer) {
   return 0;
 }
 
-void tree_sitter_nix_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) { }
+void tree_sitter_nickel_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) { }
 
-void tree_sitter_nix_external_scanner_destroy(void *payload) { }
+void tree_sitter_nickel_external_scanner_destroy(void *payload) { }

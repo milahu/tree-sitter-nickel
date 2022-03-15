@@ -1,7 +1,7 @@
 {
   "name": "tree-sitter-nickel",
-  "version": "0.0.2",
-  "description": "Tree Sitter grammar for Nix",
+  "version": "0.0.1",
+  "description": "nickel grammar for tree-sitter",
   "main": "bindings/node",
   "scripts": {
     "test": "tree-sitter test"
@@ -10,12 +10,18 @@
     "type": "git",
     "url": "git+https://github.com/milahu/tree-sitter-nickel.git"
   },
-  "author": "Charles Strahan",
+  "contributors": [
+    "Charles Strahan",
+    "oxalica",
+    "Justin Woo",
+    "tami5",
+    "milahu"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/milahu/tree-sitter-nickel/issues"
   },
-  "homepage": "https://github.com/milahu/tree-sitter-nickel#readme",
+  "homepage": "https://github.com/milahu/tree-sitter-nickel",
   "dependencies": {
     "nan": "^2.14.2"
   },
@@ -25,16 +31,17 @@
   "tree-sitter": [
     {
       "file-types": [
-        "nix"
+        "ncl",
+        "nickel"
       ],
       "highlights": [
         "queries/highlights.scm"
       ],
-      "injection-regex": "^(nix)$",
+      "injection-regex": "^(ncl|nickel)$",
       "locals": [
         "queries/locals.scm"
       ],
-      "scope": "source.nix"
+      "scope": "source.ncl"
     }
   ]
 }

@@ -21,7 +21,7 @@ const PREC = {
   StrConcat: 10, // TODO prec?
   //'?': 11,
   negate: 12,
-  //App: 12, // solve conflict between _expr_op and App. TODO verify
+  //App: 12, // solve conflict between _operator_or_recursionorfuncname and App. TODO verify
 }
 
 module.exports = grammar({
@@ -69,7 +69,7 @@ module.exports = grammar({
 
     Num: $ => choice($._integer, $._float),
     _integer: $ => /[0-9]+/,
-    _float: $ => /[0-9]*\\.?[0-9]+/,
+    _float: $ => /[0-9]*\.[0-9]+/,
 
     //path: $ => /[a-zA-Z0-9\._\-\+]*(\/[a-zA-Z0-9\._\-\+]+)+\/?/,
     //hpath: $ => /\~(\/[a-zA-Z0-9\._\-\+]+)+\/?/,
@@ -107,20 +107,26 @@ module.exports = grammar({
 
     //assert: $ => seq('assert', field('condition', $._expression), ';', field('body', $._expr_function)),
     //with: $ => seq('with', field('environment', $._expression), ';', field('body', $._expr_function)),
-    let: $ => seq('let', optional($._binds), 'in', field('body', $._expr_function)), // TODO only one bind? no ; after bind
+    //let: $ => seq('let', optional($._binds), 'in', field('body', $._expr_function)), // TODO only one bind? no ; after bind
+    // one or more binds, separated by comma
+    //let: $ => seq('let', $._binds, 'in', field('body', $._expr_function)),
+    // nickel <<< "let a=1, b=2 in a"
+    // error: unexpected token , after a=1
+    // only one bind
+    let: $ => seq('let', $.bind, 'in', field('body', $._expr_function)),
 
     _expr_if: $ => choice(
       $.Ite,
-      $._expr_op
+      $._operator_or_recursionorfuncname
     ),
 
     // if then else
     Ite: $ => seq('if', field('condition', $._expression), 'then', field('consequence', $._expression), 'else', field('alternative', $._expression)),
 
-    _expr_op: $ => choice(
+    _operator_or_recursionorfuncname: $ => choice(
       $.UnaryOp,
       $.BinaryOp,
-      $._expr_app
+      $._recursion_or_funcname
     ),
 
     UnaryOp: $ => choice(
@@ -130,7 +136,7 @@ module.exports = grammar({
       ].map(([operator, precedence]) =>
         prec(precedence, seq(
           field('operator', operator),
-          field('argument', $._expr_op)
+          field('argument', $._operator_or_recursionorfuncname)
         ))
       )
     ),
@@ -153,9 +159,9 @@ module.exports = grammar({
         ['/', PREC['/']],
       ].map(([operator, precedence]) =>
       prec.left(precedence, seq(
-        field('left', $._expr_op),
+        field('left', $._operator_or_recursionorfuncname),
         field('operator', operator),
-        field('right', $._expr_op)
+        field('right', $._operator_or_recursionorfuncname)
       ))),
       // right assoc.
       ...[
@@ -165,35 +171,35 @@ module.exports = grammar({
         ['++', PREC.StrConcat],
       ].map(([operator, precedence]) =>
       prec.right(precedence, seq(
-        field('left', $._expr_op),
+        field('left', $._operator_or_recursionorfuncname),
         field('operator', operator),
-        field('right', $._expr_op)
+        field('right', $._operator_or_recursionorfuncname)
       )))
     ),
 
     // TODO solve conflict between App and _expr_select
-    // or conflict between App and _expr_op?
-    _expr_app: $ => choice(
-      $.App, // recursion
-      $._expr_select
+    // or conflict between App and _operator_or_recursionorfuncname?
+    _recursion_or_funcname: $ => choice(
+      $.App, // recurse
+      $._expr_select // function name
     ),
     /*
 
     Unresolved conflict for symbol sequence:
 
-      'let'  attrpath  '='  _expr_app  •  Id  …
+      'let'  attrpath  '='  _recursion_or_funcname  •  Id  …
 
     Possible interpretations:
 
-      1:  'let'  attrpath  '='  (App  _expr_app  •  _expr_select)
-      2:  'let'  attrpath  '='  (_expr_op  _expr_app)  •  Id  …
+      1:  'let'  attrpath  '='  (App  _recursion_or_funcname  •  _expr_select)
+      2:  'let'  attrpath  '='  (_operator_or_recursionorfuncname  _recursion_or_funcname)  •  Id  …
 
 
 
-    _expr_op: $ => choice(
+    _operator_or_recursionorfuncname: $ => choice(
       $.UnaryOp,
       $.BinaryOp,
-      $._expr_app
+      $._recursion_or_funcname
     ),
 
     input
@@ -214,12 +220,15 @@ module.exports = grammar({
 
     */
 
-    App: $ => seq(field('function', $._expr_app), field('argument', $._expr_select)),
+    App: $ => seq(field('function', $._app_function), field('argument', $._app_argument)),
     /*
     App: $ => prec(PREC.App,
-      seq(field('function', $._expr_app), field('argument', $._expr_select))
+      seq(field('function', $._recursion_or_funcname), field('argument', $._expr_select))
     ),
     */
+
+    _app_function: $ => $._recursion_or_funcname,
+    _app_argument: $ => $._expr_select,
 
     _expr_select: $ => choice(
       $.select,
@@ -245,12 +254,18 @@ module.exports = grammar({
       $.RecRecord, // "recursive record"? are there nonrecursive records in nickel?
       //$.let_record,
       //$.rec_attrset,
-      $.array
+      $.Arr
     ),
 
     parenthesized: $ => seq('(', field('expression', $._expression), ')'),
 
-    RecRecord: $ => seq('{', optional($._binds), '}'),
+    RecRecord: $ => seq('{', optional(
+      $._binds,
+      //seq(
+      //  $._binds,
+      //  //optional(','), // allow dangling comma, but not in empty record: {,} -> syntax error
+      //),
+    ), '}'),
     //let_record: $ => seq('let', '{', optional($._binds), '}'), // what is this...?
     //rec_attrset: $ => seq('rec', '{', optional($._binds), '}'),
 
@@ -285,7 +300,16 @@ module.exports = grammar({
     //indented_escape_sequence: $ => token.immediate(/'''|''\$|''\\(.|\s)/), // Can also escape newline.
 
     //_binds: $ => repeat1(field('bind', choice($.bind, $.inherit, $.inherit_from))),
-    _binds: $ => repeat1(field('bind', choice($.bind))),
+    //_binds: $ => repeat1(field('bind', choice($.bind))),
+    // same as $.Arr
+    // one or more binds
+    // zero binds would be empty string -> error in tree-sitter
+    //_binds: $ => commaSep1(field('bind', $.bind)),
+    _binds: $ => seq(
+      commaSep1(field('bind', $.bind)),
+      optional(','), // allow dangling comma after last bind
+    ),
+
     bind: $ => seq(field('attrpath', $.attrpath), '=', field('expression', $._expression)), // note: no ;
     //inherit: $ => seq('inherit', field('attrs', $.attrs_inherited), ';'),
     //inherit_from: $ =>
@@ -318,21 +342,26 @@ module.exports = grammar({
     // TODO require multiple %
 
     // baed on json grammar https://github.com/tree-sitter/tree-sitter-json
-    array: $ => seq(
-      "[", commaSep(field('element', $._expr_select)), "]"
+    Arr: $ => seq(
+      "[",
+      commaSep(field('element', $._expr_select)),
+      optional(','), // allow dangling comma after last element
+      "]"
     ),
 
     // TODO?
     comment: $ => token(choice(
       seq('#', /.*/),
+      /* no multi-line comments in nickel?
       seq(
         "/*",
         repeat(choice(
           /[^*]/,
           /\*[^/]/,
         )),
-        "*/"
+        "*xxxxxxxxxxxxx/"
       )
+      */
     )),
   },
 });

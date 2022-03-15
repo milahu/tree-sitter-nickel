@@ -1,0 +1,15 @@
+# dev loop
+tree-sitter generate && tree-sitter test
+
+
+
+# nickel
+nix build github:tweag/nickel#build
+./result/bin/nickel <<< "1 + 1"
+./result/bin/nickel <<< 'm%"abc"%m'
+
+
+
+# commit the generated files
+git add src/grammar.json src/node-types.json src/parser.c
+git commit -m 'run: tree-sitter generate'

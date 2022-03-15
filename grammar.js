@@ -40,7 +40,7 @@ module.exports = grammar({
   ],
 
   externals: $ => [
-    $.StrChunkLiteral, // _string_fragment
+    $._string_fragment,
     $._indented_string_fragment,
   ],
 
@@ -245,7 +245,7 @@ module.exports = grammar({
       $.Id,
       $.Num,
       $.StrChunks, // string
-      $.indented_string,
+      $.StrBlockChunks,
       //$.path,
       //$.hpath,
       //$.spath,
@@ -269,8 +269,10 @@ module.exports = grammar({
     //let_record: $ => seq('let', '{', optional($._binds), '}'), // what is this...?
     //rec_attrset: $ => seq('rec', '{', optional($._binds), '}'),
 
+    StrChunkLiteral: $ => $._string_fragment,
+
     StrChunk: $ => choice(
-      $.StrChunkLiteral, // _string_fragment
+      $.StrChunkLiteral,
       $.RichTerm, // interpolation
     ),
 
@@ -281,17 +283,19 @@ module.exports = grammar({
       repeat(choice(
         $._string_fragment,
         $.interpolation,
-        //$.escape_sequence
+        //$.escape_sequence // TODO also in nickel
       )),
       */
       '"'
     ),
     //escape_sequence: $ => token.immediate(/\\(.|\s)/), // Can also escape newline.
 
-    indented_string: $ => seq(
-      '%m"', // TODO allow multiple %
+    StrBlockLiteral: $ => $._indented_string_fragment,
+
+    StrBlockChunks: $ => seq(
+      'm%"', // TODO allow multiple %
       repeat(choice(
-        $._indented_string_fragment,
+        $.StrBlockLiteral,
         $.RichTerm, // TODO require multiple % = same number as in string delimiters
         //alias($.indented_escape_sequence, $.escape_sequence),
       )),

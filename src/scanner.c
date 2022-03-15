@@ -22,7 +22,7 @@ static bool scan_string_fragment(TSLexer *lexer) {
       case '"':
       case '\\':
         return has_content;
-      case '$':
+      case '%':
         advance(lexer);
         if (lexer->lookahead == '{') {
           return has_content;
@@ -48,8 +48,9 @@ static bool scan_indented_string_fragment(TSLexer *lexer) {
   for (bool has_content = false;; has_content = true) {
     lexer->mark_end(lexer);
     switch (lexer->lookahead) {
-      case '$':
+      case '%':
         advance(lexer);
+        // TODO require multiple % when in "multi level" string %%m"..."m%% (level = 2)
         if (lexer->lookahead == '{') {
           return has_content;
         } else if (lexer->lookahead != '\'') {
@@ -59,12 +60,16 @@ static bool scan_indented_string_fragment(TSLexer *lexer) {
           advance(lexer);
         }
         break;
-      case '\'':
+      case '\"':
         advance(lexer);
-        if (lexer->lookahead == '\'') {
-          // Two single quotes always stop current string fragment.
-          // It can be either an end delimiter '', or escape sequences ''', ''$, ''\<any>
-          return has_content;
+        if (lexer->lookahead == '%') {
+          advance(lexer);
+          if (lexer->lookahead == 'm') {
+            // end of stringblock
+            // Two single quotes always stop current string fragment.
+            // It can be either an end delimiter '', or escape sequences ''', ''$, ''\<any>
+            return has_content;
+          }
         }
         break;
       // Simply give up on EOF or '\0'.

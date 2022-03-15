@@ -4,15 +4,14 @@ comments
 
 # This is a comment.
 
-/*
-This is also a comment.
-*/
-
 "This is a string."
 
 ---
 
-(source_expression (comment) (comment) (StrChunks (StrChunk (StrChunkLiteral))))
+(source_expression
+  (comment)
+  (StrChunks (StrChunk (StrChunkLiteral)))
+)
 
 ====================
 Id
@@ -25,7 +24,7 @@ abc
 (source_expression (Id))
 
 ====================
-Num
+number int
 ====================
 
 123
@@ -35,7 +34,7 @@ Num
 (source_expression (Num))
 
 ====================
-Num
+number float
 ====================
 
 123.456
@@ -52,17 +51,47 @@ array (empty)
 
 ---
 
-(source_expression (array))
+(source_expression (Arr))
 
 ====================
-array
+array (id number number)
 ====================
 
-[ a 1 2.0 ]
+[
+  a,
+  1,
+  2.0
+]
 
 ---
 
-(source_expression (array (Id) (Num) (Num)))
+(source_expression
+  (Arr
+    (Id)
+    (Num)
+    (Num)
+  )
+)
+
+====================
+array (id number number) (with dangling comma)
+====================
+
+[
+  a,
+  1,
+  2.0,
+]
+
+---
+
+(source_expression
+  (Arr
+    (Id)
+    (Num)
+    (Num)
+  )
+)
 
 ====================
 Ite (if then else)
@@ -83,11 +112,11 @@ let a = b in c
 ---
 
 (source_expression
-    (let
-        (bind
-            (attrpath (attr_identifier))
-            (Id))
-        (Id)))
+  (let
+    (bind
+      (attrpath (attr_identifier))
+      (Id))
+    (Id)))
 
 ====================
 let (bind, comments)
@@ -97,19 +126,21 @@ let
   # foo
   a = b
   # bar
-  in
-    # baz
-    c
+in
+  # baz
+  c
 
 ---
 
 (source_expression
-    (let
-        (comment)
-        (bind (attrpath (attr_identifier)) (Id))
-        (comment)
-        (comment)
-        (Id)))
+  (let
+    (comment)
+    (bind (attrpath (attr_identifier)) (Id))
+    (comment)
+    (comment)
+    (Id)
+  )
+)
 
 ====================
 function
@@ -129,7 +160,12 @@ let a = 1 in { }
 
 ---
 
-(source_expression (let (bind (attrpath (attr_identifier)) (Num)) (RecRecord)))
+(source_expression
+  (let
+    (bind (attrpath (attr_identifier)) (Num))
+    (RecRecord)
+  )
+)
 
 ====================
 RecRecord (empty)
@@ -145,16 +181,41 @@ RecRecord (empty)
 RecRecord
 ====================
 
-{ a = 1, %{b} = "quux", "c" = 3.14, x.y.z = "foo" }
+{
+  a = 1,
+  %{b} = "quux",
+  "c" = 3.14,
+  x.y.z = "foo"
+}
 
 ---
 
 (source_expression
-    (RecRecord
-        (bind (attrpath (attr_identifier)) (Num))
-        (bind (attrpath (RichTerm (Id))) (StrChunks (StrChunk (StrChunkLiteral))))
-        (bind (attrpath (StrChunks (StrChunk (StrChunkLiteral)))) (Num))
-        (bind (attrpath (attr_identifier) (attr_identifier) (attr_identifier)) (StrChunks (StrChunk (StrChunkLiteral)))))))
+  (RecRecord
+    (bind (attrpath (attr_identifier)) (Num))
+    (bind (attrpath (RichTerm (Id))) (StrChunks (StrChunk (StrChunkLiteral))))
+    (bind (attrpath (StrChunks (StrChunk (StrChunkLiteral)))) (Num))
+    (bind (attrpath (attr_identifier) (attr_identifier) (attr_identifier)) (StrChunks (StrChunk (StrChunkLiteral))))
+  )
+)
+
+====================
+RecRecord with dangling comma
+====================
+
+{
+  a = 1,
+  b = 2,
+}
+
+---
+
+(source_expression
+  (RecRecord
+    (bind (attrpath (attr_identifier)) (Num))
+    (bind (attrpath (attr_identifier)) (Num))
+  )
+)
 
 ====================
 select
@@ -165,49 +226,73 @@ u.v.%{w}."x%{y}z"
 ---
 
 (source_expression
-    (select
-        (Id)
-        (attrpath
-            (attr_identifier)
-            (RichTerm (Id))
-            (StrChunks (StrChunk (StrChunkLiteral))))))
+  (select
+    (Id)
+    (attrpath
+      (attr_identifier)
+      (RichTerm (Id))
+      (StrChunks (StrChunk (StrChunkLiteral))))))
 
 ====================
-apply
+apply (multiple functions)
 ====================
 
-a b 2.0
+a b 1
 
 ---
 
 (source_expression
+  (App
     (App
-        (App
-            (Id)
-            (Num)
-        )
-        (Num)
+      (Id)
+      (Id)
     )
+    (Num)
+  )
 )
 
 ====================
-apply precedence (TODO)
+apply (multiple arguments)
+====================
+
+a 1 "x"
+
+---
+
+(source_expression
+  (App
+    (App
+      (Id)
+      (Num)
+    )
+    (StrChunks (StrChunk (StrChunkLiteral)))
+  )
+)
+
+====================
+let bind apply
 ====================
 
 let
-  y = f x
+  y = g f 0
 in y
 
 ---
 
 (source_expression
-    (App
+  (let
+    (bind
+      (attrpath (attr_identifier))
+      (App
         (App
-            (Id)
-            (Num)
+          (Id)
+          (Id)
         )
         (Num)
+      )
     )
+    (Id)
+  )
 )
 
 ====================
@@ -219,11 +304,11 @@ square 2 + -pi - 42.0
 ---
 
 (source_expression
+  (BinaryOp
     (BinaryOp
-        (BinaryOp
-            (App (Id) (Num))
-            (UnaryOp (Id)))
-        (Num)))
+      (App (Id) (Num))
+      (UnaryOp (Id)))
+    (Num)))
 
 ====================
 parens
@@ -234,4 +319,4 @@ parens
 ---
 
 (source_expression
-    (parenthesized (Num)))
+  (parenthesized (Num)))

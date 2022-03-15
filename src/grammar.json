@@ -889,7 +889,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "indented_string"
+          "name": "StrBlockChunks"
         },
         {
           "type": "SYMBOL",
@@ -951,6 +951,10 @@
         }
       ]
     },
+    "StrChunkLiteral": {
+      "type": "SYMBOL",
+      "name": "_string_fragment"
+    },
     "StrChunk": {
       "type": "CHOICE",
       "members": [
@@ -984,12 +988,16 @@
         }
       ]
     },
-    "indented_string": {
+    "StrBlockLiteral": {
+      "type": "SYMBOL",
+      "name": "_indented_string_fragment"
+    },
+    "StrBlockChunks": {
       "type": "SEQ",
       "members": [
         {
           "type": "STRING",
-          "value": "%m\""
+          "value": "m%\""
         },
         {
           "type": "REPEAT",
@@ -998,7 +1006,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_indented_string_fragment"
+                "name": "StrBlockLiteral"
               },
               {
                 "type": "SYMBOL",
@@ -1281,7 +1289,7 @@
   "externals": [
     {
       "type": "SYMBOL",
-      "name": "StrChunkLiteral"
+      "name": "_string_fragment"
     },
     {
       "type": "SYMBOL",

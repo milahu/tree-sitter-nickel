@@ -32,6 +32,10 @@
         "named": true
       },
       {
+        "type": "StrBlockChunks",
+        "named": true
+      },
+      {
         "type": "StrChunks",
         "named": true
       },
@@ -41,10 +45,6 @@
       },
       {
         "type": "function",
-        "named": true
-      },
-      {
-        "type": "indented_string",
         "named": true
       },
       {
@@ -86,11 +86,11 @@
             "named": true
           },
           {
-            "type": "StrChunks",
+            "type": "StrBlockChunks",
             "named": true
           },
           {
-            "type": "indented_string",
+            "type": "StrChunks",
             "named": true
           },
           {
@@ -128,11 +128,11 @@
             "named": true
           },
           {
-            "type": "StrChunks",
+            "type": "StrBlockChunks",
             "named": true
           },
           {
-            "type": "indented_string",
+            "type": "StrChunks",
             "named": true
           },
           {
@@ -172,11 +172,11 @@
             "named": true
           },
           {
-            "type": "StrChunks",
+            "type": "StrBlockChunks",
             "named": true
           },
           {
-            "type": "indented_string",
+            "type": "StrChunks",
             "named": true
           },
           {
@@ -224,15 +224,15 @@
             "named": true
           },
           {
+            "type": "StrBlockChunks",
+            "named": true
+          },
+          {
             "type": "StrChunks",
             "named": true
           },
           {
             "type": "UnaryOp",
-            "named": true
-          },
-          {
-            "type": "indented_string",
             "named": true
           },
           {
@@ -340,15 +340,15 @@
             "named": true
           },
           {
+            "type": "StrBlockChunks",
+            "named": true
+          },
+          {
             "type": "StrChunks",
             "named": true
           },
           {
             "type": "UnaryOp",
-            "named": true
-          },
-          {
-            "type": "indented_string",
             "named": true
           },
           {
@@ -437,6 +437,30 @@
     }
   },
   {
+    "type": "StrBlockChunks",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "RichTerm",
+          "named": true
+        },
+        {
+          "type": "StrBlockLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "StrBlockLiteral",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "StrChunk",
     "named": true,
     "fields": {},
@@ -454,6 +478,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "StrChunkLiteral",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "StrChunks",
@@ -503,15 +532,15 @@
             "named": true
           },
           {
+            "type": "StrBlockChunks",
+            "named": true
+          },
+          {
             "type": "StrChunks",
             "named": true
           },
           {
             "type": "UnaryOp",
-            "named": true
-          },
-          {
-            "type": "indented_string",
             "named": true
           },
           {
@@ -627,6 +656,10 @@
             "named": true
           },
           {
+            "type": "StrBlockChunks",
+            "named": true
+          },
+          {
             "type": "StrChunks",
             "named": true
           },
@@ -636,10 +669,6 @@
           },
           {
             "type": "function",
-            "named": true
-          },
-          {
-            "type": "indented_string",
             "named": true
           },
           {
@@ -666,21 +695,6 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "indented_string",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "RichTerm",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -720,6 +734,10 @@
             "named": true
           },
           {
+            "type": "StrBlockChunks",
+            "named": true
+          },
+          {
             "type": "StrChunks",
             "named": true
           },
@@ -729,10 +747,6 @@
           },
           {
             "type": "function",
-            "named": true
-          },
-          {
-            "type": "indented_string",
             "named": true
           },
           {
@@ -812,11 +826,11 @@
             "named": true
           },
           {
-            "type": "StrChunks",
+            "type": "StrBlockChunks",
             "named": true
           },
           {
-            "type": "indented_string",
+            "type": "StrChunks",
             "named": true
           },
           {
@@ -850,11 +864,11 @@
             "named": true
           },
           {
-            "type": "StrChunks",
+            "type": "StrBlockChunks",
             "named": true
           },
           {
-            "type": "indented_string",
+            "type": "StrChunks",
             "named": true
           },
           {
@@ -899,10 +913,6 @@
   },
   {
     "type": "\"%m",
-    "named": false
-  },
-  {
-    "type": "%m\"",
     "named": false
   },
   {
@@ -990,10 +1000,6 @@
     "named": true
   },
   {
-    "type": "StrChunkLiteral",
-    "named": true
-  },
-  {
     "type": "[",
     "named": false
   },
@@ -1027,6 +1033,10 @@
   },
   {
     "type": "let",
+    "named": false
+  },
+  {
+    "type": "m%\"",
     "named": false
   },
   {

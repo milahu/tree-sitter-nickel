@@ -1,7 +1,7 @@
 {
   "targets": [
     {
-      "target_name": "tree_sitter_nix_binding",
+      "target_name": "tree_sitter_nickel_binding",
       "include_dirs": [
         "<!(node -e \"require('nan')\")",
         "src"

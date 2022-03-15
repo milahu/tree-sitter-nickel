@@ -24,15 +24,15 @@
         "named": true
       },
       {
+        "type": "MultiStrChunks",
+        "named": true
+      },
+      {
         "type": "Num",
         "named": true
       },
       {
         "type": "RecRecord",
-        "named": true
-      },
-      {
-        "type": "StrBlockChunks",
         "named": true
       },
       {
@@ -78,15 +78,15 @@
             "named": true
           },
           {
+            "type": "MultiStrChunks",
+            "named": true
+          },
+          {
             "type": "Num",
             "named": true
           },
           {
             "type": "RecRecord",
-            "named": true
-          },
-          {
-            "type": "StrBlockChunks",
             "named": true
           },
           {
@@ -120,15 +120,15 @@
             "named": true
           },
           {
+            "type": "MultiStrChunks",
+            "named": true
+          },
+          {
             "type": "Num",
             "named": true
           },
           {
             "type": "RecRecord",
-            "named": true
-          },
-          {
-            "type": "StrBlockChunks",
             "named": true
           },
           {
@@ -164,15 +164,15 @@
             "named": true
           },
           {
+            "type": "MultiStrChunks",
+            "named": true
+          },
+          {
             "type": "Num",
             "named": true
           },
           {
             "type": "RecRecord",
-            "named": true
-          },
-          {
-            "type": "StrBlockChunks",
             "named": true
           },
           {
@@ -216,15 +216,15 @@
             "named": true
           },
           {
+            "type": "MultiStrChunks",
+            "named": true
+          },
+          {
             "type": "Num",
             "named": true
           },
           {
             "type": "RecRecord",
-            "named": true
-          },
-          {
-            "type": "StrBlockChunks",
             "named": true
           },
           {
@@ -332,15 +332,15 @@
             "named": true
           },
           {
+            "type": "MultiStrChunks",
+            "named": true
+          },
+          {
             "type": "Num",
             "named": true
           },
           {
             "type": "RecRecord",
-            "named": true
-          },
-          {
-            "type": "StrBlockChunks",
             "named": true
           },
           {
@@ -400,6 +400,30 @@
     }
   },
   {
+    "type": "MultiStrChunks",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "MultiStrLiteral",
+          "named": true
+        },
+        {
+          "type": "RichTerm",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "MultiStrLiteral",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "Num",
     "named": true,
     "fields": {}
@@ -435,30 +459,6 @@
         ]
       }
     }
-  },
-  {
-    "type": "StrBlockChunks",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "RichTerm",
-          "named": true
-        },
-        {
-          "type": "StrBlockLiteral",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "StrBlockLiteral",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "StrChunk",
@@ -524,15 +524,15 @@
             "named": true
           },
           {
+            "type": "MultiStrChunks",
+            "named": true
+          },
+          {
             "type": "Num",
             "named": true
           },
           {
             "type": "RecRecord",
-            "named": true
-          },
-          {
-            "type": "StrBlockChunks",
             "named": true
           },
           {
@@ -648,15 +648,15 @@
             "named": true
           },
           {
+            "type": "MultiStrChunks",
+            "named": true
+          },
+          {
             "type": "Num",
             "named": true
           },
           {
             "type": "RecRecord",
-            "named": true
-          },
-          {
-            "type": "StrBlockChunks",
             "named": true
           },
           {
@@ -726,15 +726,15 @@
             "named": true
           },
           {
+            "type": "MultiStrChunks",
+            "named": true
+          },
+          {
             "type": "Num",
             "named": true
           },
           {
             "type": "RecRecord",
-            "named": true
-          },
-          {
-            "type": "StrBlockChunks",
             "named": true
           },
           {
@@ -818,15 +818,15 @@
             "named": true
           },
           {
+            "type": "MultiStrChunks",
+            "named": true
+          },
+          {
             "type": "Num",
             "named": true
           },
           {
             "type": "RecRecord",
-            "named": true
-          },
-          {
-            "type": "StrBlockChunks",
             "named": true
           },
           {
@@ -856,15 +856,15 @@
             "named": true
           },
           {
+            "type": "MultiStrChunks",
+            "named": true
+          },
+          {
             "type": "Num",
             "named": true
           },
           {
             "type": "RecRecord",
-            "named": true
-          },
-          {
-            "type": "StrBlockChunks",
             "named": true
           },
           {

@@ -889,7 +889,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "StrBlockChunks"
+          "name": "MultiStrChunks"
         },
         {
           "type": "SYMBOL",
@@ -988,11 +988,11 @@
         }
       ]
     },
-    "StrBlockLiteral": {
+    "MultiStrLiteral": {
       "type": "SYMBOL",
       "name": "_indented_string_fragment"
     },
-    "StrBlockChunks": {
+    "MultiStrChunks": {
       "type": "SEQ",
       "members": [
         {
@@ -1006,7 +1006,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "StrBlockLiteral"
+                "name": "MultiStrLiteral"
               },
               {
                 "type": "SYMBOL",

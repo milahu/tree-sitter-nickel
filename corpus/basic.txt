@@ -1,5 +1,5 @@
 ====================
-comments
+comment
 ====================
 
 # This is a comment.
@@ -14,7 +14,7 @@ comments
 )
 
 ====================
-Id
+identifier
 ====================
 
 abc
@@ -218,7 +218,7 @@ RecRecord with dangling comma
 )
 
 ====================
-select
+select (four ids)
 ====================
 
 u.v.%{w}."x%{y}z"
@@ -231,7 +231,14 @@ u.v.%{w}."x%{y}z"
     (attrpath
       (attr_identifier)
       (RichTerm (Id))
-      (StrChunks (StrChunk (StrChunkLiteral))))))
+      (StrChunks
+        (StrChunk (StrChunkLiteral))
+        (StrChunk (RichTerm (Id)))
+        (StrChunk (StrChunkLiteral))
+      )
+    )
+  )
+)
 
 ====================
 apply (multiple functions)
@@ -320,3 +327,99 @@ parens
 
 (source_expression
   (parenthesized (Num)))
+
+====================
+string (simple)
+====================
+
+"abc"
+
+---
+
+(source_expression
+  (StrChunks (StrChunk (StrChunkLiteral)))
+)
+
+====================
+string (interpolation)
+====================
+
+"a%{b}c"
+
+---
+
+(source_expression
+  (StrChunks
+    (StrChunk (StrChunkLiteral))
+    (StrChunk (RichTerm (Id)))
+    (StrChunk (StrChunkLiteral))
+  )
+)
+
+====================
+stringblock
+====================
+
+m%"abc"%m
+
+---
+
+(source_expression
+  (StrBlockChunks
+    (StrBlockLiteral)
+  )
+)
+
+====================
+stringblock (multiline)
+====================
+
+m%"a
+b
+c"%m
+
+---
+
+(source_expression
+  (StrBlockChunks
+    (StrBlockLiteral)
+  )
+)
+
+====================
+stringblock (indent)
+====================
+
+m%"
+  a
+  b
+  c
+"%m
+
+---
+
+(source_expression
+  (StrBlockChunks
+    (StrBlockLiteral)
+  )
+)
+
+====================
+stringblock (indent) (interpolation)
+====================
+
+m%"
+  a
+  %{b}
+  c
+"%m
+
+---
+
+(source_expression
+  (StrBlockChunks
+    (StrBlockLiteral)
+    (RichTerm (Id))
+    (StrBlockLiteral)
+  )
+)

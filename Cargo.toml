@@ -1,8 +1,8 @@
 [package]
 name = "tree-sitter-nickel"
-description = "nix grammar for the tree-sitter parsing library"
+description = "nickel grammar for the tree-sitter parsing library"
 version = "0.0.1"
-keywords = ["incremental", "parsing", "nix"]
+keywords = ["incremental", "parsing", "nickel"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/milahu/tree-sitter-nickel"
 edition = "2018"

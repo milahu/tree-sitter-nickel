@@ -245,7 +245,7 @@ module.exports = grammar({
       $.Id,
       $.Num,
       $.StrChunks, // string
-      $.StrBlockChunks,
+      $.MultiStrChunks,
       //$.path,
       //$.hpath,
       //$.spath,
@@ -283,19 +283,21 @@ module.exports = grammar({
       repeat(choice(
         $._string_fragment,
         $.interpolation,
-        //$.escape_sequence // TODO also in nickel
+        //$.escape_sequence // TODO
       )),
       */
       '"'
     ),
+
+    // TODO
     //escape_sequence: $ => token.immediate(/\\(.|\s)/), // Can also escape newline.
 
-    StrBlockLiteral: $ => $._indented_string_fragment,
+    MultiStrLiteral: $ => $._indented_string_fragment,
 
-    StrBlockChunks: $ => seq(
+    MultiStrChunks: $ => seq(
       'm%"', // TODO allow multiple %
       repeat(choice(
-        $.StrBlockLiteral,
+        $.MultiStrLiteral,
         $.RichTerm, // TODO require multiple % = same number as in string delimiters
         //alias($.indented_escape_sequence, $.escape_sequence),
       )),

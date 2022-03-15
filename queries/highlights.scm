@@ -25,7 +25,7 @@
 
 [
   (StrChunks)
-  (StrBlockChunks)
+  (MultiStrChunks)
 ] @string
 
 ;[

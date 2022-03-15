@@ -357,7 +357,7 @@ string (interpolation)
 )
 
 ====================
-stringblock
+multistring
 ====================
 
 m%"abc"%m
@@ -371,7 +371,7 @@ m%"abc"%m
 )
 
 ====================
-stringblock (multiline)
+multistring (multiline)
 ====================
 
 m%"a
@@ -387,7 +387,7 @@ c"%m
 )
 
 ====================
-stringblock (indent)
+multistring (indent)
 ====================
 
 m%"
@@ -405,7 +405,7 @@ m%"
 )
 
 ====================
-stringblock (indent) (interpolation)
+multistring (indent) (interpolation)
 ====================
 
 m%"

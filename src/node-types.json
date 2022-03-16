@@ -912,6 +912,10 @@
     "named": false
   },
   {
+    "type": "\"%",
+    "named": false
+  },
+  {
     "type": "\"%m",
     "named": false
   },
@@ -1033,6 +1037,10 @@
   },
   {
     "type": "let",
+    "named": false
+  },
+  {
+    "type": "m%",
     "named": false
   },
   {

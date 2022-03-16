@@ -992,32 +992,87 @@
       "type": "SYMBOL",
       "name": "_indented_string_fragment"
     },
+    "MultiStrStart": {
+      "type": "STRING",
+      "value": "m%"
+    },
     "MultiStrChunks": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "STRING",
-          "value": "m%\""
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "MultiStrLiteral"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "RichTerm"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "m%\""
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "MultiStrLiteral"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "RichTerm"
+                  }
+                ]
               }
-            ]
-          }
+            },
+            {
+              "type": "STRING",
+              "value": "\"%m"
+            }
+          ]
         },
         {
-          "type": "STRING",
-          "value": "\"%m"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "m%"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_multistring_start"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_multistring_part_fixed"
+                  },
+                  {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_multistring_richterm_prefix"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "RichTerm"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "\"%"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_multistring_end"
+            }
+          ]
         }
       ]
     },
@@ -1294,6 +1349,22 @@
     {
       "type": "SYMBOL",
       "name": "_indented_string_fragment"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_multistring_start"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_multistring_part_fixed"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_multistring_richterm_prefix"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_multistring_end"
     }
   ],
   "inline": [],

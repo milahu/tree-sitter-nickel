@@ -42,6 +42,10 @@ module.exports = grammar({
   externals: $ => [
     $._string_fragment,
     $._indented_string_fragment,
+    $._multistring_start,
+    $._multistring_part_fixed,
+    $._multistring_richterm_prefix,
+    $._multistring_end,
   ],
 
   word: $ => $.keyword,
@@ -294,14 +298,37 @@ module.exports = grammar({
 
     MultiStrLiteral: $ => $._indented_string_fragment,
 
-    MultiStrChunks: $ => seq(
-      'm%"', // TODO allow multiple %
-      repeat(choice(
-        $.MultiStrLiteral,
-        $.RichTerm, // TODO require multiple % = same number as in string delimiters
-        //alias($.indented_escape_sequence, $.escape_sequence),
-      )),
-      '"%m'
+    MultiStrStart: $ => 'm%',
+
+    MultiStrChunks: $ => choice(
+      // level 1 multistring
+      seq(
+        'm%"', // TODO allow multiple %
+        repeat(choice(
+          $.MultiStrLiteral,
+          $.RichTerm, // TODO require multiple % = same number as in string delimiters
+          //alias($.indented_escape_sequence, $.escape_sequence),
+        )),
+        '"%m'
+      ),
+      // higher level multistring
+      seq(
+        'm%', // TODO allow multiple %
+        $._multistring_start,
+        repeat(choice(
+          //$.MultiStrLiteral,
+          $._multistring_part_fixed,
+          //$.RichTerm, // TODO require multiple % = same number as in string delimiters
+          seq(
+            $._multistring_richterm_prefix,
+            $.RichTerm,
+          ),
+          //alias($.indented_escape_sequence, $.escape_sequence),
+        )),
+        '"%',
+        $._multistring_end,
+        //'"%m' // TODO require multiple % = same number as in string delimiters
+      ),
     ),
     //indented_escape_sequence: $ => token.immediate(/'''|''\$|''\\(.|\s)/), // Can also escape newline.
 

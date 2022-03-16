@@ -423,3 +423,20 @@ m%"
     (MultiStrLiteral)
   )
 )
+
+====================
+multistring (indent) (interpolation) (level 2)
+====================
+
+m%%%%"a"%%%%m
+
+---
+
+(source_expression
+  (StrBlockChunks
+    (StrBlockLiteral)
+    (RichTerm (Id))
+    (StrBlockLiteral)
+  )
+)
+

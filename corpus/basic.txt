@@ -366,7 +366,9 @@ m%"abc"%m
 
 (source_expression
   (MultiStr
+    (MultiStrStart)
     (MultiStrLiteral)
+    (MultiStrEnd)
   )
 )
 
@@ -382,7 +384,9 @@ c"%m
 
 (source_expression
   (MultiStr
+    (MultiStrStart)
     (MultiStrLiteral)
+    (MultiStrEnd)
   )
 )
 
@@ -400,7 +404,9 @@ m%"
 
 (source_expression
   (MultiStr
+    (MultiStrStart)
     (MultiStrLiteral)
+    (MultiStrEnd)
   )
 )
 
@@ -418,9 +424,11 @@ m%"
 
 (source_expression
   (MultiStr
+    (MultiStrStart)
     (MultiStrLiteral)
-    (RichTerm (Id))
+    (MultiStrIpol (Id))
     (MultiStrLiteral)
+    (MultiStrEnd)
   )
 )
 
@@ -436,7 +444,7 @@ m%%%%"a%%%%{b}c"%%%%m
   (MultiStr
     (MultiStrStart)
     (MultiStrLiteral)
-    (MultiStrExpr (Id))
+    (MultiStrIpol (Id))
     (MultiStrLiteral)
     (MultiStrEnd)
   )
@@ -454,7 +462,7 @@ m%%%%"%%%%%{b}c"%%%%m
   (MultiStr
     (MultiStrStart)
     (MultiStrLiteral)
-    (MultiStrExpr (Id))
+    (MultiStrIpol (Id))
     (MultiStrLiteral)
     (MultiStrEnd)
   )

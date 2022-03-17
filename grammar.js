@@ -45,10 +45,9 @@ module.exports = grammar({
 
   externals: $ => [
     $._string_fragment,
-    $._indented_string_fragment,
     $._multistring_start,
     $._multistring_part_fixed,
-    $._multistring_richterm_start,
+    $._multistring_ipol_start,
     $._multistring_end,
   ],
 
@@ -300,11 +299,19 @@ module.exports = grammar({
     // TODO
     //escape_sequence: $ => token.immediate(/\\(.|\s)/), // Can also escape newline.
 
-    MultiStrLiteral: $ => $._indented_string_fragment,
-
     //MultiStrStart: $ => 'm%"',
     MultiStrStart: $ => seq('m%', $._multistring_start),
     MultiStrEnd: $ => seq('"%', $._multistring_end),
+
+    MultiStrLiteral: $ => $._multistring_part_fixed,
+
+    // multi string interpolation
+    // aka RichTerm
+    MultiStrIpol: $ => seq(
+      $._multistring_ipol_start,
+      field('expression', $._expression),
+      '}',
+    ),
 
     MultiStr: $ => choice(
       // level 1 multistring
@@ -324,10 +331,10 @@ module.exports = grammar({
         $.MultiStrStart,
         repeat(choice(
           $.MultiStrLiteral,
-          $.MultiStrExpr,
+          $.MultiStrIpol,
           /*
           seq(
-            $._multistring_richterm_start, // TODO this shoud be part of RichTerm
+            $.MultiStrIpol, // TODO this shoud be part of RichTerm
             $.RichTerm,
           ),
           */
@@ -335,13 +342,7 @@ module.exports = grammar({
         $.MultiStrEnd,
       ),
     ),
-    MultiStrLiteral: $ => $._multistring_part_fixed,
-    // aka RichTerm
-    MultiStrExpr: $ => seq(
-      $._multistring_richterm_start, // TODO this shoud be part of RichTerm
-      field('expression', $._expression),
-      '}',
-    ),
+
     //indented_escape_sequence: $ => token.immediate(/'''|''\$|''\\(.|\s)/), // Can also escape newline.
 
     //_binds: $ => repeat1(field('bind', choice($.bind, $.inherit, $.inherit_from))),

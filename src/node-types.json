@@ -412,7 +412,7 @@
           "named": true
         },
         {
-          "type": "MultiStrExpr",
+          "type": "MultiStrIpol",
           "named": true
         },
         {
@@ -432,7 +432,7 @@
     "fields": {}
   },
   {
-    "type": "MultiStrExpr",
+    "type": "MultiStrIpol",
     "named": true,
     "fields": {
       "expression": {

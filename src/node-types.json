@@ -24,7 +24,7 @@
         "named": true
       },
       {
-        "type": "MultiStrChunks",
+        "type": "MultiStr",
         "named": true
       },
       {
@@ -36,7 +36,7 @@
         "named": true
       },
       {
-        "type": "StrChunks",
+        "type": "Str",
         "named": true
       },
       {
@@ -78,7 +78,7 @@
             "named": true
           },
           {
-            "type": "MultiStrChunks",
+            "type": "MultiStr",
             "named": true
           },
           {
@@ -90,7 +90,7 @@
             "named": true
           },
           {
-            "type": "StrChunks",
+            "type": "Str",
             "named": true
           },
           {
@@ -120,7 +120,7 @@
             "named": true
           },
           {
-            "type": "MultiStrChunks",
+            "type": "MultiStr",
             "named": true
           },
           {
@@ -132,7 +132,7 @@
             "named": true
           },
           {
-            "type": "StrChunks",
+            "type": "Str",
             "named": true
           },
           {
@@ -164,7 +164,7 @@
             "named": true
           },
           {
-            "type": "MultiStrChunks",
+            "type": "MultiStr",
             "named": true
           },
           {
@@ -176,7 +176,7 @@
             "named": true
           },
           {
-            "type": "StrChunks",
+            "type": "Str",
             "named": true
           },
           {
@@ -216,7 +216,7 @@
             "named": true
           },
           {
-            "type": "MultiStrChunks",
+            "type": "MultiStr",
             "named": true
           },
           {
@@ -228,7 +228,7 @@
             "named": true
           },
           {
-            "type": "StrChunks",
+            "type": "Str",
             "named": true
           },
           {
@@ -332,7 +332,7 @@
             "named": true
           },
           {
-            "type": "MultiStrChunks",
+            "type": "MultiStr",
             "named": true
           },
           {
@@ -344,7 +344,7 @@
             "named": true
           },
           {
-            "type": "StrChunks",
+            "type": "Str",
             "named": true
           },
           {
@@ -400,26 +400,60 @@
     }
   },
   {
-    "type": "MultiStrChunks",
+    "type": "MultiStr",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "MultiStrEnd",
+          "named": true
+        },
+        {
+          "type": "MultiStrExpr",
+          "named": true
+        },
         {
           "type": "MultiStrLiteral",
           "named": true
         },
         {
-          "type": "RichTerm",
+          "type": "MultiStrStart",
           "named": true
         }
       ]
     }
   },
   {
+    "type": "MultiStrEnd",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "MultiStrExpr",
+    "named": true,
+    "fields": {
+      "expression": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "MultiStrLiteral",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "MultiStrStart",
     "named": true,
     "fields": {}
   },
@@ -461,6 +495,21 @@
     }
   },
   {
+    "type": "Str",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "StrChunk",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "StrChunk",
     "named": true,
     "fields": {},
@@ -483,21 +532,6 @@
     "type": "StrChunkLiteral",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "StrChunks",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "StrChunk",
-          "named": true
-        }
-      ]
-    }
   },
   {
     "type": "UnaryOp",
@@ -524,7 +558,7 @@
             "named": true
           },
           {
-            "type": "MultiStrChunks",
+            "type": "MultiStr",
             "named": true
           },
           {
@@ -536,7 +570,7 @@
             "named": true
           },
           {
-            "type": "StrChunks",
+            "type": "Str",
             "named": true
           },
           {
@@ -582,7 +616,7 @@
             "named": true
           },
           {
-            "type": "StrChunks",
+            "type": "Str",
             "named": true
           },
           {
@@ -648,7 +682,7 @@
             "named": true
           },
           {
-            "type": "MultiStrChunks",
+            "type": "MultiStr",
             "named": true
           },
           {
@@ -660,7 +694,7 @@
             "named": true
           },
           {
-            "type": "StrChunks",
+            "type": "Str",
             "named": true
           },
           {
@@ -726,7 +760,7 @@
             "named": true
           },
           {
-            "type": "MultiStrChunks",
+            "type": "MultiStr",
             "named": true
           },
           {
@@ -738,7 +772,7 @@
             "named": true
           },
           {
-            "type": "StrChunks",
+            "type": "Str",
             "named": true
           },
           {
@@ -818,7 +852,7 @@
             "named": true
           },
           {
-            "type": "MultiStrChunks",
+            "type": "MultiStr",
             "named": true
           },
           {
@@ -830,7 +864,7 @@
             "named": true
           },
           {
-            "type": "StrChunks",
+            "type": "Str",
             "named": true
           },
           {
@@ -856,7 +890,7 @@
             "named": true
           },
           {
-            "type": "MultiStrChunks",
+            "type": "MultiStr",
             "named": true
           },
           {
@@ -868,7 +902,7 @@
             "named": true
           },
           {
-            "type": "StrChunks",
+            "type": "Str",
             "named": true
           },
           {
@@ -913,10 +947,6 @@
   },
   {
     "type": "\"%",
-    "named": false
-  },
-  {
-    "type": "\"%m",
     "named": false
   },
   {
@@ -1041,10 +1071,6 @@
   },
   {
     "type": "m%",
-    "named": false
-  },
-  {
-    "type": "m%\"",
     "named": false
   },
   {

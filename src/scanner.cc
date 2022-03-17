@@ -1,5 +1,6 @@
-#include <tree_sitter/parser.h>
-#include "../tree-sitter/lib/src/lexer.h" // Lexer
+//#include <tree_sitter/parser.h>
+#include "tree-sitter/lib/include/tree_sitter/parser.h"
+#include "tree-sitter/lib/src/lexer.h" // Lexer
 // http://tree-sitter.github.io/tree-sitter/creating-parsers#external-scanners
 // https://github.com/tree-sitter/tree-sitter/issues/281
 

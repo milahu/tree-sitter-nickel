@@ -1,5 +1,9 @@
 // TODO rename tokens to match https://github.com/tweag/nickel/blob/master/src/parser/lexer.rs
 
+// design goal: no hidden tokens -> all non-whitespace is parsed as some token
+// this is useful for text-highlighting
+// but may be too verbose for a syntax tree?
+// -> use fields? field('fieldname', $._hidden_token)
 
 const PREC = {
   //impl: 1,
@@ -44,7 +48,7 @@ module.exports = grammar({
     $._indented_string_fragment,
     $._multistring_start,
     $._multistring_part_fixed,
-    $._multistring_richterm_prefix,
+    $._multistring_richterm_start,
     $._multistring_end,
   ],
 
@@ -248,8 +252,8 @@ module.exports = grammar({
     _expr_simple: $ => choice(
       $.Id,
       $.Num,
-      $.StrChunks, // string
-      $.MultiStrChunks,
+      $.Str, // string
+      $.MultiStr,
       //$.path,
       //$.hpath,
       //$.spath,
@@ -280,7 +284,7 @@ module.exports = grammar({
       $.RichTerm, // interpolation
     ),
 
-    StrChunks: $ => seq(
+    Str: $ => seq(
       '"',
       repeat($.StrChunk),
       /* nix:
@@ -298,12 +302,15 @@ module.exports = grammar({
 
     MultiStrLiteral: $ => $._indented_string_fragment,
 
-    MultiStrStart: $ => 'm%',
+    //MultiStrStart: $ => 'm%"',
+    MultiStrStart: $ => seq('m%', $._multistring_start),
+    MultiStrEnd: $ => seq('"%', $._multistring_end),
 
-    MultiStrChunks: $ => choice(
+    MultiStr: $ => choice(
       // level 1 multistring
+      /*
       seq(
-        'm%"', // TODO allow multiple %
+        $.MultiStrStart,
         repeat(choice(
           $.MultiStrLiteral,
           $.RichTerm, // TODO require multiple % = same number as in string delimiters
@@ -311,24 +318,29 @@ module.exports = grammar({
         )),
         '"%m'
       ),
+      */
       // higher level multistring
       seq(
-        'm%', // TODO allow multiple %
-        $._multistring_start,
+        $.MultiStrStart,
         repeat(choice(
-          //$.MultiStrLiteral,
-          $._multistring_part_fixed,
-          //$.RichTerm, // TODO require multiple % = same number as in string delimiters
+          $.MultiStrLiteral,
+          $.MultiStrExpr,
+          /*
           seq(
-            $._multistring_richterm_prefix,
+            $._multistring_richterm_start, // TODO this shoud be part of RichTerm
             $.RichTerm,
           ),
-          //alias($.indented_escape_sequence, $.escape_sequence),
+          */
         )),
-        '"%',
-        $._multistring_end,
-        //'"%m' // TODO require multiple % = same number as in string delimiters
+        $.MultiStrEnd,
       ),
+    ),
+    MultiStrLiteral: $ => $._multistring_part_fixed,
+    // aka RichTerm
+    MultiStrExpr: $ => seq(
+      $._multistring_richterm_start, // TODO this shoud be part of RichTerm
+      field('expression', $._expression),
+      '}',
     ),
     //indented_escape_sequence: $ => token.immediate(/'''|''\$|''\\(.|\s)/), // Can also escape newline.
 
@@ -350,14 +362,14 @@ module.exports = grammar({
 
     attrpath: $ => sep1(field('attr', choice(
       alias($.Id, $.attr_identifier),
-      $.StrChunks,
+      $.Str,
       $.RichTerm,
     )), "."),
 
     /*
     attrs_inherited: $ => repeat1(field('attr', choice(
       $.Id,
-      $.StrChunks,
+      $.Str,
       $.RichTerm,
     ))),
     */
@@ -365,7 +377,7 @@ module.exports = grammar({
     /*
     attrs_inherited_from: $ => repeat1(field('attr', choice(
       alias($.Id, $.attr_identifier),
-      $.StrChunks,
+      $.Str,
       $.RichTerm,
     ))),
     */

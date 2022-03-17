@@ -10,7 +10,7 @@ comment
 
 (source_expression
   (comment)
-  (StrChunks (StrChunk (StrChunkLiteral)))
+  (Str (StrChunk (StrChunkLiteral)))
 )
 
 ====================
@@ -193,9 +193,9 @@ RecRecord
 (source_expression
   (RecRecord
     (bind (attrpath (attr_identifier)) (Num))
-    (bind (attrpath (RichTerm (Id))) (StrChunks (StrChunk (StrChunkLiteral))))
-    (bind (attrpath (StrChunks (StrChunk (StrChunkLiteral)))) (Num))
-    (bind (attrpath (attr_identifier) (attr_identifier) (attr_identifier)) (StrChunks (StrChunk (StrChunkLiteral))))
+    (bind (attrpath (RichTerm (Id))) (Str (StrChunk (StrChunkLiteral))))
+    (bind (attrpath (Str (StrChunk (StrChunkLiteral)))) (Num))
+    (bind (attrpath (attr_identifier) (attr_identifier) (attr_identifier)) (Str (StrChunk (StrChunkLiteral))))
   )
 )
 
@@ -231,7 +231,7 @@ u.v.%{w}."x%{y}z"
     (attrpath
       (attr_identifier)
       (RichTerm (Id))
-      (StrChunks
+      (Str
         (StrChunk (StrChunkLiteral))
         (StrChunk (RichTerm (Id)))
         (StrChunk (StrChunkLiteral))
@@ -272,7 +272,7 @@ a 1 "x"
       (Id)
       (Num)
     )
-    (StrChunks (StrChunk (StrChunkLiteral)))
+    (Str (StrChunk (StrChunkLiteral)))
   )
 )
 
@@ -337,7 +337,7 @@ string (simple)
 ---
 
 (source_expression
-  (StrChunks (StrChunk (StrChunkLiteral)))
+  (Str (StrChunk (StrChunkLiteral)))
 )
 
 ====================
@@ -349,7 +349,7 @@ string (interpolation)
 ---
 
 (source_expression
-  (StrChunks
+  (Str
     (StrChunk (StrChunkLiteral))
     (StrChunk (RichTerm (Id)))
     (StrChunk (StrChunkLiteral))
@@ -365,7 +365,7 @@ m%"abc"%m
 ---
 
 (source_expression
-  (MultiStrChunks
+  (MultiStr
     (MultiStrLiteral)
   )
 )
@@ -381,7 +381,7 @@ c"%m
 ---
 
 (source_expression
-  (MultiStrChunks
+  (MultiStr
     (MultiStrLiteral)
   )
 )
@@ -399,7 +399,7 @@ m%"
 ---
 
 (source_expression
-  (MultiStrChunks
+  (MultiStr
     (MultiStrLiteral)
   )
 )
@@ -417,7 +417,7 @@ m%"
 ---
 
 (source_expression
-  (MultiStrChunks
+  (MultiStr
     (MultiStrLiteral)
     (RichTerm (Id))
     (MultiStrLiteral)
@@ -425,18 +425,37 @@ m%"
 )
 
 ====================
-multistring (indent) (interpolation) (level 2)
+multistring (level 4)
 ====================
 
-m%%%%"a"%%%%m
+m%%%%"a%%%%{b}c"%%%%m
 
 ---
 
 (source_expression
-  (StrBlockChunks
-    (StrBlockLiteral)
-    (RichTerm (Id))
-    (StrBlockLiteral)
+  (MultiStr
+    (MultiStrStart)
+    (MultiStrLiteral)
+    (MultiStrExpr (Id))
+    (MultiStrLiteral)
+    (MultiStrEnd)
   )
 )
 
+====================
+multistring (level 4) (extra % before expr)
+====================
+
+m%%%%"%%%%%{b}c"%%%%m
+
+---
+
+(source_expression
+  (MultiStr
+    (MultiStrStart)
+    (MultiStrLiteral)
+    (MultiStrExpr (Id))
+    (MultiStrLiteral)
+    (MultiStrEnd)
+  )
+)

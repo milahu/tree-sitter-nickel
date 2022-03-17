@@ -1,5 +1,9 @@
 # dev loop
 tree-sitter generate && tree-sitter test
+# debug
+tree-sitter generate && tree-sitter test --filter "multistring (level 4)" --debug
+# graph -> log.html
+tree-sitter generate && tree-sitter test --filter "multistring (level 4)" --debug-graph
 
 
 
@@ -7,6 +11,8 @@ tree-sitter generate && tree-sitter test
 nix build github:tweag/nickel#build
 ./result/bin/nickel <<< "1 + 1"
 ./result/bin/nickel <<< 'm%"abc"%m'
+./result/bin/nickel -f input.ncl
+./result/bin/nickel repl
 
 
 

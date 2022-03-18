@@ -1,0 +1,32 @@
+====================
+type simple
+====================
+
+1 : Num
+
+---
+
+(source_expression
+  (Type
+    (Num)
+    (Id)
+  )
+)
+
+====================
+type nested (FIXME this should be syntax error)
+====================
+
+1 : Num : "x"
+
+---
+
+(source_expression
+  (Type
+    (Type
+      (Num)
+      (Id)
+    )
+    (Str (StrChunk (StrChunkLiteral)))
+  )
+)

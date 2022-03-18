@@ -124,6 +124,24 @@ infix binary operator: plus int float
 (source_expression (BinaryOp (Num) (Num)))
 
 ====================
+infix binary operator: plus int int int
+====================
+
+1 + 2 + 3
+
+---
+
+(source_expression
+  (BinaryOp
+    (BinaryOp
+      (Num)
+      (Num)
+    )
+    (Num)
+  )
+)
+
+====================
 infix binary operator: minus int int
 ====================
 

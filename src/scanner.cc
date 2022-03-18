@@ -125,6 +125,7 @@ static bool scan_multistring_part_fixed(TSLexer *lexer) {
   // using C++ std::stack template to store Length structs
   // let's hope this does not blow up the WASM binary size too much ...
   // a pure C solution would be more verbose
+  // https://github.com/tree-sitter/tree-sitter/issues/1688
   std::stack<Length> token_end_candidates;
   DEBUG_PRINT("scan_multistring_part_fixed\n");
   unsigned int percent_seen = 0;

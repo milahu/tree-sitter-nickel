@@ -16,6 +16,10 @@
         "named": true
       },
       {
+        "type": "Bool",
+        "named": true
+      },
+      {
         "type": "Id",
         "named": true
       },
@@ -86,6 +90,10 @@
             "named": true
           },
           {
+            "type": "Bool",
+            "named": true
+          },
+          {
             "type": "Id",
             "named": true
           },
@@ -137,6 +145,10 @@
           },
           {
             "type": "Arr",
+            "named": true
+          },
+          {
+            "type": "Bool",
             "named": true
           },
           {
@@ -193,6 +205,10 @@
         "types": [
           {
             "type": "Arr",
+            "named": true
+          },
+          {
+            "type": "Bool",
             "named": true
           },
           {
@@ -257,6 +273,10 @@
           },
           {
             "type": "BinaryOp",
+            "named": true
+          },
+          {
+            "type": "Bool",
             "named": true
           },
           {
@@ -389,6 +409,10 @@
           },
           {
             "type": "BinaryOp",
+            "named": true
+          },
+          {
+            "type": "Bool",
             "named": true
           },
           {
@@ -622,6 +646,10 @@
           "named": true
         },
         {
+          "type": "Bool",
+          "named": true
+        },
+        {
           "type": "Id",
           "named": true
         },
@@ -678,6 +706,10 @@
           },
           {
             "type": "BinaryOp",
+            "named": true
+          },
+          {
+            "type": "Bool",
             "named": true
           },
           {
@@ -813,6 +845,10 @@
             "named": true
           },
           {
+            "type": "Bool",
+            "named": true
+          },
+          {
             "type": "Id",
             "named": true
           },
@@ -900,6 +936,10 @@
           },
           {
             "type": "BinaryOp",
+            "named": true
+          },
+          {
+            "type": "Bool",
             "named": true
           },
           {
@@ -1011,6 +1051,10 @@
             "named": true
           },
           {
+            "type": "Bool",
+            "named": true
+          },
+          {
             "type": "Id",
             "named": true
           },
@@ -1058,6 +1102,10 @@
         "types": [
           {
             "type": "Arr",
+            "named": true
+          },
+          {
+            "type": "Bool",
             "named": true
           },
           {
@@ -1219,6 +1267,10 @@
   {
     "type": "@",
     "named": false
+  },
+  {
+    "type": "Bool",
+    "named": true
   },
   {
     "type": "Id",

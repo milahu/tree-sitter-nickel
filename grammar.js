@@ -72,7 +72,7 @@ module.exports = grammar({
     //keyword: $ => /if|then|else|let|inherit|in|rec|with|assert/,
     keyword: $ => /if|then|else|let|in|true|false|fun|import|switch/,
 
-    //Bool: $ => /true|false/, // TODO
+    Bool: $ => /true|false/,
 
     // identifier, Ident
     Id: $ => /_?[a-zA-Z][_a-zA-Z0-9-]*/,
@@ -269,6 +269,7 @@ module.exports = grammar({
       $.Id,
       $.IdEnumTag,
       $.IdBuiltinFun,
+      $.Bool,
       $.Num,
       $.Str, // string
       $.MultiStr,

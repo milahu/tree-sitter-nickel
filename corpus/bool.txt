@@ -1,0 +1,85 @@
+====================
+bool true
+====================
+
+true
+
+---
+
+(source_expression (Bool))
+
+====================
+bool false
+====================
+
+false
+
+---
+
+(source_expression (Bool))
+
+====================
+bool &&
+====================
+
+true && false
+
+---
+
+(source_expression
+  (BinaryOp
+    (Bool)
+    (Bool)))
+
+====================
+bool ||
+====================
+
+true || false
+
+---
+
+(source_expression
+  (BinaryOp
+    (Bool)
+    (Bool)))
+
+====================
+bool nested
+====================
+
+true || false && true
+
+---
+
+(source_expression
+  (BinaryOp
+    (Bool)
+    (BinaryOp
+      (Bool)
+      (Bool))))
+
+====================
+bool negate
+====================
+
+!true
+
+---
+
+(source_expression
+  (UnaryOp (Bool)))
+
+====================
+bool negate
+====================
+
+!(true && false)
+
+---
+
+(source_expression
+  (UnaryOp (parenthesized
+    (BinaryOp
+      (Bool)
+      (Bool)))))

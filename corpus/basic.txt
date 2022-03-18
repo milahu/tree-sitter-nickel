@@ -24,6 +24,16 @@ abc
 (source_expression (Id))
 
 ====================
+identifier with minus
+====================
+
+a-b
+
+---
+
+(source_expression (Id))
+
+====================
 identifier (enum tag)
 ====================
 

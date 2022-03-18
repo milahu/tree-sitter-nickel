@@ -20,6 +20,14 @@
         "named": true
       },
       {
+        "type": "IdBuiltinFun",
+        "named": true
+      },
+      {
+        "type": "IdEnumTag",
+        "named": true
+      },
+      {
         "type": "Ite",
         "named": true
       },
@@ -37,6 +45,10 @@
       },
       {
         "type": "Str",
+        "named": true
+      },
+      {
+        "type": "Type",
         "named": true
       },
       {
@@ -78,6 +90,14 @@
             "named": true
           },
           {
+            "type": "IdBuiltinFun",
+            "named": true
+          },
+          {
+            "type": "IdEnumTag",
+            "named": true
+          },
+          {
             "type": "MultiStr",
             "named": true
           },
@@ -91,6 +111,10 @@
           },
           {
             "type": "Str",
+            "named": true
+          },
+          {
+            "type": "Type",
             "named": true
           },
           {
@@ -120,6 +144,14 @@
             "named": true
           },
           {
+            "type": "IdBuiltinFun",
+            "named": true
+          },
+          {
+            "type": "IdEnumTag",
+            "named": true
+          },
+          {
             "type": "MultiStr",
             "named": true
           },
@@ -133,6 +165,10 @@
           },
           {
             "type": "Str",
+            "named": true
+          },
+          {
+            "type": "Type",
             "named": true
           },
           {
@@ -164,6 +200,14 @@
             "named": true
           },
           {
+            "type": "IdBuiltinFun",
+            "named": true
+          },
+          {
+            "type": "IdEnumTag",
+            "named": true
+          },
+          {
             "type": "MultiStr",
             "named": true
           },
@@ -177,6 +221,10 @@
           },
           {
             "type": "Str",
+            "named": true
+          },
+          {
+            "type": "Type",
             "named": true
           },
           {
@@ -216,6 +264,14 @@
             "named": true
           },
           {
+            "type": "IdBuiltinFun",
+            "named": true
+          },
+          {
+            "type": "IdEnumTag",
+            "named": true
+          },
+          {
             "type": "MultiStr",
             "named": true
           },
@@ -229,6 +285,10 @@
           },
           {
             "type": "Str",
+            "named": true
+          },
+          {
+            "type": "Type",
             "named": true
           },
           {
@@ -249,10 +309,6 @@
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": " - ",
-            "named": false
-          },
           {
             "type": "!=",
             "named": false
@@ -275,6 +331,10 @@
           },
           {
             "type": "++",
+            "named": false
+          },
+          {
+            "type": "-",
             "named": false
           },
           {
@@ -336,6 +396,14 @@
             "named": true
           },
           {
+            "type": "IdBuiltinFun",
+            "named": true
+          },
+          {
+            "type": "IdEnumTag",
+            "named": true
+          },
+          {
             "type": "MultiStr",
             "named": true
           },
@@ -349,6 +417,10 @@
           },
           {
             "type": "Str",
+            "named": true
+          },
+          {
+            "type": "Type",
             "named": true
           },
           {
@@ -538,6 +610,57 @@
     "fields": {}
   },
   {
+    "type": "Type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Arr",
+          "named": true
+        },
+        {
+          "type": "Id",
+          "named": true
+        },
+        {
+          "type": "IdBuiltinFun",
+          "named": true
+        },
+        {
+          "type": "IdEnumTag",
+          "named": true
+        },
+        {
+          "type": "MultiStr",
+          "named": true
+        },
+        {
+          "type": "Num",
+          "named": true
+        },
+        {
+          "type": "RecRecord",
+          "named": true
+        },
+        {
+          "type": "Str",
+          "named": true
+        },
+        {
+          "type": "Type",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "UnaryOp",
     "named": true,
     "fields": {
@@ -562,6 +685,14 @@
             "named": true
           },
           {
+            "type": "IdBuiltinFun",
+            "named": true
+          },
+          {
+            "type": "IdEnumTag",
+            "named": true
+          },
+          {
             "type": "MultiStr",
             "named": true
           },
@@ -575,6 +706,10 @@
           },
           {
             "type": "Str",
+            "named": true
+          },
+          {
+            "type": "Type",
             "named": true
           },
           {
@@ -682,6 +817,14 @@
             "named": true
           },
           {
+            "type": "IdBuiltinFun",
+            "named": true
+          },
+          {
+            "type": "IdEnumTag",
+            "named": true
+          },
+          {
             "type": "Ite",
             "named": true
           },
@@ -699,6 +842,10 @@
           },
           {
             "type": "Str",
+            "named": true
+          },
+          {
+            "type": "Type",
             "named": true
           },
           {
@@ -760,6 +907,14 @@
             "named": true
           },
           {
+            "type": "IdBuiltinFun",
+            "named": true
+          },
+          {
+            "type": "IdEnumTag",
+            "named": true
+          },
+          {
             "type": "Ite",
             "named": true
           },
@@ -777,6 +932,10 @@
           },
           {
             "type": "Str",
+            "named": true
+          },
+          {
+            "type": "Type",
             "named": true
           },
           {
@@ -856,6 +1015,14 @@
             "named": true
           },
           {
+            "type": "IdBuiltinFun",
+            "named": true
+          },
+          {
+            "type": "IdEnumTag",
+            "named": true
+          },
+          {
             "type": "MultiStr",
             "named": true
           },
@@ -869,6 +1036,10 @@
           },
           {
             "type": "Str",
+            "named": true
+          },
+          {
+            "type": "Type",
             "named": true
           },
           {
@@ -894,6 +1065,14 @@
             "named": true
           },
           {
+            "type": "IdBuiltinFun",
+            "named": true
+          },
+          {
+            "type": "IdEnumTag",
+            "named": true
+          },
+          {
             "type": "MultiStr",
             "named": true
           },
@@ -907,6 +1086,10 @@
           },
           {
             "type": "Str",
+            "named": true
+          },
+          {
+            "type": "Type",
             "named": true
           },
           {
@@ -932,10 +1115,6 @@
         ]
       }
     }
-  },
-  {
-    "type": " - ",
-    "named": false
   },
   {
     "type": "!",
@@ -1006,6 +1185,10 @@
     "named": false
   },
   {
+    "type": ":",
+    "named": false
+  },
+  {
     "type": "<",
     "named": false
   },
@@ -1039,6 +1222,14 @@
   },
   {
     "type": "Id",
+    "named": true
+  },
+  {
+    "type": "IdBuiltinFun",
+    "named": true
+  },
+  {
+    "type": "IdEnumTag",
     "named": true
   },
   {

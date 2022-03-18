@@ -22,6 +22,14 @@
       "type": "PATTERN",
       "value": "_?[a-zA-Z][_a-zA-Z0-9-]*"
     },
+    "IdEnumTag": {
+      "type": "PATTERN",
+      "value": "`_?[a-zA-Z][_a-zA-Z0-9-]*"
+    },
+    "IdBuiltinFun": {
+      "type": "PATTERN",
+      "value": "%_?[a-zA-Z][_a-zA-Z0-9-]*%"
+    },
     "Num": {
       "type": "CHOICE",
       "members": [
@@ -569,7 +577,7 @@
                 "name": "operator",
                 "content": {
                   "type": "STRING",
-                  "value": " - "
+                  "value": "-"
                 }
               },
               {
@@ -914,6 +922,14 @@
         },
         {
           "type": "SYMBOL",
+          "name": "IdEnumTag"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "IdBuiltinFun"
+        },
+        {
+          "type": "SYMBOL",
           "name": "Num"
         },
         {
@@ -935,8 +951,37 @@
         {
           "type": "SYMBOL",
           "name": "Arr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "Type"
         }
       ]
+    },
+    "Type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_expr_simple"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type_expression"
+        }
+      ]
+    },
+    "_type_expression": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SYMBOL",
+        "name": "_expr_simple"
+      }
     },
     "parenthesized": {
       "type": "SEQ",

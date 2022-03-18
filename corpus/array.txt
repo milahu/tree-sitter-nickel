@@ -1,0 +1,49 @@
+====================
+array (empty)
+====================
+
+[ ]
+
+---
+
+(source_expression (Arr))
+
+====================
+array (id number number)
+====================
+
+[
+  a,
+  1,
+  2.0
+]
+
+---
+
+(source_expression
+  (Arr
+    (Id)
+    (Num)
+    (Num)
+  )
+)
+
+====================
+array (id number number) (with dangling comma)
+====================
+
+[
+  a,
+  1,
+  2.0,
+]
+
+---
+
+(source_expression
+  (Arr
+    (Id)
+    (Num)
+    (Num)
+  )
+)

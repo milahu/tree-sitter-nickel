@@ -1,0 +1,139 @@
+====================
+string (simple)
+====================
+
+"abc"
+
+---
+
+(source_expression
+  (Str (StrChunk (StrChunkLiteral)))
+)
+
+====================
+string (interpolation)
+====================
+
+"a%{b}c"
+
+---
+
+(source_expression
+  (Str
+    (StrChunk (StrChunkLiteral))
+    (StrChunk (RichTerm (Id)))
+    (StrChunk (StrChunkLiteral))
+  )
+)
+
+====================
+multistring
+====================
+
+m%"abc"%m
+
+---
+
+(source_expression
+  (MultiStr
+    (MultiStrStart)
+    (MultiStrLiteral)
+    (MultiStrEnd)
+  )
+)
+
+====================
+multistring (multiline)
+====================
+
+m%"a
+b
+c"%m
+
+---
+
+(source_expression
+  (MultiStr
+    (MultiStrStart)
+    (MultiStrLiteral)
+    (MultiStrEnd)
+  )
+)
+
+====================
+multistring (indent)
+====================
+
+m%"
+  a
+  b
+  c
+"%m
+
+---
+
+(source_expression
+  (MultiStr
+    (MultiStrStart)
+    (MultiStrLiteral)
+    (MultiStrEnd)
+  )
+)
+
+====================
+multistring (indent) (interpolation)
+====================
+
+m%"
+  a
+  %{b}
+  c
+"%m
+
+---
+
+(source_expression
+  (MultiStr
+    (MultiStrStart)
+    (MultiStrLiteral)
+    (MultiStrIpol (Id))
+    (MultiStrLiteral)
+    (MultiStrEnd)
+  )
+)
+
+====================
+multistring (level 4)
+====================
+
+m%%%%"a%%%%{b}c"%%%%m
+
+---
+
+(source_expression
+  (MultiStr
+    (MultiStrStart)
+    (MultiStrLiteral)
+    (MultiStrIpol (Id))
+    (MultiStrLiteral)
+    (MultiStrEnd)
+  )
+)
+
+====================
+multistring (level 4) (extra % before expr)
+====================
+
+m%%%%"%%%%%{b}c"%%%%m
+
+---
+
+(source_expression
+  (MultiStr
+    (MultiStrStart)
+    (MultiStrLiteral)
+    (MultiStrIpol (Id))
+    (MultiStrLiteral)
+    (MultiStrEnd)
+  )
+)

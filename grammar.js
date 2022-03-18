@@ -75,6 +75,18 @@ module.exports = grammar({
     // identifier, Ident
     Id: $ => /_?[a-zA-Z][_a-zA-Z0-9-]*/,
 
+    // enum tags
+    // backtick + identifier
+    // note: we cannot use `seq('`', $.Id)` because that would allow whitespace after backtick
+    // https://nickel-lang.org/user-manual/syntax#enum-tags
+    IdEnumTag: $ => /`_?[a-zA-Z][_a-zA-Z0-9-]*/,
+
+    // builtin functions
+    // TODO are these always functions?
+    // examples: %is_num% %seq% %hash% %serialize%
+    // https://github.com/tweag/nickel/blob/master/stdlib/builtin.ncl
+    IdBuiltinFun: $ => /%_?[a-zA-Z][_a-zA-Z0-9-]*%/,
+
     // `x -> Enum(Id(x))
     //Enum: $ => TODO,
 
@@ -253,6 +265,8 @@ module.exports = grammar({
 
     _expr_simple: $ => choice(
       $.Id,
+      $.IdEnumTag,
+      $.IdBuiltinFun,
       $.Num,
       $.Str, // string
       $.MultiStr,

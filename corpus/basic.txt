@@ -24,6 +24,26 @@ abc
 (source_expression (Id))
 
 ====================
+identifier (enum tag)
+====================
+
+`abc
+
+---
+
+(source_expression (IdEnumTag))
+
+====================
+identifier (builtin function)
+====================
+
+%abc%
+
+---
+
+(source_expression (IdBuiltinFun))
+
+====================
 number int
 ====================
 

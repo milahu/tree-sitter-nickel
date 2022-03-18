@@ -5,7 +5,9 @@
 // but may be too verbose for a syntax tree?
 // -> use fields? field('fieldname', $._hidden_token)
 
-// Values taken from lalrpop grammar. In lalrpop the highest precedence is 0.
+// Precedence values are taken from lalrpop grammar
+// https://github.com/tweag/nickel/blob/master/src/grammar.lalrpop
+// In lalrpop the highest precedence is 0.
 // Higher numbers imply a lower precedence. In tree-sitter however, a high
 // number implies a high precedence. To solve this issue, while keeping
 // the numbers the same, all precedence values are negated.

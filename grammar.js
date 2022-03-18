@@ -284,6 +284,10 @@ module.exports = grammar({
 
     Type: $ => seq($._expr_simple, ':', $._type_expression),
 
+    // FIXME make this more restrictive?
+    // example: is this parse error or eval error?
+    // nickel <<< '1 : "x"'
+    // error: incompatible types
     _type_expression: $ => prec.left($._expr_simple),
 
     parenthesized: $ => seq('(', field('expression', $._expression), ')'),

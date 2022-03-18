@@ -64,6 +64,86 @@ number float
 (source_expression (Num))
 
 ====================
+number int negative
+====================
+
+-123
+
+---
+
+(source_expression (UnaryOp (Num)))
+
+====================
+number float negative
+====================
+
+-123.456
+
+---
+
+(source_expression (UnaryOp (Num)))
+
+====================
+infix binary operator: plus int int
+====================
+
+1 + 2
+
+---
+
+(source_expression (BinaryOp (Num) (Num)))
+
+====================
+infix binary operator: plus int int: no space
+====================
+
+1+2
+
+---
+
+(source_expression (BinaryOp (Num) (Num)))
+
+====================
+infix binary operator: plus int float
+====================
+
+1 + 2.3
+
+---
+
+(source_expression (BinaryOp (Num) (Num)))
+
+====================
+infix binary operator: minus int int
+====================
+
+1 - 2
+
+---
+
+(source_expression (BinaryOp (Num) (Num)))
+
+====================
+infix binary operator: minus id id
+====================
+
+a - b
+
+---
+
+(source_expression (BinaryOp (Id) (Id)))
+
+====================
+infix binary operator: minus int int: no space (FIXME)
+====================
+
+1-2
+
+---
+
+(source_expression (BinaryOp (Num) (Num)))
+
+====================
 Ite (if then else)
 ====================
 

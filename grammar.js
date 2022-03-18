@@ -5,27 +5,31 @@
 // but may be too verbose for a syntax tree?
 // -> use fields? field('fieldname', $._hidden_token)
 
+// Values taken from lalrpop grammar. In lalrpop the highest precedence is 0.
+// Higher numbers imply a lower precedence. In tree-sitter however, a high
+// number implies a high precedence. To solve this issue, while keeping
+// the numbers the same, all precedence values are negated.
 const PREC = {
-  //impl: 1,
-  or: 2,
-  and: 3,
-  eq: 4,
-  neq: 4,
-  '<': 5,
-  '>': 5,
-  leq: 5,
-  geq: 5,
-  RecConcat: 6, // TODO rename?
-  not: 7,
-  '+': 8, // Plus
-  ' - ': 8, // minus must be spaced. TODO allow \t \n ?
-  '*': 9,
-  '/': 9,
-  ArrConcat: 10, // TODO rename?
-  StrConcat: 10, // TODO prec?
-  //'?': 11,
-  negate: 12,
-  //App: 12, // solve conflict between _operator_or_recursionorfuncname and App. TODO verify
+  Negate: -1,       // -1
+  StrConcat: -2,    // "a" ++ "b"
+  ArrayConcat: -2,  // [1] @ [2]
+  Mult: -3,         // 1 * 2
+  Div: -3,          // 1 / 2
+  Modulo: -3,       // 1 % 2
+  Plus: -4,         // 1 + 2
+  Sub: -4,          // 1 - 2
+  BoolNot: -5,      // !true
+  Merge: -6,        // { a = "a" } & { b = "b" }
+  RightPipe: -6,    // "Hello World" |> string.split " "
+  LessThan: -7,     // 1 < 2
+  LessOrEq: -7,     // 1 <= 2
+  GreaterThan: -7,  // 1 > 2
+  GreaterOrEq: -7,  // 1 >= 2
+  Eq: -8,           // 1 == 2
+  Neq: -8,          // 1 != 2
+  BoolAnd: -9,      // true && false
+  BoolOr: -10,      // true || false
+  Arrow: -11,       // Num -> Num
 }
 
 module.exports = grammar({
@@ -138,8 +142,8 @@ module.exports = grammar({
 
     UnaryOp: $ => choice(
       ...[
-        ['!', PREC.not],
-        ['-', PREC.negate],
+        ['!', PREC.BoolNot],
+        ['-', PREC.Negate],
       ].map(([operator, precedence]) =>
         prec(precedence, seq(
           field('operator', operator),
@@ -151,19 +155,18 @@ module.exports = grammar({
     BinaryOp: $ => choice(
       // left assoc.
       ...[
-        ['==', PREC.eq],
-        ['!=', PREC.neq],
-        ['<', PREC['<']],
-        ['<=', PREC.leq],
-        ['>', PREC['>']],
-        ['>=', PREC.geq],
-        ['&&', PREC.and],
-        ['||', PREC.or],
-        //['?', PREC['?']],
-        ['+', PREC['+']],
-        [' - ', PREC[' - ']],
-        ['*', PREC['*']],
-        ['/', PREC['/']],
+        ['==', PREC.Eq],
+        ['!=', PREC.Neq],
+        ['<', PREC.LessThan],
+        ['<=', PREC.LessOrEq],
+        ['>', PREC.GreaterThan],
+        ['>=', PREC.GreaterOrEq],
+        ['&&', PREC.BoolAnd],
+        ['||', PREC.BoolOr],
+        ['+', PREC.Plus],
+        [' - ', PREC.Sub], // Accept \t \n ?
+        ['*', PREC.Mult],
+        ['/', PREC.Div],
       ].map(([operator, precedence]) =>
       prec.left(precedence, seq(
         field('left', $._operator_or_recursionorfuncname),
@@ -172,10 +175,10 @@ module.exports = grammar({
       ))),
       // right assoc.
       ...[
-        //['->', PREC.impl],
-        ['&', PREC.RecConcat],
-        ['@', PREC.ArrConcat],
+        ['->', PREC.Arrow],
+        ['&', PREC.Merge],
         ['++', PREC.StrConcat],
+        ['@', PREC.ArrayConcat],
       ].map(([operator, precedence]) =>
       prec.right(precedence, seq(
         field('left', $._operator_or_recursionorfuncname),

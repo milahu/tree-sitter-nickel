@@ -1,0 +1,76 @@
+====================
+Record Merge
+====================
+
+{ a = "a" } & { b = "b" }
+
+---
+
+(source_expression
+  expression: (BinaryOp
+    left: (RecRecord
+      bind: (bind
+        attrpath: (attrpath
+          attr: (attr_identifier))
+        expression: (Str
+          (StrChunk
+            (StrChunkLiteral)))))
+    right: (RecRecord
+      bind: (bind
+        attrpath: (attrpath
+          attr: (attr_identifier))
+        expression: (Str
+          (StrChunk
+            (StrChunkLiteral)))))))
+
+====================
+RecRecord (empty)
+====================
+
+{ }
+
+---
+
+(source_expression (RecRecord))
+
+====================
+RecRecord
+====================
+
+{
+  a = 1,
+  %{b} = "quux",
+  "c" = 3.14,
+  x.y.z = "foo"
+}
+
+---
+
+(source_expression
+  (RecRecord
+    (bind (attrpath (attr_identifier)) (Num))
+    (bind (attrpath (RichTerm (Id))) (Str (StrChunk (StrChunkLiteral))))
+    (bind (attrpath (Str (StrChunk (StrChunkLiteral)))) (Num))
+    (bind (attrpath (attr_identifier) (attr_identifier) (attr_identifier)) (Str (StrChunk (StrChunkLiteral))))
+  )
+)
+
+====================
+RecRecord with dangling comma
+====================
+
+{
+  a = 1,
+  b = 2,
+}
+
+---
+
+(source_expression
+  (RecRecord
+    (bind (attrpath (attr_identifier)) (Num))
+    (bind (attrpath (attr_identifier)) (Num))
+  )
+)
+
+

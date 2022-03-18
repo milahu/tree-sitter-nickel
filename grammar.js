@@ -176,7 +176,7 @@ module.exports = grammar({
         ['&&', PREC.BoolAnd],
         ['||', PREC.BoolOr],
         ['+', PREC.Plus],
-        [' - ', PREC.Sub], // Accept \t \n ?
+        ['-', PREC.Sub],
         ['*', PREC.Mult],
         ['/', PREC.Div],
       ].map(([operator, precedence]) =>

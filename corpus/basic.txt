@@ -162,7 +162,7 @@ a - b
 (source_expression (BinaryOp (Id) (Id)))
 
 ====================
-infix binary operator: minus int int: no space (FIXME)
+infix binary operator: minus int int: no space
 ====================
 
 1-2

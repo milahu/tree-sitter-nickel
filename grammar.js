@@ -15,7 +15,7 @@ const PREC = {
   '>': 5,
   leq: 5,
   geq: 5,
-  RecConcat: 6, // TODO rename?
+  Merge: 6,
   not: 7,
   '+': 8, // Plus
   ' - ': 8, // minus must be spaced. TODO allow \t \n ?
@@ -173,7 +173,7 @@ module.exports = grammar({
       // right assoc.
       ...[
         //['->', PREC.impl],
-        ['&', PREC.RecConcat],
+        ['&', PREC.Merge],
         ['@', PREC.ArrConcat],
         ['++', PREC.StrConcat],
       ].map(([operator, precedence]) =>

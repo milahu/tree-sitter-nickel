@@ -278,7 +278,7 @@ module.exports = grammar({
       //$.spath,
       //$.uri,
       $.parenthesized,
-      $.RecRecord, // "recursive record"? are there nonrecursive records in nickel?
+      $.Record,
       //$.let_record,
       //$.rec_attrset,
       $.Arr,
@@ -295,7 +295,7 @@ module.exports = grammar({
 
     parenthesized: $ => seq('(', field('expression', $._expression), ')'),
 
-    RecRecord: $ => seq('{', optional(
+    Record: $ => seq('{', optional(
       $._binds,
       //seq(
       //  $._binds,

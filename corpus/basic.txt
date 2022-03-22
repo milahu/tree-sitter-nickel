@@ -231,7 +231,7 @@ fun a => b
 (source_expression (function (Id) (Id)))
 
 ====================
-let RecRecord (empty)
+let Record (empty)
 ====================
 
 let a = 1 in { }
@@ -241,7 +241,7 @@ let a = 1 in { }
 (source_expression
   (let
     (bind (attrpath (attr_identifier)) (Num))
-    (RecRecord)
+    (Record)
   )
 )
 

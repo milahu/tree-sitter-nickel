@@ -8,14 +8,14 @@ Record Merge
 
 (source_expression
   expression: (BinaryOp
-    left: (RecRecord
+    left: (Record
       bind: (bind
         attrpath: (attrpath
           attr: (attr_identifier))
         expression: (Str
           (StrChunk
             (StrChunkLiteral)))))
-    right: (RecRecord
+    right: (Record
       bind: (bind
         attrpath: (attrpath
           attr: (attr_identifier))
@@ -24,17 +24,17 @@ Record Merge
             (StrChunkLiteral)))))))
 
 ====================
-RecRecord (empty)
+Record (empty)
 ====================
 
 { }
 
 ---
 
-(source_expression (RecRecord))
+(source_expression (Record))
 
 ====================
-RecRecord
+Record
 ====================
 
 {
@@ -47,7 +47,7 @@ RecRecord
 ---
 
 (source_expression
-  (RecRecord
+  (Record
     (bind (attrpath (attr_identifier)) (Num))
     (bind (attrpath (RichTerm (Id))) (Str (StrChunk (StrChunkLiteral))))
     (bind (attrpath (Str (StrChunk (StrChunkLiteral)))) (Num))
@@ -56,7 +56,7 @@ RecRecord
 )
 
 ====================
-RecRecord with dangling comma
+Record with dangling comma
 ====================
 
 {
@@ -67,7 +67,7 @@ RecRecord with dangling comma
 ---
 
 (source_expression
-  (RecRecord
+  (Record
     (bind (attrpath (attr_identifier)) (Num))
     (bind (attrpath (attr_identifier)) (Num))
   )

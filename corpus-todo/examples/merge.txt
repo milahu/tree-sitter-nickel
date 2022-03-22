@@ -13,7 +13,7 @@ security.ncl
 ---
 
 (source_expression
-  (RecRecord
+  (Record
     (bind
       (attrpath
         (attr_identifier)

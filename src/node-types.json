@@ -44,7 +44,7 @@
         "named": true
       },
       {
-        "type": "RecRecord",
+        "type": "Record",
         "named": true
       },
       {
@@ -114,7 +114,7 @@
             "named": true
           },
           {
-            "type": "RecRecord",
+            "type": "Record",
             "named": true
           },
           {
@@ -172,7 +172,7 @@
             "named": true
           },
           {
-            "type": "RecRecord",
+            "type": "Record",
             "named": true
           },
           {
@@ -232,7 +232,7 @@
             "named": true
           },
           {
-            "type": "RecRecord",
+            "type": "Record",
             "named": true
           },
           {
@@ -300,7 +300,7 @@
             "named": true
           },
           {
-            "type": "RecRecord",
+            "type": "Record",
             "named": true
           },
           {
@@ -436,7 +436,7 @@
             "named": true
           },
           {
-            "type": "RecRecord",
+            "type": "Record",
             "named": true
           },
           {
@@ -563,7 +563,7 @@
     "fields": {}
   },
   {
-    "type": "RecRecord",
+    "type": "Record",
     "named": true,
     "fields": {
       "bind": {
@@ -670,7 +670,7 @@
           "named": true
         },
         {
-          "type": "RecRecord",
+          "type": "Record",
           "named": true
         },
         {
@@ -733,7 +733,7 @@
             "named": true
           },
           {
-            "type": "RecRecord",
+            "type": "Record",
             "named": true
           },
           {
@@ -873,7 +873,7 @@
             "named": true
           },
           {
-            "type": "RecRecord",
+            "type": "Record",
             "named": true
           },
           {
@@ -967,7 +967,7 @@
             "named": true
           },
           {
-            "type": "RecRecord",
+            "type": "Record",
             "named": true
           },
           {
@@ -1075,7 +1075,7 @@
             "named": true
           },
           {
-            "type": "RecRecord",
+            "type": "Record",
             "named": true
           },
           {
@@ -1129,7 +1129,7 @@
             "named": true
           },
           {
-            "type": "RecRecord",
+            "type": "Record",
             "named": true
           },
           {

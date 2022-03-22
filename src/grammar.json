@@ -954,7 +954,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "RecRecord"
+          "name": "Record"
         },
         {
           "type": "SYMBOL",
@@ -1012,7 +1012,7 @@
         }
       ]
     },
-    "RecRecord": {
+    "Record": {
       "type": "SEQ",
       "members": [
         {

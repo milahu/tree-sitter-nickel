@@ -37,7 +37,7 @@ server & security & {firewall.enabled = false}
         (Id)
         (BinaryOp
           (Id)
-          (RecRecord
+          (Record
             (bind
               (attrpath
                 (attr_identifier)
@@ -57,7 +57,7 @@ server.ncl
 ---
 
 (source_expression
-  (RecRecord
+  (Record
     (bind
       (attrpath
         (attr_identifier)

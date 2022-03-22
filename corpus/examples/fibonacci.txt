@@ -30,7 +30,7 @@ fibonacci 10
       (attrpath
         (attr_identifier))
       (select
-        (RecRecord
+        (Record
           (bind
             (attrpath
               (attr_identifier))

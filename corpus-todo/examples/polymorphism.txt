@@ -1,0 +1,88 @@
+====================
+polymorphism.ncl
+====================
+
+# First projection, statically typed
+let fst : forall a b. a -> b -> a = fun x y => x in
+# Evaluation function, statically typed
+let ev : forall a b. (a -> b) -> a -> b = fun f x => f x in
+let id : forall a. a -> a = fun x => x in
+(ev id (fst 5 10) == 5 : Bool)
+
+---
+
+(source_expression
+  (comment)
+  (let
+    (ERROR
+      (Id)
+      (Id)
+      (Id)
+      (attrpath
+        (attr_identifier)
+        (attr_identifier))
+      (Id))
+    (bind
+      (attrpath
+        (attr_identifier))
+      (function
+        (Id)
+        (ERROR
+          (Id))
+        (Id)))
+    (comment)
+    (ERROR
+      (ERROR
+        (Id)
+        (Id)
+        (Id))
+      (Id)
+      (parenthesized
+        (BinaryOp
+          (Id)
+          (Id)))
+      (Id)
+      (Id))
+    (function
+      (Id)
+      (ERROR
+        (Id)
+        (App
+          (App
+            (App
+              (App
+                (App
+                  (Id)
+                  (Id))
+                (Id))
+              (Id))
+            (Type
+              (Id)
+              (Id)))
+          (select
+            (Id)
+            (attrpath
+              (attr_identifier))))
+        (App
+          (Id)
+          (ERROR)
+          (Id)))
+      (App
+        (App
+          (Id)
+          (Id))
+        (parenthesized
+          (BinaryOp
+            (App
+              (App
+                (Id)
+                (Id))
+              (parenthesized
+                (App
+                  (App
+                    (Id)
+                    (Num))
+                  (Num))))
+            (Type
+              (Num)
+              (Id))))))))

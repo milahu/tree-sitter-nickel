@@ -1,0 +1,363 @@
+====================
+record-contract.ncl
+====================
+
+# An illustrative (thus incomplete and maybe incorrect) contract example for a
+# Kubernetes configuration.
+# Schema and example derived from https://github.com/kubernetes/examples/blob/master/guestbook-go/guestbook-controller.json.
+
+let Port | doc "A contract for a port number" = contract.from_predicate (fun value =>
+  builtin.is_num value &&
+  value % 1 == 0 &&
+  value >= 0 &&
+  value <= 65535) in
+
+let PortElt
+  | doc "A contract for a port element of a Kubernetes configuration"
+  = {
+    name | Str,
+    containerPort | Port,
+  } in
+
+let Container = {
+  name | Str,
+  image | Str,
+  ports | Array PortElt,
+} in
+
+let KubernetesConfig = {
+  kind | [| ReplicationController, ReplicaSet, Pod |]
+       | doc "The kind of the element being configured."
+       | default = `Pod,
+
+  apiVersion | Str,
+
+  metadata = {
+    name | Str,
+    labels.app | Str,
+  },
+
+  spec = {
+    replicas | num.PosNat
+             | doc "The number of replicas"
+             | default = 1,
+
+    selector.matchLabels.app | Str,
+
+    template = {
+      metadata.labels.app | Str,
+      spec.containers | Array Container,
+    },
+  },
+} in
+
+let name_ = "myApp" in
+let metadata_ = {
+    name = name_,
+    labels.app = name_,
+  } in
+
+{
+  kind = `ReplicationController,
+  apiVersion = "1.1.0",
+  metadata = metadata_,
+  spec = {
+    replicas = 3,
+    selector = {
+      app.name = name_,
+      matchLabels.app = name_,
+    },
+    template = {
+       metadata = metadata_,
+       spec = {
+          containers = [
+            {
+              name = name_,
+              image = "k8s.gcr.io/%{name_}:v3",
+              ports = [
+                {
+                  name = "http-server",
+                  containerPort = 80,
+                }
+              ]
+            }
+          ]
+        }
+    }
+  }
+} | KubernetesConfig
+
+---
+
+(source_expression
+  (comment)
+  (comment)
+  (comment)
+  (let
+    (ERROR
+      (Id)
+      (UNEXPECTED ')
+      (Id))
+    (bind
+      (attrpath
+        (Str
+          (StrChunk
+            (StrChunkLiteral))))
+      (App
+        (select
+          (Id)
+          (attrpath
+            (attr_identifier)))
+        (parenthesized
+          (function
+            (Id)
+            (BinaryOp
+              (BinaryOp
+                (BinaryOp
+                  (App
+                    (select
+                      (Id)
+                      (attrpath
+                        (attr_identifier)))
+                    (Id))
+                  (BinaryOp
+                    (App
+                      (Id)
+                      (ERROR
+                        (UNEXPECTED '))
+                      (Num))
+                    (Num)))
+                (BinaryOp
+                  (Id)
+                  (Num)))
+              (BinaryOp
+                (Id)
+                (Num)))))))
+    (let
+      (ERROR
+        (Id)
+        (UNEXPECTED ')
+        (Id))
+      (bind
+        (attrpath
+          (Str
+            (StrChunk
+              (StrChunkLiteral))))
+        (RecRecord
+          (ERROR
+            (Id)
+            (UNEXPECTED ')
+            (Id)
+            (Id)
+            (UNEXPECTED ')
+            (Id))))
+      (let
+        (bind
+          (attrpath
+            (attr_identifier))
+          (RecRecord
+            (ERROR
+              (Id)
+              (UNEXPECTED ')
+              (Id)
+              (Id)
+              (UNEXPECTED ')
+              (Id)
+              (Id)
+              (UNEXPECTED ')
+              (Id)
+              (Id))))
+        (let
+          (bind
+            (attrpath
+              (attr_identifier))
+            (RecRecord
+              (ERROR
+                (Id)
+                (UNEXPECTED ')
+                (UNEXPECTED ')
+                (Id)
+                (Id)
+                (Id)
+                (UNEXPECTED ']')
+                (UNEXPECTED ')
+                (Id)
+                (Str
+                  (StrChunk
+                    (StrChunkLiteral)))
+                (UNEXPECTED '))
+              (bind
+                (attrpath
+                  (attr_identifier))
+                (IdEnumTag))
+              (ERROR
+                (Id)
+                (UNEXPECTED ')
+                (Id))
+              (bind
+                (attrpath
+                  (attr_identifier))
+                (RecRecord
+                  (ERROR
+                    (Id)
+                    (UNEXPECTED ')
+                    (Id)
+                    (attrpath
+                      (attr_identifier)
+                      (attr_identifier))
+                    (UNEXPECTED ')
+                    (Id))))
+              (bind
+                (attrpath
+                  (attr_identifier))
+                (RecRecord
+                  (ERROR
+                    (attrpath
+                      (attr_identifier)
+                      (ERROR
+                        (UNEXPECTED ')
+                        (Id))
+                      (attr_identifier))
+                    (UNEXPECTED ')
+                    (Id)
+                    (Str
+                      (StrChunk
+                        (StrChunkLiteral)))
+                    (UNEXPECTED '))
+                  (bind
+                    (attrpath
+                      (attr_identifier))
+                    (Num))
+                  (ERROR
+                    (attrpath
+                      (attr_identifier)
+                      (attr_identifier)
+                      (attr_identifier))
+                    (UNEXPECTED ')
+                    (Id))
+                  (bind
+                    (attrpath
+                      (attr_identifier))
+                    (RecRecord
+                      (ERROR
+                        (attrpath
+                          (attr_identifier)
+                          (attr_identifier)
+                          (attr_identifier))
+                        (UNEXPECTED ')
+                        (Id)
+                        (attrpath
+                          (attr_identifier)
+                          (attr_identifier))
+                        (UNEXPECTED ')
+                        (Id)
+                        (Id))))))))
+          (let
+            (bind
+              (attrpath
+                (attr_identifier))
+              (Str
+                (StrChunk
+                  (StrChunkLiteral))))
+            (let
+              (bind
+                (attrpath
+                  (attr_identifier))
+                (RecRecord
+                  (bind
+                    (attrpath
+                      (attr_identifier))
+                    (Id))
+                  (bind
+                    (attrpath
+                      (attr_identifier)
+                      (attr_identifier))
+                    (Id))))
+              (App
+                (RecRecord
+                  (bind
+                    (attrpath
+                      (attr_identifier))
+                    (IdEnumTag))
+                  (bind
+                    (attrpath
+                      (attr_identifier))
+                    (Str
+                      (StrChunk
+                        (StrChunkLiteral))))
+                  (bind
+                    (attrpath
+                      (attr_identifier))
+                    (Id))
+                  (bind
+                    (attrpath
+                      (attr_identifier))
+                    (RecRecord
+                      (bind
+                        (attrpath
+                          (attr_identifier))
+                        (Num))
+                      (bind
+                        (attrpath
+                          (attr_identifier))
+                        (RecRecord
+                          (bind
+                            (attrpath
+                              (attr_identifier)
+                              (attr_identifier))
+                            (Id))
+                          (bind
+                            (attrpath
+                              (attr_identifier)
+                              (attr_identifier))
+                            (Id))))
+                      (bind
+                        (attrpath
+                          (attr_identifier))
+                        (RecRecord
+                          (bind
+                            (attrpath
+                              (attr_identifier))
+                            (Id))
+                          (bind
+                            (attrpath
+                              (attr_identifier))
+                            (RecRecord
+                              (bind
+                                (attrpath
+                                  (attr_identifier))
+                                (Arr
+                                  (RecRecord
+                                    (bind
+                                      (attrpath
+                                        (attr_identifier))
+                                      (Id))
+                                    (bind
+                                      (attrpath
+                                        (attr_identifier))
+                                      (Str
+                                        (StrChunk
+                                          (StrChunkLiteral))
+                                        (StrChunk
+                                          (RichTerm
+                                            (Id)))
+                                        (StrChunk
+                                          (StrChunkLiteral))))
+                                    (bind
+                                      (attrpath
+                                        (attr_identifier))
+                                      (Arr
+                                        (RecRecord
+                                          (bind
+                                            (attrpath
+                                              (attr_identifier))
+                                            (Str
+                                              (StrChunk
+                                                (StrChunkLiteral))))
+                                          (bind
+                                            (attrpath
+                                              (attr_identifier))
+                                            (Num)))))))))))))))
+                (ERROR
+                  (UNEXPECTED '))
+                (Id)))))))))

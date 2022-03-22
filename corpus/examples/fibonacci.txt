@@ -1,0 +1,66 @@
+====================
+fibonacci.ncl
+====================
+
+# Currently, only record bindings are recursive. To use a recursive function,
+# one has to use a record.
+
+# This is the naive, exponential version of fibonacci: don't call it on a big
+# value!
+let fibonacci = {
+ f = fun n =>
+  if n == 0 then
+    0
+  else if n == 1 then
+    1
+  else
+    f (n - 1) + f (n - 2)
+}.f in
+fibonacci 10
+
+---
+
+(source_expression
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (let
+    (bind
+      (attrpath
+        (attr_identifier))
+      (select
+        (RecRecord
+          (bind
+            (attrpath
+              (attr_identifier))
+            (function
+              (Id)
+              (Ite
+                (BinaryOp
+                  (Id)
+                  (Num))
+                (Num)
+                (Ite
+                  (BinaryOp
+                    (Id)
+                    (Num))
+                  (Num)
+                  (BinaryOp
+                    (App
+                      (Id)
+                      (parenthesized
+                        (BinaryOp
+                          (Id)
+                          (Num))))
+                    (App
+                      (Id)
+                      (parenthesized
+                        (BinaryOp
+                          (Id)
+                          (Num))))))))))
+        (attrpath
+          (attr_identifier))))
+    (App
+      (Id)
+      (Num))))

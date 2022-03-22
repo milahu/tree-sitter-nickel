@@ -1,0 +1,82 @@
+====================
+main.ncl
+====================
+
+# Merge several blocks into one final configuration. In a real world case, one
+# would also want contracts to validate the shape of the data.
+let server = import "server.ncl" in
+let security = import "security.ncl" in
+# Disabling firewall in the final result
+server & security & {firewall.enabled = false}
+
+---
+
+(source_expression
+  (comment)
+  (comment)
+  (let
+    (bind
+      (attrpath
+        (attr_identifier))
+      (App
+        (Id)
+        (Str
+          (StrChunk
+            (StrChunkLiteral)))))
+    (let
+      (bind
+        (attrpath
+          (attr_identifier))
+        (App
+          (Id)
+          (Str
+            (StrChunk
+              (StrChunkLiteral)))))
+      (comment)
+      (BinaryOp
+        (Id)
+        (BinaryOp
+          (Id)
+          (RecRecord
+            (bind
+              (attrpath
+                (attr_identifier)
+                (attr_identifier))
+              (Bool))))))))
+
+====================
+server.ncl
+====================
+
+{
+  server.host.ip = "182.168.1.1",
+  server.host.port = 80,
+  server.host.name = "hello-world.net",
+}
+
+---
+
+(source_expression
+  (RecRecord
+    (bind
+      (attrpath
+        (attr_identifier)
+        (attr_identifier)
+        (attr_identifier))
+      (Str
+        (StrChunk
+          (StrChunkLiteral))))
+    (bind
+      (attrpath
+        (attr_identifier)
+        (attr_identifier)
+        (attr_identifier))
+      (Num))
+    (bind
+      (attrpath
+        (attr_identifier)
+        (attr_identifier)
+        (attr_identifier))
+      (Str
+        (StrChunk
+          (StrChunkLiteral))))))

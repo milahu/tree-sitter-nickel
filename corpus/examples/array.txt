@@ -1,0 +1,212 @@
+====================
+arrays.ncl
+====================
+
+# Example array functions. This code is illustrative: prefer using the array 
+# stdlib functions `array.map` and `array.fold` instead.
+let my_array_lib = {
+  map : forall a b. (a -> b) -> Array a -> Array b = fun f arr =>
+    if arr == [] then
+      []
+    else
+      let head = array.head arr in
+      let tail = array.tail arr in
+      [f head] @ map f tail,
+
+  fold : forall a b. (a -> b -> b) -> Array a -> b -> b =
+      fun f arr first =>
+        if arr == [] then
+          first
+        else
+          let head = array.head arr in
+          let tail = array.tail arr in
+          f head (fold f tail first),
+} in
+# Compute `7!`
+let l = my_array_lib.map (fun x => x+1) [1, 2, 3, 4, 5, 6] in
+my_array_lib.fold (fun x acc => x * acc) l 1
+
+---
+
+(source_expression
+  (comment)
+  (comment)
+  (let
+    (bind
+      (attrpath
+        (attr_identifier))
+      (ERROR
+        (ERROR
+          (Id)
+          (Id)
+          (Id))
+        (Id)
+        (parenthesized
+          (BinaryOp
+            (Id)
+            (Id)))
+        (BinaryOp
+          (App
+            (Id)
+            (Id))
+          (App
+            (Id)
+            (Id))))
+      (function
+        (ERROR
+          (Id))
+        (Id)
+        (Ite
+          (BinaryOp
+            (Id)
+            (Arr))
+          (Arr)
+          (let
+            (bind
+              (attrpath
+                (attr_identifier))
+              (App
+                (select
+                  (Id)
+                  (attrpath
+                    (attr_identifier)))
+                (Id)))
+            (let
+              (bind
+                (attrpath
+                  (attr_identifier))
+                (App
+                  (select
+                    (Id)
+                    (attrpath
+                      (attr_identifier)))
+                  (Id)))
+              (BinaryOp
+                (BinaryOp
+                  (Arr
+                    (ERROR
+                      (Id))
+                    (Id))
+                  (App
+                    (App
+                      (App
+                        (App
+                          (App
+                            (App
+                              (Id)
+                              (Id))
+                            (Id))
+                          (ERROR)
+                          (Type
+                            (Id)
+                            (Id)))
+                        (Id))
+                      (Id))
+                    (ERROR)
+                    (parenthesized
+                      (BinaryOp
+                        (Id)
+                        (BinaryOp
+                          (Id)
+                          (Id))))))
+                (BinaryOp
+                  (App
+                    (Id)
+                    (Id))
+                  (BinaryOp
+                    (Id)
+                    (BinaryOp
+                      (App
+                        (App
+                          (App
+                            (App
+                              (Id)
+                              (ERROR)
+                              (Id))
+                            (Id))
+                          (Id))
+                        (ERROR)
+                        (Id))
+                      (App
+                        (App
+                          (App
+                            (App
+                              (App
+                                (App
+                                  (App
+                                    (Arr)
+                                    (Id))
+                                  (Id))
+                                (Id))
+                              (Id))
+                            (Id))
+                          (ERROR)
+                          (select
+                            (Id)
+                            (attrpath
+                              (attr_identifier))))
+                        (Id)))))))))))
+    (let
+      (bind
+        (attrpath
+          (attr_identifier))
+        (App
+          (select
+            (Id)
+            (attrpath
+              (attr_identifier)))
+          (Id)))
+      (ERROR
+        (App
+          (App
+            (Id)
+            (Id))
+          (parenthesized
+            (App
+              (App
+                (App
+                  (Id)
+                  (Id))
+                (Id))
+              (Id)))))
+      (comment)
+      (let
+        (bind
+          (attrpath
+            (attr_identifier))
+          (App
+            (App
+              (select
+                (Id)
+                (attrpath
+                  (attr_identifier)))
+              (parenthesized
+                (function
+                  (Id)
+                  (BinaryOp
+                    (Id)
+                    (Num)))))
+            (Arr
+              (Num)
+              (Num)
+              (Num)
+              (Num)
+              (Num)
+              (Num))))
+        (App
+          (App
+            (App
+              (select
+                (Id)
+                (attrpath
+                  (attr_identifier)))
+              (parenthesized
+                (function
+                  (ERROR
+                    (Id))
+                  (Id)
+                  (BinaryOp
+                    (Id)
+                    (Id)))))
+            (Id))
+          (Num))))))

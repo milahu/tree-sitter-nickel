@@ -80,3 +80,50 @@ server.ncl
       (Str
         (StrChunk
           (StrChunkLiteral))))))
+
+====================
+security.ncl
+====================
+
+{
+  server.host.options = "TLS",
+
+  firewall.enabled | default = true,
+  firewall.type = "iptables",
+  firewall.open_ports = [21, 80, 443],
+}
+
+---
+
+(source_expression
+  (Record
+    (bind
+      (attrpath
+        (attr_identifier)
+        (attr_identifier)
+        (attr_identifier))
+      (Str
+        (StrChunk
+          (StrChunkLiteral))))
+    (bind
+      (attrpath
+        (attr_identifier)
+        (attr_identifier))
+      (Annot
+        (AnnotDefault))
+      (Bool))
+    (bind
+      (attrpath
+        (attr_identifier)
+        (attr_identifier))
+      (Str
+        (StrChunk
+          (StrChunkLiteral))))
+    (bind
+      (attrpath
+        (attr_identifier)
+        (attr_identifier))
+      (Arr
+        (Num)
+        (Num)
+        (Num)))))

@@ -297,13 +297,7 @@ module.exports = grammar({
 
     Record: $ => seq('{', optional(
       $._binds,
-      //seq(
-      //  $._binds,
-      //  //optional(','), // allow dangling comma, but not in empty record: {,} -> syntax error
-      //),
     ), '}'),
-    //let_record: $ => seq('let', '{', optional($._binds), '}'), // what is this...?
-    //rec_attrset: $ => seq('rec', '{', optional($._binds), '}'),
 
     StrChunkLiteral: $ => $._string_fragment,
 
@@ -385,10 +379,19 @@ module.exports = grammar({
       optional(','), // allow dangling comma after last bind
     ),
 
-    bind: $ => seq(field('attrpath', $.attrpath), '=', field('expression', $._expression)), // note: no ;
-    //inherit: $ => seq('inherit', field('attrs', $.attrs_inherited), ';'),
-    //inherit_from: $ =>
-    //  seq('inherit', '(', field('expression', $._expression), ')', field('attrs', $.attrs_inherited_from), ';'),
+    // NOTE: no ",". This is handled in the _binds rule
+    bind: $ => seq(field('attrpath', $.attrpath), optional(field('Annot', $.Annot)), '=', field('expression', $._expression)),
+
+    // NOTE: Is optional from the bind rule, repeat1 here to avoid matching
+    // the empty string
+    Annot: $ => repeat1($._AnnotAtom),
+
+    _AnnotAtom: $ =>
+      choice(
+        $.AnnotDefault
+      ),
+    
+    AnnotDefault: $ => seq("|", "default"),
 
     attrpath: $ => sep1(field('attr', choice(
       alias($.Id, $.attr_identifier),

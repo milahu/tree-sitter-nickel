@@ -78,6 +78,26 @@
     ]
   },
   {
+    "type": "Annot",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "AnnotDefault",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "AnnotDefault",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "App",
     "named": true,
     "fields": {
@@ -802,6 +822,16 @@
     "type": "bind",
     "named": true,
     "fields": {
+      "Annot": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "Annot",
+            "named": true
+          }
+        ]
+      },
       "attrpath": {
         "multiple": false,
         "required": true,
@@ -1301,6 +1331,10 @@
     "named": true
   },
   {
+    "type": "default",
+    "named": false
+  },
+  {
     "type": "else",
     "named": false
   },
@@ -1334,6 +1368,10 @@
   },
   {
     "type": "{",
+    "named": false
+  },
+  {
+    "type": "|",
     "named": false
   },
   {

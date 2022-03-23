@@ -61,7 +61,13 @@ number int
 
 ---
 
-(source_expression (Num))
+(term
+  (uni_term
+    (infix_expr
+      (applicative
+        (record_operand
+          (atom
+            (num_literal)))))))
 
 ====================
 number float
@@ -71,7 +77,13 @@ number float
 
 ---
 
-(source_expression (Num))
+(term
+  (uni_term
+    (infix_expr
+      (applicative
+        (record_operand
+          (atom
+            (num_literal)))))))
 
 ====================
 number int negative
@@ -81,7 +93,15 @@ number int negative
 
 ---
 
-(source_expression (UnaryOp (Num)))
+(term
+  (uni_term
+    (infix_expr
+      (infix_u_op
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (num_literal)))))))))
 
 ====================
 number float negative
@@ -91,7 +111,15 @@ number float negative
 
 ---
 
-(source_expression (UnaryOp (Num)))
+(term
+  (uni_term
+    (infix_expr
+      (infix_u_op
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (num_literal)))))))))
 
 ====================
 infix binary operator: plus int int
@@ -101,7 +129,20 @@ infix binary operator: plus int int
 
 ---
 
-(source_expression (BinaryOp (Num) (Num)))
+(term
+  (uni_term
+    (infix_expr
+      (infix_b_op
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (num_literal)))))
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (num_literal)))))))))
 
 ====================
 infix binary operator: plus int int: no space
@@ -111,7 +152,20 @@ infix binary operator: plus int int: no space
 
 ---
 
-(source_expression (BinaryOp (Num) (Num)))
+(term
+  (uni_term
+    (infix_expr
+      (infix_b_op
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (num_literal)))))
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (num_literal)))))))))
 
 ====================
 infix binary operator: plus int float
@@ -121,7 +175,20 @@ infix binary operator: plus int float
 
 ---
 
-(source_expression (BinaryOp (Num) (Num)))
+(term
+  (uni_term
+    (infix_expr
+      (infix_b_op
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (num_literal)))))
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (num_literal)))))))))
 
 ====================
 infix binary operator: plus int int int
@@ -131,15 +198,27 @@ infix binary operator: plus int int int
 
 ---
 
-(source_expression
-  (BinaryOp
-    (BinaryOp
-      (Num)
-      (Num)
-    )
-    (Num)
-  )
-)
+(term
+  (uni_term
+    (infix_expr
+      (infix_b_op
+        (infix_expr
+          (infix_b_op
+            (infix_expr
+              (applicative
+                (record_operand
+                  (atom
+                    (num_literal)))))
+            (infix_expr
+              (applicative
+                (record_operand
+                  (atom
+                    (num_literal)))))))
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (num_literal)))))))))
 
 ====================
 infix binary operator: minus int int
@@ -149,7 +228,20 @@ infix binary operator: minus int int
 
 ---
 
-(source_expression (BinaryOp (Num) (Num)))
+(term
+  (uni_term
+    (infix_expr
+      (infix_b_op
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (num_literal)))))
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (num_literal)))))))))
 
 ====================
 infix binary operator: minus id id

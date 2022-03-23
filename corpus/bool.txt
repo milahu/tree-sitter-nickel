@@ -1,85 +1,155 @@
-====================
+================================================================================
 bool true
-====================
+================================================================================
 
 true
 
----
+--------------------------------------------------------------------------------
 
-(source_expression (Bool))
+(term
+  (uni_term
+    (infix_expr
+      (applicative
+        (record_operand
+          (atom
+            (bool)))))))
 
-====================
+================================================================================
 bool false
-====================
+================================================================================
 
 false
 
----
+--------------------------------------------------------------------------------
 
-(source_expression (Bool))
+(term
+  (uni_term
+    (infix_expr
+      (applicative
+        (record_operand
+          (atom
+            (bool)))))))
 
-====================
+================================================================================
 bool &&
-====================
+================================================================================
 
 true && false
 
----
+--------------------------------------------------------------------------------
 
-(source_expression
-  (BinaryOp
-    (Bool)
-    (Bool)))
+(term
+  (uni_term
+    (infix_expr
+      (infix_b_op
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (bool)))))
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (bool)))))))))
 
-====================
+================================================================================
 bool ||
-====================
+================================================================================
 
 true || false
 
----
+--------------------------------------------------------------------------------
 
-(source_expression
-  (BinaryOp
-    (Bool)
-    (Bool)))
+(term
+  (uni_term
+    (infix_expr
+      (infix_b_op
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (bool)))))
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (bool)))))))))
 
-====================
+================================================================================
 bool nested
-====================
+================================================================================
 
 true || false && true
 
----
+--------------------------------------------------------------------------------
 
-(source_expression
-  (BinaryOp
-    (Bool)
-    (BinaryOp
-      (Bool)
-      (Bool))))
+(term
+  (uni_term
+    (infix_expr
+      (infix_b_op
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (bool)))))
+        (infix_expr
+          (infix_b_op
+            (infix_expr
+              (applicative
+                (record_operand
+                  (atom
+                    (bool)))))
+            (infix_expr
+              (applicative
+                (record_operand
+                  (atom
+                    (bool)))))))))))
 
-====================
+================================================================================
 bool negate
-====================
+================================================================================
 
 !true
 
----
+--------------------------------------------------------------------------------
 
-(source_expression
-  (UnaryOp (Bool)))
+(term
+  (uni_term
+    (infix_expr
+      (infix_u_op
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (bool)))))))))
 
-====================
-bool negate
-====================
+================================================================================
+bool negate parentheses
+================================================================================
 
 !(true && false)
 
----
+--------------------------------------------------------------------------------
 
-(source_expression
-  (UnaryOp (parenthesized
-    (BinaryOp
-      (Bool)
-      (Bool)))))
+(term
+  (uni_term
+    (infix_expr
+      (infix_u_op
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (uni_term
+                  (infix_expr
+                    (infix_b_op
+                      (infix_expr
+                        (applicative
+                          (record_operand
+                            (atom
+                              (bool)))))
+                      (infix_expr
+                        (applicative
+                          (record_operand
+                            (atom
+                              (bool))))))))))))))))

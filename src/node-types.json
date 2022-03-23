@@ -1,84 +1,6 @@
 [
   {
-    "type": "_expression",
-    "named": true,
-    "subtypes": [
-      {
-        "type": "App",
-        "named": true
-      },
-      {
-        "type": "Arr",
-        "named": true
-      },
-      {
-        "type": "BinaryOp",
-        "named": true
-      },
-      {
-        "type": "Bool",
-        "named": true
-      },
-      {
-        "type": "Id",
-        "named": true
-      },
-      {
-        "type": "IdBuiltinFun",
-        "named": true
-      },
-      {
-        "type": "IdEnumTag",
-        "named": true
-      },
-      {
-        "type": "Ite",
-        "named": true
-      },
-      {
-        "type": "MultiStr",
-        "named": true
-      },
-      {
-        "type": "Num",
-        "named": true
-      },
-      {
-        "type": "Record",
-        "named": true
-      },
-      {
-        "type": "Str",
-        "named": true
-      },
-      {
-        "type": "Type",
-        "named": true
-      },
-      {
-        "type": "UnaryOp",
-        "named": true
-      },
-      {
-        "type": "function",
-        "named": true
-      },
-      {
-        "type": "let",
-        "named": true
-      },
-      {
-        "type": "parenthesized",
-        "named": true
-      },
-      {
-        "type": "select",
-        "named": true
-      }
-    ]
-  },
-  {
-    "type": "Annot",
+    "type": "applicative",
     "named": true,
     "fields": {},
     "children": {
@@ -86,197 +8,54 @@
       "required": true,
       "types": [
         {
-          "type": "AnnotDefault",
+          "type": "applicative",
+          "named": true
+        },
+        {
+          "type": "record_operand",
+          "named": true
+        },
+        {
+          "type": "static_string",
+          "named": true
+        },
+        {
+          "type": "type_array",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "AnnotDefault",
+    "type": "atom",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "bool",
+          "named": true
+        },
+        {
+          "type": "num_literal",
+          "named": true
+        },
+        {
+          "type": "uni_term",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "bool",
     "named": true,
     "fields": {}
   },
   {
-    "type": "App",
-    "named": true,
-    "fields": {
-      "argument": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "Arr",
-            "named": true
-          },
-          {
-            "type": "Bool",
-            "named": true
-          },
-          {
-            "type": "Id",
-            "named": true
-          },
-          {
-            "type": "IdBuiltinFun",
-            "named": true
-          },
-          {
-            "type": "IdEnumTag",
-            "named": true
-          },
-          {
-            "type": "MultiStr",
-            "named": true
-          },
-          {
-            "type": "Num",
-            "named": true
-          },
-          {
-            "type": "Record",
-            "named": true
-          },
-          {
-            "type": "Str",
-            "named": true
-          },
-          {
-            "type": "Type",
-            "named": true
-          },
-          {
-            "type": "parenthesized",
-            "named": true
-          },
-          {
-            "type": "select",
-            "named": true
-          }
-        ]
-      },
-      "function": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "App",
-            "named": true
-          },
-          {
-            "type": "Arr",
-            "named": true
-          },
-          {
-            "type": "Bool",
-            "named": true
-          },
-          {
-            "type": "Id",
-            "named": true
-          },
-          {
-            "type": "IdBuiltinFun",
-            "named": true
-          },
-          {
-            "type": "IdEnumTag",
-            "named": true
-          },
-          {
-            "type": "MultiStr",
-            "named": true
-          },
-          {
-            "type": "Num",
-            "named": true
-          },
-          {
-            "type": "Record",
-            "named": true
-          },
-          {
-            "type": "Str",
-            "named": true
-          },
-          {
-            "type": "Type",
-            "named": true
-          },
-          {
-            "type": "parenthesized",
-            "named": true
-          },
-          {
-            "type": "select",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "Arr",
-    "named": true,
-    "fields": {
-      "element": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "Arr",
-            "named": true
-          },
-          {
-            "type": "Bool",
-            "named": true
-          },
-          {
-            "type": "Id",
-            "named": true
-          },
-          {
-            "type": "IdBuiltinFun",
-            "named": true
-          },
-          {
-            "type": "IdEnumTag",
-            "named": true
-          },
-          {
-            "type": "MultiStr",
-            "named": true
-          },
-          {
-            "type": "Num",
-            "named": true
-          },
-          {
-            "type": "Record",
-            "named": true
-          },
-          {
-            "type": "Str",
-            "named": true
-          },
-          {
-            "type": "Type",
-            "named": true
-          },
-          {
-            "type": "parenthesized",
-            "named": true
-          },
-          {
-            "type": "select",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "BinaryOp",
+    "type": "infix_b_op",
     "named": true,
     "fields": {
       "left": {
@@ -284,63 +63,7 @@
         "required": true,
         "types": [
           {
-            "type": "App",
-            "named": true
-          },
-          {
-            "type": "Arr",
-            "named": true
-          },
-          {
-            "type": "BinaryOp",
-            "named": true
-          },
-          {
-            "type": "Bool",
-            "named": true
-          },
-          {
-            "type": "Id",
-            "named": true
-          },
-          {
-            "type": "IdBuiltinFun",
-            "named": true
-          },
-          {
-            "type": "IdEnumTag",
-            "named": true
-          },
-          {
-            "type": "MultiStr",
-            "named": true
-          },
-          {
-            "type": "Num",
-            "named": true
-          },
-          {
-            "type": "Record",
-            "named": true
-          },
-          {
-            "type": "Str",
-            "named": true
-          },
-          {
-            "type": "Type",
-            "named": true
-          },
-          {
-            "type": "UnaryOp",
-            "named": true
-          },
-          {
-            "type": "parenthesized",
-            "named": true
-          },
-          {
-            "type": "select",
+            "type": "infix_expr",
             "named": true
           }
         ]
@@ -420,63 +143,7 @@
         "required": true,
         "types": [
           {
-            "type": "App",
-            "named": true
-          },
-          {
-            "type": "Arr",
-            "named": true
-          },
-          {
-            "type": "BinaryOp",
-            "named": true
-          },
-          {
-            "type": "Bool",
-            "named": true
-          },
-          {
-            "type": "Id",
-            "named": true
-          },
-          {
-            "type": "IdBuiltinFun",
-            "named": true
-          },
-          {
-            "type": "IdEnumTag",
-            "named": true
-          },
-          {
-            "type": "MultiStr",
-            "named": true
-          },
-          {
-            "type": "Num",
-            "named": true
-          },
-          {
-            "type": "Record",
-            "named": true
-          },
-          {
-            "type": "Str",
-            "named": true
-          },
-          {
-            "type": "Type",
-            "named": true
-          },
-          {
-            "type": "UnaryOp",
-            "named": true
-          },
-          {
-            "type": "parenthesized",
-            "named": true
-          },
-          {
-            "type": "select",
+            "type": "infix_expr",
             "named": true
           }
         ]
@@ -484,153 +151,7 @@
     }
   },
   {
-    "type": "Ite",
-    "named": true,
-    "fields": {
-      "alternative": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          }
-        ]
-      },
-      "condition": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          }
-        ]
-      },
-      "consequence": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "MultiStr",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "MultiStrEnd",
-          "named": true
-        },
-        {
-          "type": "MultiStrIpol",
-          "named": true
-        },
-        {
-          "type": "MultiStrLiteral",
-          "named": true
-        },
-        {
-          "type": "MultiStrStart",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "MultiStrEnd",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "MultiStrIpol",
-    "named": true,
-    "fields": {
-      "expression": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "MultiStrLiteral",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "MultiStrStart",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "Num",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "Record",
-    "named": true,
-    "fields": {
-      "bind": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "bind",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "RichTerm",
-    "named": true,
-    "fields": {
-      "expression": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "Str",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "StrChunk",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "StrChunk",
+    "type": "infix_expr",
     "named": true,
     "fields": {},
     "children": {
@@ -638,78 +159,22 @@
       "required": true,
       "types": [
         {
-          "type": "RichTerm",
+          "type": "applicative",
           "named": true
         },
         {
-          "type": "StrChunkLiteral",
+          "type": "infix_b_op",
+          "named": true
+        },
+        {
+          "type": "infix_u_op",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "StrChunkLiteral",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "Type",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "Arr",
-          "named": true
-        },
-        {
-          "type": "Bool",
-          "named": true
-        },
-        {
-          "type": "Id",
-          "named": true
-        },
-        {
-          "type": "IdBuiltinFun",
-          "named": true
-        },
-        {
-          "type": "IdEnumTag",
-          "named": true
-        },
-        {
-          "type": "MultiStr",
-          "named": true
-        },
-        {
-          "type": "Num",
-          "named": true
-        },
-        {
-          "type": "Record",
-          "named": true
-        },
-        {
-          "type": "Str",
-          "named": true
-        },
-        {
-          "type": "Type",
-          "named": true
-        },
-        {
-          "type": "parenthesized",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "UnaryOp",
+    "type": "infix_u_op",
     "named": true,
     "fields": {
       "argument": {
@@ -717,63 +182,7 @@
         "required": true,
         "types": [
           {
-            "type": "App",
-            "named": true
-          },
-          {
-            "type": "Arr",
-            "named": true
-          },
-          {
-            "type": "BinaryOp",
-            "named": true
-          },
-          {
-            "type": "Bool",
-            "named": true
-          },
-          {
-            "type": "Id",
-            "named": true
-          },
-          {
-            "type": "IdBuiltinFun",
-            "named": true
-          },
-          {
-            "type": "IdEnumTag",
-            "named": true
-          },
-          {
-            "type": "MultiStr",
-            "named": true
-          },
-          {
-            "type": "Num",
-            "named": true
-          },
-          {
-            "type": "Record",
-            "named": true
-          },
-          {
-            "type": "Str",
-            "named": true
-          },
-          {
-            "type": "Type",
-            "named": true
-          },
-          {
-            "type": "UnaryOp",
-            "named": true
-          },
-          {
-            "type": "parenthesized",
-            "named": true
-          },
-          {
-            "type": "select",
+            "type": "infix_expr",
             "named": true
           }
         ]
@@ -795,403 +204,78 @@
     }
   },
   {
-    "type": "attrpath",
+    "type": "record_operand",
     "named": true,
-    "fields": {
-      "attr": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "RichTerm",
-            "named": true
-          },
-          {
-            "type": "Str",
-            "named": true
-          },
-          {
-            "type": "attr_identifier",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "bind",
-    "named": true,
-    "fields": {
-      "Annot": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "Annot",
-            "named": true
-          }
-        ]
-      },
-      "attrpath": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "attrpath",
-            "named": true
-          }
-        ]
-      },
-      "expression": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "function",
-    "named": true,
-    "fields": {
-      "body": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "App",
-            "named": true
-          },
-          {
-            "type": "Arr",
-            "named": true
-          },
-          {
-            "type": "BinaryOp",
-            "named": true
-          },
-          {
-            "type": "Bool",
-            "named": true
-          },
-          {
-            "type": "Id",
-            "named": true
-          },
-          {
-            "type": "IdBuiltinFun",
-            "named": true
-          },
-          {
-            "type": "IdEnumTag",
-            "named": true
-          },
-          {
-            "type": "Ite",
-            "named": true
-          },
-          {
-            "type": "MultiStr",
-            "named": true
-          },
-          {
-            "type": "Num",
-            "named": true
-          },
-          {
-            "type": "Record",
-            "named": true
-          },
-          {
-            "type": "Str",
-            "named": true
-          },
-          {
-            "type": "Type",
-            "named": true
-          },
-          {
-            "type": "UnaryOp",
-            "named": true
-          },
-          {
-            "type": "function",
-            "named": true
-          },
-          {
-            "type": "let",
-            "named": true
-          },
-          {
-            "type": "parenthesized",
-            "named": true
-          },
-          {
-            "type": "select",
-            "named": true
-          }
-        ]
-      },
-      "universal": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "Id",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "let",
-    "named": true,
-    "fields": {
-      "body": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "App",
-            "named": true
-          },
-          {
-            "type": "Arr",
-            "named": true
-          },
-          {
-            "type": "BinaryOp",
-            "named": true
-          },
-          {
-            "type": "Bool",
-            "named": true
-          },
-          {
-            "type": "Id",
-            "named": true
-          },
-          {
-            "type": "IdBuiltinFun",
-            "named": true
-          },
-          {
-            "type": "IdEnumTag",
-            "named": true
-          },
-          {
-            "type": "Ite",
-            "named": true
-          },
-          {
-            "type": "MultiStr",
-            "named": true
-          },
-          {
-            "type": "Num",
-            "named": true
-          },
-          {
-            "type": "Record",
-            "named": true
-          },
-          {
-            "type": "Str",
-            "named": true
-          },
-          {
-            "type": "Type",
-            "named": true
-          },
-          {
-            "type": "UnaryOp",
-            "named": true
-          },
-          {
-            "type": "function",
-            "named": true
-          },
-          {
-            "type": "let",
-            "named": true
-          },
-          {
-            "type": "parenthesized",
-            "named": true
-          },
-          {
-            "type": "select",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "bind",
+          "type": "atom",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "parenthesized",
+    "type": "static_string",
     "named": true,
-    "fields": {
-      "expression": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "chunk_literal",
+          "named": true
+        }
+      ]
     }
   },
   {
-    "type": "select",
+    "type": "term",
     "named": true,
-    "fields": {
-      "attrpath": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "attrpath",
-            "named": true
-          }
-        ]
-      },
-      "default": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "Arr",
-            "named": true
-          },
-          {
-            "type": "Bool",
-            "named": true
-          },
-          {
-            "type": "Id",
-            "named": true
-          },
-          {
-            "type": "IdBuiltinFun",
-            "named": true
-          },
-          {
-            "type": "IdEnumTag",
-            "named": true
-          },
-          {
-            "type": "MultiStr",
-            "named": true
-          },
-          {
-            "type": "Num",
-            "named": true
-          },
-          {
-            "type": "Record",
-            "named": true
-          },
-          {
-            "type": "Str",
-            "named": true
-          },
-          {
-            "type": "Type",
-            "named": true
-          },
-          {
-            "type": "parenthesized",
-            "named": true
-          },
-          {
-            "type": "select",
-            "named": true
-          }
-        ]
-      },
-      "expression": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "Arr",
-            "named": true
-          },
-          {
-            "type": "Bool",
-            "named": true
-          },
-          {
-            "type": "Id",
-            "named": true
-          },
-          {
-            "type": "IdBuiltinFun",
-            "named": true
-          },
-          {
-            "type": "IdEnumTag",
-            "named": true
-          },
-          {
-            "type": "MultiStr",
-            "named": true
-          },
-          {
-            "type": "Num",
-            "named": true
-          },
-          {
-            "type": "Record",
-            "named": true
-          },
-          {
-            "type": "Str",
-            "named": true
-          },
-          {
-            "type": "Type",
-            "named": true
-          },
-          {
-            "type": "parenthesized",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "uni_term",
+          "named": true
+        }
+      ]
     }
   },
   {
-    "type": "source_expression",
+    "type": "type_array",
     "named": true,
-    "fields": {
-      "expression": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "record_operand",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "uni_term",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "infix_expr",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1204,14 +288,6 @@
   },
   {
     "type": "\"",
-    "named": false
-  },
-  {
-    "type": "\"%",
-    "named": false
-  },
-  {
-    "type": "%{",
     "named": false
   },
   {
@@ -1243,10 +319,6 @@
     "named": false
   },
   {
-    "type": ",",
-    "named": false
-  },
-  {
     "type": "-",
     "named": false
   },
@@ -1255,15 +327,7 @@
     "named": false
   },
   {
-    "type": ".",
-    "named": false
-  },
-  {
     "type": "/",
-    "named": false
-  },
-  {
-    "type": ":",
     "named": false
   },
   {
@@ -1275,15 +339,7 @@
     "named": false
   },
   {
-    "type": "=",
-    "named": false
-  },
-  {
     "type": "==",
-    "named": false
-  },
-  {
-    "type": "=>",
     "named": false
   },
   {
@@ -1299,31 +355,11 @@
     "named": false
   },
   {
-    "type": "Bool",
-    "named": true
-  },
-  {
-    "type": "Id",
-    "named": true
-  },
-  {
-    "type": "IdBuiltinFun",
-    "named": true
-  },
-  {
-    "type": "IdEnumTag",
-    "named": true
-  },
-  {
-    "type": "[",
+    "type": "Array",
     "named": false
   },
   {
-    "type": "]",
-    "named": false
-  },
-  {
-    "type": "attr_identifier",
+    "type": "chunk_literal",
     "named": true
   },
   {
@@ -1331,55 +367,27 @@
     "named": true
   },
   {
-    "type": "default",
+    "type": "false",
     "named": false
   },
   {
-    "type": "else",
+    "type": "import",
     "named": false
   },
   {
-    "type": "fun",
+    "type": "null",
     "named": false
   },
   {
-    "type": "if",
-    "named": false
+    "type": "num_literal",
+    "named": true
   },
   {
-    "type": "in",
-    "named": false
-  },
-  {
-    "type": "let",
-    "named": false
-  },
-  {
-    "type": "m%",
-    "named": false
-  },
-  {
-    "type": "or",
-    "named": false
-  },
-  {
-    "type": "then",
-    "named": false
-  },
-  {
-    "type": "{",
-    "named": false
-  },
-  {
-    "type": "|",
+    "type": "true",
     "named": false
   },
   {
     "type": "||",
-    "named": false
-  },
-  {
-    "type": "}",
     "named": false
   }
 ]

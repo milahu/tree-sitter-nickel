@@ -5,6 +5,10 @@
 // will not see rules in this grammar that match on all builtin function
 // seperately.
 
+// NOTE[typerule] In the lalrpop grammar there is a FixedType rule that is just
+// a Types rule, but with post-processing. We don't do any post-processing in
+// tree-sitter, so we just parse them as a `Types`.
+
 // Precedence values are taken from lalrpop grammar
 // https://github.com/tweag/nickel/blob/master/src/grammar.lalrpop
 // In lalrpop the highest precedence is 0.
@@ -82,6 +86,23 @@ module.exports = grammar({
     ////////////////////////////
     // PARSER RULES (grammar.lalrpop)
     ////////////////////////////
+    // In the lalrpop grammar this (and the annot)-rule(s) are parameterized.
+    // See NOTE[typerule].
+    annot_atom: $ => choice(
+      seq("|", $.types),
+      seq("|", "default"),
+      seq("|", "doc", $.static_string),
+      seq(":", $.types),
+    ),
+
+    // See NOTE[typerule].
+    annot: $ => repeat1($.annot_atom),
+
+    types: $ => choice(
+      $.infix_expr,
+      $.forall,
+    ),
+
     uni_term: $ => choice(
       $.infix_expr,
       // NOTE: We seperate the rules out into their own, otherwise it would get
@@ -89,12 +110,21 @@ module.exports = grammar({
       //TODO
       //$.annotated_infix_expr,
       //$.forall,
-      //$.let_expr,
+      $.let_expr,
       //$.fun_expr,
       //$.switch_expr,
       $.ite_expr, // if then else
     ),
 
+    let_expr: $ => seq(
+      "let",
+      $.pattern,
+      optional($.annot),
+      "=",
+      $.term,
+      "in",
+      $.term,
+    ),
     ite_expr: $ => seq(
       "if",
       $.term,
@@ -102,6 +132,13 @@ module.exports = grammar({
       $.term,
       "else",
       $.term,
+    ),
+
+    forall: $ => seq(
+      "forall",
+      repeat1($.ident),
+      ".",
+      $.types,
     ),
 
     applicative: $ => choice(
@@ -126,6 +163,14 @@ module.exports = grammar({
       //$.record_operation_chain,
     ),
 
+    uni_record: $ => seq(
+      "{",
+      repeat(seq($.record_field, ",")),
+      optional($.record_last_field),
+      optional(";"),
+      "}",
+    ),
+
     atom: $ => choice(
       // TODO
       //parens($.curried_op),
@@ -137,10 +182,51 @@ module.exports = grammar({
       $.ident,
       // DIFERENT from lalrpop grammar. See NOTE[builtin].
       $.builtin,
+      $.uni_record,
       seq("`", $.enum_tag),
       // NOTE: Arrays may have a trailing comma in Nickel
       square(seq(commaSep($.term), optional(","))),
       //$.type_atom,
+    ),
+
+    record_field: $ => seq(
+      $.field_path,
+      optional($.annot),
+      optional(seq("=", $.term)),
+    ),
+
+    record_last_field: $ => choice(
+      $.record_field,
+      "..",
+    ),
+
+    field_path: $ => sep1($.field_path_elem, "."),
+
+    field_path_elem: $ => choice(
+      $.ident,
+      //TODO
+      //$.str_chunks,
+    ),
+
+    // The right hand side of an `=` inside a destructuring pattern.
+    pattern: $ => choice(
+      seq(optional(seq($.ident, "@")), $.destruct),
+      $.ident,
+    ),
+
+    destruct: $ => seq(
+      "{",
+      seq(commaSep($.match), optional(",")),
+      "}",
+    ),
+
+    match: $ => seq(
+      $.ident,
+      optional($.annot),
+      //TODO
+      //optional($.default_annot),
+      "=",
+      $.pattern,
     ),
 
     bool: _ => choice(

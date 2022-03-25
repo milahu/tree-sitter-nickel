@@ -53,7 +53,14 @@ identifier (enum tag)
 
 ---
 
-(source_expression (IdEnumTag))
+(term
+  (uni_term
+    (infix_expr
+      (applicative
+        (record_operand
+          (atom
+            (enum_tag
+              (ident))))))))
 
 ====================
 identifier (builtin function)

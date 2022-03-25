@@ -39,6 +39,10 @@
           "named": true
         },
         {
+          "type": "enum_tag",
+          "named": true
+        },
+        {
           "type": "ident",
           "named": true
         },
@@ -57,6 +61,25 @@
     "type": "bool",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "enum_tag",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "static_string",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "infix_b_op",
@@ -360,6 +383,10 @@
   },
   {
     "type": "Array",
+    "named": false
+  },
+  {
+    "type": "`",
     "named": false
   },
   {

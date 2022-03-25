@@ -87,23 +87,57 @@ module.exports = grammar({
       //let_expr,
     ),
 
-    infix_expr: $ => choice(
-      prec(0, $.applicative),
-      $.infix_u_op,
-      $.infix_b_op,
+    applicative: $ => choice(
+      seq("import", $.static_string),
+      $.type_array,
+      seq($.applicative, $.record_operand),
+      // TODO
+      // BOpPre?
+      // NOpPre?
+      $.record_operand,
     ),
 
-    // Combines all InfixUOps from the lalrpop grammar
-    infix_u_op: $ => choice(
-      ...[
-        ['!', PREC.BoolNot],
-        ['-', PREC.Negate],
-      ].map(([operator, precedence]) =>
-        prec(precedence, seq(
-          field('operator', operator),
-          field('argument', $.infix_expr)
-        ))
-      )
+    type_array: $ => seq("Array", $.record_operand),
+
+    record_operand: $ => choice(
+      $.atom,
+      // TODO
+      //$.record_operation_chain,
+    ),
+
+    atom: $ => choice(
+      // TODO
+      //parens($.curried_op),
+      parens($.uni_term),
+      $.num_literal,
+      "null",
+      $.bool,
+      //$.str_chunks,
+      $.ident,
+      seq("`", $.enum_tag),
+      //square(repeat($.term)),
+      //$.type_atom,
+    ),
+
+    bool: _ => choice(
+      "true",
+      "false",
+    ),
+
+    // TODO: Replace with proper representation
+    chunk_literal: _ => /[0-9a-zA-Z]*/,
+			//repeat1($.chunk_literal_part),
+
+    static_string: $ => choice(
+      // Single line
+      seq("\"", optional($.chunk_literal), "\""),
+      // TODO: Multi line
+      //seq("m%\"", optional($.chunk_literal), "\""),
+    ),
+
+    enum_tag: $ => choice(
+      $.ident,
+      $.static_string,
     ),
 
     infix_b_op: $ => choice(
@@ -141,53 +175,25 @@ module.exports = grammar({
       )))
     ),
 
-    applicative: $ => choice(
-      seq("import", $.static_string),
-      $.type_array,
-      seq($.applicative, $.record_operand),
-      // TODO
-      // BOpPre?
-      // NOpPre?
-      $.record_operand,
+    // Combines all InfixUOps from the lalrpop grammar
+    infix_u_op: $ => choice(
+      ...[
+        ['!', PREC.BoolNot],
+        ['-', PREC.Negate],
+      ].map(([operator, precedence]) =>
+        prec(precedence, seq(
+          field('operator', operator),
+          field('argument', $.infix_expr)
+        ))
+      )
     ),
 
-    static_string: $ => choice(
-      // Single line
-      seq("\"", optional($.chunk_literal), "\""),
-      // TODO: Multi line
-      //seq("m%\"", optional($.chunk_literal), "\""),
+    infix_expr: $ => choice(
+      prec(0, $.applicative),
+      $.infix_u_op,
+      $.infix_b_op,
     ),
 
-    type_array: $ => seq("Array", $.record_operand),
-
-    record_operand: $ => choice(
-      $.atom,
-      // TODO
-      //$.record_operation_chain,
-    ),
-
-    atom: $ => choice(
-      // TODO
-      //parens($.curried_op),
-      parens($.uni_term),
-      $.num_literal,
-      "null",
-      $.bool,
-      //$.str_chunks,
-      $.ident,
-      //seq("`", $.num_tag),
-      //square(repeat($.term)),
-      //$.type_atom,
-    ),
-
-    bool: _ => choice(
-      "true",
-      "false",
-    ),
-
-    // TODO: Replace with proper representation
-    chunk_literal: _ => /[0-9a-zA-Z]*/,
-			//repeat1($.chunk_literal_part),
   },
 });
 

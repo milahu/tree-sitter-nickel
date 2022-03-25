@@ -48,79 +48,175 @@
         }
       ]
     },
-    "infix_expr": {
+    "applicative": {
       "type": "CHOICE",
       "members": [
         {
-          "type": "PREC",
-          "value": 0,
-          "content": {
-            "type": "SYMBOL",
-            "name": "applicative"
-          }
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "import"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "static_string"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
-          "name": "infix_u_op"
+          "name": "type_array"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "applicative"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "record_operand"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
-          "name": "infix_b_op"
+          "name": "record_operand"
         }
       ]
     },
-    "infix_u_op": {
+    "type_array": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "Array"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "record_operand"
+        }
+      ]
+    },
+    "record_operand": {
       "type": "CHOICE",
       "members": [
         {
-          "type": "PREC",
-          "value": -5,
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "FIELD",
-                "name": "operator",
-                "content": {
-                  "type": "STRING",
-                  "value": "!"
-                }
-              },
-              {
-                "type": "FIELD",
-                "name": "argument",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "infix_expr"
-                }
-              }
-            ]
-          }
+          "type": "SYMBOL",
+          "name": "atom"
+        }
+      ]
+    },
+    "atom": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "("
+            },
+            {
+              "type": "SYMBOL",
+              "name": "uni_term"
+            },
+            {
+              "type": "STRING",
+              "value": ")"
+            }
+          ]
         },
         {
-          "type": "PREC",
-          "value": -1,
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "FIELD",
-                "name": "operator",
-                "content": {
-                  "type": "STRING",
-                  "value": "-"
-                }
-              },
-              {
-                "type": "FIELD",
-                "name": "argument",
-                "content": {
+          "type": "SYMBOL",
+          "name": "num_literal"
+        },
+        {
+          "type": "STRING",
+          "value": "null"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "bool"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ident"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "`"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "enum_tag"
+            }
+          ]
+        }
+      ]
+    },
+    "bool": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "true"
+        },
+        {
+          "type": "STRING",
+          "value": "false"
+        }
+      ]
+    },
+    "chunk_literal": {
+      "type": "PATTERN",
+      "value": "[0-9a-zA-Z]*"
+    },
+    "static_string": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "\""
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
                   "type": "SYMBOL",
-                  "name": "infix_expr"
+                  "name": "chunk_literal"
+                },
+                {
+                  "type": "BLANK"
                 }
-              }
-            ]
-          }
+              ]
+            },
+            {
+              "type": "STRING",
+              "value": "\""
+            }
+          ]
+        }
+      ]
+    },
+    "enum_tag": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "ident"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "static_string"
         }
       ]
     },
@@ -657,151 +753,81 @@
         }
       ]
     },
-    "applicative": {
+    "infix_u_op": {
       "type": "CHOICE",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "import"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "static_string"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "type_array"
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "applicative"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "record_operand"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "record_operand"
-        }
-      ]
-    },
-    "static_string": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "\""
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "chunk_literal"
-                },
-                {
-                  "type": "BLANK"
+          "type": "PREC",
+          "value": -5,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "operator",
+                "content": {
+                  "type": "STRING",
+                  "value": "!"
                 }
-              ]
-            },
-            {
-              "type": "STRING",
-              "value": "\""
-            }
-          ]
-        }
-      ]
-    },
-    "type_array": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "Array"
+              },
+              {
+                "type": "FIELD",
+                "name": "argument",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "infix_expr"
+                }
+              }
+            ]
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "record_operand"
+          "type": "PREC",
+          "value": -1,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "operator",
+                "content": {
+                  "type": "STRING",
+                  "value": "-"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "argument",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "infix_expr"
+                }
+              }
+            ]
+          }
         }
       ]
     },
-    "record_operand": {
+    "infix_expr": {
       "type": "CHOICE",
       "members": [
         {
+          "type": "PREC",
+          "value": 0,
+          "content": {
+            "type": "SYMBOL",
+            "name": "applicative"
+          }
+        },
+        {
           "type": "SYMBOL",
-          "name": "atom"
+          "name": "infix_u_op"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "infix_b_op"
         }
       ]
-    },
-    "atom": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "("
-            },
-            {
-              "type": "SYMBOL",
-              "name": "uni_term"
-            },
-            {
-              "type": "STRING",
-              "value": ")"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "num_literal"
-        },
-        {
-          "type": "STRING",
-          "value": "null"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "bool"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "ident"
-        }
-      ]
-    },
-    "bool": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "true"
-        },
-        {
-          "type": "STRING",
-          "value": "false"
-        }
-      ]
-    },
-    "chunk_literal": {
-      "type": "PATTERN",
-      "value": "[0-9a-zA-Z]*"
     }
   },
   "extras": [

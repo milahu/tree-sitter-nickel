@@ -31,7 +31,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
@@ -52,6 +52,10 @@
         },
         {
           "type": "num_literal",
+          "named": true
+        },
+        {
+          "type": "term",
           "named": true
         },
         {
@@ -369,6 +373,10 @@
     "named": false
   },
   {
+    "type": ",",
+    "named": false
+  },
+  {
     "type": "-",
     "named": false
   },
@@ -406,6 +414,14 @@
   },
   {
     "type": "Array",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
     "named": false
   },
   {

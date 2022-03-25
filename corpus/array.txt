@@ -1,16 +1,21 @@
-====================
+================================================================================
 array (empty)
-====================
+================================================================================
 
 [ ]
 
----
+--------------------------------------------------------------------------------
 
-(source_expression (Arr))
+(term
+  (uni_term
+    (infix_expr
+      (applicative
+        (record_operand
+          (atom))))))
 
-====================
+================================================================================
 array (id number number)
-====================
+================================================================================
 
 [
   a,
@@ -18,19 +23,39 @@ array (id number number)
   2.0
 ]
 
----
+--------------------------------------------------------------------------------
 
-(source_expression
-  (Arr
-    (Id)
-    (Num)
-    (Num)
-  )
-)
+(term
+  (uni_term
+    (infix_expr
+      (applicative
+        (record_operand
+          (atom
+            (term
+              (uni_term
+                (infix_expr
+                  (applicative
+                    (record_operand
+                      (atom
+                        (ident)))))))
+            (term
+              (uni_term
+                (infix_expr
+                  (applicative
+                    (record_operand
+                      (atom
+                        (num_literal)))))))
+            (term
+              (uni_term
+                (infix_expr
+                  (applicative
+                    (record_operand
+                      (atom
+                        (num_literal)))))))))))))
 
-====================
+================================================================================
 array (id number number) (with dangling comma)
-====================
+================================================================================
 
 [
   a,
@@ -38,12 +63,32 @@ array (id number number) (with dangling comma)
   2.0,
 ]
 
----
+--------------------------------------------------------------------------------
 
-(source_expression
-  (Arr
-    (Id)
-    (Num)
-    (Num)
-  )
-)
+(term
+  (uni_term
+    (infix_expr
+      (applicative
+        (record_operand
+          (atom
+            (term
+              (uni_term
+                (infix_expr
+                  (applicative
+                    (record_operand
+                      (atom
+                        (ident)))))))
+            (term
+              (uni_term
+                (infix_expr
+                  (applicative
+                    (record_operand
+                      (atom
+                        (num_literal)))))))
+            (term
+              (uni_term
+                (infix_expr
+                  (applicative
+                    (record_operand
+                      (atom
+                        (num_literal)))))))))))))

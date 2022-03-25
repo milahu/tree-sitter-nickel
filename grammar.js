@@ -123,7 +123,8 @@ module.exports = grammar({
       // DIFERENT from lalrpop grammar. See NOTE[builtin].
       $.builtin,
       seq("`", $.enum_tag),
-      //square(repeat($.term)),
+      // NOTE: Arrays may have a trailing comma in Nickel
+      square(seq(commaSep($.term), optional(","))),
       //$.type_atom,
     ),
 
@@ -221,11 +222,11 @@ function sep1(rule, separator) {
 }
 
 function commaSep1(rule) {
-  return sep1(rule, ',');
+  return sep1(rule, ",");
 }
 
 function commaSep(rule) {
-  return optional(commaSep1(rule));
+  return sep(rule, ",");
 }
 
 function parens(rule) {

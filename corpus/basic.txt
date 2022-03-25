@@ -21,7 +21,13 @@ abc
 
 ---
 
-(source_expression (Id))
+(term
+  (uni_term
+    (infix_expr
+      (applicative
+        (record_operand
+          (atom
+            (ident)))))))
 
 ====================
 identifier with minus
@@ -31,7 +37,13 @@ a-b
 
 ---
 
-(source_expression (Id))
+(term
+  (uni_term
+    (infix_expr
+      (applicative
+        (record_operand
+          (atom
+            (ident)))))))
 
 ====================
 identifier (enum tag)

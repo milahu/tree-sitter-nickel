@@ -31,6 +31,14 @@
       "type": "PATTERN",
       "value": "if|then|else|foreall|in|let|switch|null|true|false|fun|import|merge|default|doc"
     },
+    "num_literal": {
+      "type": "PATTERN",
+      "value": "[0-9]*\\.?[0-9]+"
+    },
+    "ident": {
+      "type": "PATTERN",
+      "value": "_?[a-zA-Z][_a-zA-Z0-9-]*"
+    },
     "uni_term": {
       "type": "CHOICE",
       "members": [
@@ -771,12 +779,12 @@
         {
           "type": "SYMBOL",
           "name": "bool"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ident"
         }
       ]
-    },
-    "num_literal": {
-      "type": "PATTERN",
-      "value": "[0-9]*\\.?[0-9]+"
     },
     "bool": {
       "type": "CHOICE",

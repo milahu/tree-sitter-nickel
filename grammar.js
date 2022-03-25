@@ -63,14 +63,23 @@ module.exports = grammar({
   rules: {
     term: $ => $.uni_term,
 
+    ////////////////////////////
+    // LEXER RELATED RULES (lexer.rs)
+    ////////////////////////////
     // NOTE: Nickel only has single line comments
     comment: _ => token(choice(
       seq('#', /[^\n]*/),
     )),
 
-    // From lexer.rs
     keyword: _ => /if|then|else|foreall|in|let|switch|null|true|false|fun|import|merge|default|doc/,
 
+    num_literal: _ => /[0-9]*\.?[0-9]+/,
+
+    ident: _ => /_?[a-zA-Z][_a-zA-Z0-9-]*/,
+
+    ////////////////////////////
+    // PARSER RULES (grammar.lalrpop)
+    ////////////////////////////
     uni_term: $ => choice(
       $.infix_expr,
       //annotated_infix_expr,
@@ -165,13 +174,11 @@ module.exports = grammar({
       "null",
       $.bool,
       //$.str_chunks,
-      //$.ident,
+      $.ident,
       //seq("`", $.num_tag),
       //square(repeat($.term)),
       //$.type_atom,
     ),
-
-    num_literal: _ => /[0-9]*\.?[0-9]+/,
 
     bool: _ => choice(
       "true",

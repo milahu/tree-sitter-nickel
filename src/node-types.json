@@ -39,6 +39,10 @@
           "named": true
         },
         {
+          "type": "ident",
+          "named": true
+        },
+        {
           "type": "num_literal",
           "named": true
         },
@@ -369,6 +373,10 @@
   {
     "type": "false",
     "named": false
+  },
+  {
+    "type": "ident",
+    "named": true
   },
   {
     "type": "import",

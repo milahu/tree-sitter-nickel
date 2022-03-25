@@ -84,9 +84,24 @@ module.exports = grammar({
     ////////////////////////////
     uni_term: $ => choice(
       $.infix_expr,
-      //annotated_infix_expr,
-      //forall,
-      //let_expr,
+      // NOTE: We seperate the rules out into their own, otherwise it would get
+      // a little much for this single rule.
+      //TODO
+      //$.annotated_infix_expr,
+      //$.forall,
+      //$.let_expr,
+      //$.fun_expr,
+      //$.switch_expr,
+      $.ite_expr, // if then else
+    ),
+
+    ite_expr: $ => seq(
+      "if",
+      $.term,
+      "then",
+      $.term,
+      "else",
+      $.term,
     ),
 
     applicative: $ => choice(

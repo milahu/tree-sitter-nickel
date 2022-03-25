@@ -254,6 +254,21 @@
     }
   },
   {
+    "type": "ite_expr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "term",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "record_operand",
     "named": true,
     "fields": {},
@@ -323,6 +338,10 @@
       "types": [
         {
           "type": "infix_expr",
+          "named": true
+        },
+        {
+          "type": "ite_expr",
           "named": true
         }
       ]
@@ -437,12 +456,20 @@
     "named": true
   },
   {
+    "type": "else",
+    "named": false
+  },
+  {
     "type": "false",
     "named": false
   },
   {
     "type": "ident",
     "named": true
+  },
+  {
+    "type": "if",
+    "named": false
   },
   {
     "type": "import",
@@ -455,6 +482,10 @@
   {
     "type": "num_literal",
     "named": true
+  },
+  {
+    "type": "then",
+    "named": false
   },
   {
     "type": "true",

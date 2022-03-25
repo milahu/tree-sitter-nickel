@@ -45,6 +45,39 @@
         {
           "type": "SYMBOL",
           "name": "infix_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ite_expr"
+        }
+      ]
+    },
+    "ite_expr": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "if"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "term"
+        },
+        {
+          "type": "STRING",
+          "value": "then"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "term"
+        },
+        {
+          "type": "STRING",
+          "value": "else"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "term"
         }
       ]
     },

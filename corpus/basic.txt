@@ -324,11 +324,30 @@ if a then b else c
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (Ite
-    (Id)
-    (Id)
-    (Id)))
+(term
+  (uni_term
+    (ite_expr
+      (term
+        (uni_term
+          (infix_expr
+            (applicative
+              (record_operand
+                (atom
+                  (ident)))))))
+      (term
+        (uni_term
+          (infix_expr
+            (applicative
+              (record_operand
+                (atom
+                  (ident)))))))
+      (term
+        (uni_term
+          (infix_expr
+            (applicative
+              (record_operand
+                (atom
+                  (ident))))))))))
 
 ================================================================================
 let (bind)

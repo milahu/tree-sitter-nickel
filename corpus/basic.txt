@@ -278,10 +278,20 @@ a - b
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (BinaryOp
-    (Id)
-    (Id)))
+(term
+  (uni_term
+    (infix_expr
+      (infix_b_op
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (ident)))))
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (ident)))))))))
 
 ================================================================================
 infix binary operator: minus int int: no space
@@ -291,10 +301,20 @@ infix binary operator: minus int int: no space
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (BinaryOp
-    (Num)
-    (Num)))
+(term
+  (uni_term
+    (infix_expr
+      (infix_b_op
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (num_literal)))))
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (num_literal)))))))))
 
 ================================================================================
 Ite (if then else)

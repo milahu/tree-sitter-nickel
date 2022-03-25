@@ -146,6 +146,10 @@
           "name": "ident"
         },
         {
+          "type": "SYMBOL",
+          "name": "builtin"
+        },
+        {
           "type": "SEQ",
           "members": [
             {
@@ -217,6 +221,23 @@
         {
           "type": "SYMBOL",
           "name": "static_string"
+        }
+      ]
+    },
+    "builtin": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "%"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ident"
+        },
+        {
+          "type": "STRING",
+          "value": "%"
         }
       ]
     },

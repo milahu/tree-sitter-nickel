@@ -1,7 +1,9 @@
-// design goal: no hidden tokens -> all non-whitespace is parsed as some token
-// this is useful for text-highlighting
-// but may be too verbose for a syntax tree?
-// -> use fields? field('fieldname', $._hidden_token)
+// NOTE[builtin] Nickel lexes all builtin functions in lexer.rs. This is
+// possible for use, but we can also choose to parse them in the parser
+// instead. This prevents the grammar from having to be updated when a new
+// builtin function is added. Additionally, it keeps the grammar smaller. You
+// will not see rules in this grammar that match on all builtin function
+// seperately.
 
 // Precedence values are taken from lalrpop grammar
 // https://github.com/tweag/nickel/blob/master/src/grammar.lalrpop
@@ -91,6 +93,10 @@ module.exports = grammar({
       seq("import", $.static_string),
       $.type_array,
       seq($.applicative, $.record_operand),
+      // We don't explicitly have the UOp rule. Instead we match generically on
+      // builtin functions.
+      // This is different from the lalrpop grammar. See NOTE[builtin].
+      //seq($.u_op, $.record_operand),
       // TODO
       // BOpPre?
       // NOpPre?
@@ -114,6 +120,8 @@ module.exports = grammar({
       $.bool,
       //$.str_chunks,
       $.ident,
+      // DIFERENT from lalrpop grammar. See NOTE[builtin].
+      $.builtin,
       seq("`", $.enum_tag),
       //square(repeat($.term)),
       //$.type_atom,
@@ -138,6 +146,12 @@ module.exports = grammar({
     enum_tag: $ => choice(
       $.ident,
       $.static_string,
+    ),
+
+    builtin: $ => seq(
+      "%",
+      $.ident,
+      "%",
     ),
 
     infix_b_op: $ => choice(

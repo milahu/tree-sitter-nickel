@@ -315,6 +315,32 @@
         {
           "type": "SYMBOL",
           "name": "atom"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "record_operation_chain"
+        }
+      ]
+    },
+    "record_operation_chain": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "record_operand"
+            },
+            {
+              "type": "STRING",
+              "value": "."
+            },
+            {
+              "type": "SYMBOL",
+              "name": "ident"
+            }
+          ]
         }
       ]
     },

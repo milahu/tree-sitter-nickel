@@ -168,7 +168,13 @@ module.exports = grammar({
     record_operand: $ => choice(
       $.atom,
       // TODO
-      //$.record_operation_chain,
+      $.record_operation_chain,
+    ),
+
+    record_operation_chain: $ => choice(
+      seq($.record_operand, ".", $.ident),
+      //TODO
+      //seq($.record_operand, ".", $.str_chunks),
     ),
 
     uni_record: $ => seq(

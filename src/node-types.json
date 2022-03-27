@@ -503,6 +503,29 @@
         {
           "type": "atom",
           "named": true
+        },
+        {
+          "type": "record_operation_chain",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "record_operation_chain",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "record_operand",
+          "named": true
         }
       ]
     }

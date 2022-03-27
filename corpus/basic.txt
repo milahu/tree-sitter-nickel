@@ -357,13 +357,25 @@ let a = b in c
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (let
-    (bind
-      (attrpath
-        (attr_identifier))
-      (Id))
-    (Id)))
+(term
+  (uni_term
+    (let_expr
+      (pattern
+        (ident))
+      (term
+        (uni_term
+          (infix_expr
+            (applicative
+              (record_operand
+                (atom
+                  (ident)))))))
+      (term
+        (uni_term
+          (infix_expr
+            (applicative
+              (record_operand
+                (atom
+                  (ident))))))))))
 
 ================================================================================
 let (bind, comments)
@@ -379,16 +391,28 @@ in
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (let
-    (comment)
-    (bind
-      (attrpath
-        (attr_identifier))
-      (Id))
-    (comment)
-    (comment)
-    (Id)))
+(term
+  (uni_term
+    (let_expr
+      (comment)
+      (pattern
+        (ident))
+      (term
+        (uni_term
+          (infix_expr
+            (applicative
+              (record_operand
+                (atom
+                  (ident)))))))
+      (comment)
+      (comment)
+      (term
+        (uni_term
+          (infix_expr
+            (applicative
+              (record_operand
+                (atom
+                  (ident))))))))))
 
 ================================================================================
 function
@@ -463,12 +487,21 @@ a b 1
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (App
-    (App
-      (Id)
-      (Id))
-    (Num)))
+(term
+  (uni_term
+    (infix_expr
+      (applicative
+        (applicative
+          (applicative
+            (record_operand
+              (atom
+                (ident))))
+          (record_operand
+            (atom
+              (ident))))
+        (record_operand
+          (atom
+            (num_literal)))))))
 
 ================================================================================
 apply (multiple arguments)
@@ -497,17 +530,33 @@ in y
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (let
-    (bind
-      (attrpath
-        (attr_identifier))
-      (App
-        (App
-          (Id)
-          (Id))
-        (Num)))
-    (Id)))
+(term
+  (uni_term
+    (let_expr
+      (pattern
+        (ident))
+      (term
+        (uni_term
+          (infix_expr
+            (applicative
+              (applicative
+                (applicative
+                  (record_operand
+                    (atom
+                      (ident))))
+                (record_operand
+                  (atom
+                    (ident))))
+              (record_operand
+                (atom
+                  (num_literal)))))))
+      (term
+        (uni_term
+          (infix_expr
+            (applicative
+              (record_operand
+                (atom
+                  (ident))))))))))
 
 ================================================================================
 operators
@@ -517,14 +566,33 @@ square 2 + -pi - 42.0
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (BinaryOp
-    (BinaryOp
-      (App
-        (Id)
-        (Num))
-      (UnaryOp (Id)))
-  (Num)))
+(term
+  (uni_term
+    (infix_expr
+      (infix_b_op
+        (infix_expr
+          (infix_b_op
+            (infix_expr
+              (applicative
+                (applicative
+                  (record_operand
+                    (atom
+                      (ident))))
+                (record_operand
+                  (atom
+                    (num_literal)))))
+            (infix_expr
+              (infix_u_op
+                (infix_expr
+                  (applicative
+                    (record_operand
+                      (atom
+                        (ident)))))))))
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (num_literal)))))))))
 
 ================================================================================
 parens
@@ -534,6 +602,15 @@ parens
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (parenthesized
-    (Num)))
+(term
+  (uni_term
+    (infix_expr
+      (applicative
+        (record_operand
+          (atom
+            (uni_term
+              (infix_expr
+                (applicative
+                  (record_operand
+                    (atom
+                      (num_literal))))))))))))

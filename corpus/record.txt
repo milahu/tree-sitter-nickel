@@ -2,26 +2,48 @@
 Record Merge
 ================================================================================
 
-{ a = "a" } & { b = "b" }
+{ a = 1 } & { b = 2 }
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  expression: (BinaryOp
-    left: (Record
-      bind: (bind
-        attrpath: (attrpath
-          attr: (attr_identifier))
-        expression: (Str
-          (StrChunk
-            (StrChunkLiteral)))))
-    right: (Record
-      bind: (bind
-        attrpath: (attrpath
-          attr: (attr_identifier))
-        expression: (Str
-          (StrChunk
-            (StrChunkLiteral)))))))
+(term
+  (uni_term
+    (infix_expr
+      (infix_b_op
+        left: (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (uni_record
+                  (record_last_field
+                    (record_field
+                      (field_path
+                        (field_path_elem
+                          (ident)))
+                      (term
+                        (uni_term
+                          (infix_expr
+                            (applicative
+                              (record_operand
+                                (atom
+                                  (num_literal))))))))))))))
+        right: (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (uni_record
+                  (record_last_field
+                    (record_field
+                      (field_path
+                        (field_path_elem
+                          (ident)))
+                      (term
+                        (uni_term
+                          (infix_expr
+                            (applicative
+                              (record_operand
+                                (atom
+                                  (num_literal))))))))))))))))))
 
 ================================================================================
 Record (empty)

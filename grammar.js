@@ -73,11 +73,11 @@ module.exports = grammar({
     // LEXER RELATED RULES (lexer.rs)
     ////////////////////////////
     // NOTE: Nickel only has single line comments
-    comment: _ => token(choice(
+    comment: _ => token(
       seq('#', /[^\n]*/),
-    )),
+    ),
 
-    keyword: _ => /if|then|else|foreall|in|let|switch|null|true|false|fun|import|merge|default|doc/,
+    keyword: _ => token(/if|then|else|foreall|in|let|switch|null|true|false|fun|import|merge|default|doc/),
 
     num_literal: _ => /[0-9]*\.?[0-9]+/,
 
@@ -111,7 +111,7 @@ module.exports = grammar({
       //$.annotated_infix_expr,
       //$.forall,
       $.let_expr,
-      //$.fun_expr,
+      $.fun_expr,
       //$.switch_expr,
       $.ite_expr, // if then else
     ),
@@ -125,6 +125,14 @@ module.exports = grammar({
       "in",
       $.term,
     ),
+
+    fun_expr: $ => seq(
+      "fun",
+      repeat1($.pattern),
+      "=>",
+      $.term,
+    ),
+
     ite_expr: $ => seq(
       "if",
       $.term,

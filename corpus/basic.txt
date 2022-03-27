@@ -422,10 +422,18 @@ fun a => b
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (function
-    (Id)
-    (Id)))
+(term
+  (uni_term
+    (fun_expr
+      (pattern
+        (ident))
+      (term
+        (uni_term
+          (infix_expr
+            (applicative
+              (record_operand
+                (atom
+                  (ident))))))))))
 
 ================================================================================
 let Record (empty)

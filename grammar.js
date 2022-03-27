@@ -86,6 +86,8 @@ module.exports = grammar({
     ////////////////////////////
     // PARSER RULES (grammar.lalrpop)
     ////////////////////////////
+
+    //grammar.lalrpop: 94
     // In the lalrpop grammar this (and the annot)-rule(s) are parameterized.
     // See NOTE[typerule].
     annot_atom: $ => choice(
@@ -95,14 +97,17 @@ module.exports = grammar({
       seq(":", $.types),
     ),
 
+    //grammar.lalrpop: 126
     // See NOTE[typerule].
     annot: $ => repeat1($.annot_atom),
 
+    //grammar.lalrpop: 133
     types: $ => choice(
       $.infix_expr,
       $.forall,
     ),
 
+    //grammar.lalrpop: 165
     uni_term: $ => choice(
       $.infix_expr,
       // NOTE: We seperate the rules out into their own, otherwise it would get
@@ -142,6 +147,7 @@ module.exports = grammar({
       $.term,
     ),
 
+    //grammar.lalrpop: 232
     forall: $ => seq(
       "forall",
       repeat1($.ident),
@@ -149,6 +155,7 @@ module.exports = grammar({
       $.types,
     ),
 
+    //grammar.lalrpop: 242
     applicative: $ => choice(
       seq("import", $.static_string),
       $.type_array,
@@ -163,20 +170,24 @@ module.exports = grammar({
       $.record_operand,
     ),
 
+    //grammar.lalrpop: 255
     type_array: $ => seq("Array", $.record_operand),
 
+    //grammar.lalrpop: 258
     record_operand: $ => choice(
       $.atom,
       // TODO
       $.record_operation_chain,
     ),
 
+    //grammar.lalrpop: 264
     record_operation_chain: $ => choice(
       seq($.record_operand, ".", $.ident),
       //TODO
       //seq($.record_operand, ".", $.str_chunks),
     ),
 
+    //grammar.lalrpop: 276
     uni_record: $ => seq(
       "{",
       repeat(seq($.record_field, ",")),
@@ -185,6 +196,7 @@ module.exports = grammar({
       "}",
     ),
 
+    //grammar.lalrpop: 306
     atom: $ => choice(
       // TODO
       //parens($.curried_op),
@@ -203,37 +215,44 @@ module.exports = grammar({
       //$.type_atom,
     ),
 
+    //grammar.lalrpop: 328
     record_field: $ => seq(
       $.field_path,
       optional($.annot),
       optional(seq("=", $.term)),
     ),
 
+    //grammar.lalrpop: 348
     record_last_field: $ => choice(
       $.record_field,
       "..",
     ),
 
+    //grammar.lalrpop: 354
     field_path: $ => sep1($.field_path_elem, "."),
 
+    //grammar.lalrpop: 361
     field_path_elem: $ => choice(
       $.ident,
       //TODO
       //$.str_chunks,
     ),
 
+    //grammar.lalrpop: 374
     // The right hand side of an `=` inside a destructuring pattern.
     pattern: $ => choice(
       seq(optional(seq($.ident, "@")), $.destruct),
       $.ident,
     ),
 
+    //grammar.lalrpop: 380
     destruct: $ => seq(
       "{",
       seq(commaSep($.match), optional(",")),
       "}",
     ),
 
+    //grammar.lalrpop: 396
     match: $ => seq(
       $.ident,
       optional($.annot),
@@ -243,15 +262,18 @@ module.exports = grammar({
       $.pattern,
     ),
 
+    //grammar.lalrpop: 437
     bool: _ => choice(
       "true",
       "false",
     ),
 
     // TODO: Replace with proper representation
+    // 480
     chunk_literal: _ => /[0-9a-zA-Z]*/,
 			//repeat1($.chunk_literal_part),
 
+    //grammar.lalrpop: 496
     static_string: $ => choice(
       // Single line
       seq("\"", optional($.chunk_literal), "\""),
@@ -259,17 +281,20 @@ module.exports = grammar({
       //seq("m%\"", optional($.chunk_literal), "\""),
     ),
 
+    //grammar.lalrpop: 498
     enum_tag: $ => choice(
       $.ident,
       $.static_string,
     ),
 
+    //grammar.lalrpop: 509
     builtin: $ => seq(
       "%",
       $.ident,
       "%",
     ),
 
+    //grammar.lalrpop: 554
     infix_b_op: $ => choice(
       // left assoc.
       ...[
@@ -306,6 +331,7 @@ module.exports = grammar({
     ),
 
     // Combines all InfixUOps from the lalrpop grammar
+    // 570
     infix_u_op: $ => choice(
       ...[
         ['!', PREC.BoolNot],
@@ -318,6 +344,7 @@ module.exports = grammar({
       )
     ),
 
+    //grammar.lalrpop: 662
     infix_expr: $ => choice(
       prec(0, $.applicative),
       $.infix_u_op,

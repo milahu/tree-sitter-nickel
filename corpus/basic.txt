@@ -519,14 +519,23 @@ a 1 "x"
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (App
-    (App
-      (Id)
-      (Num))
-    (Str
-      (StrChunk
-        (StrChunkLiteral)))))
+(term
+  (uni_term
+    (infix_expr
+      (applicative
+        (applicative
+          (applicative
+            (record_operand
+              (atom
+                (ident))))
+          (record_operand
+            (atom
+              (num_literal))))
+        (record_operand
+          (atom
+            (str_chunks
+              (str_chunks_single
+                (chunk_literal)))))))))
 
 ================================================================================
 let bind apply

@@ -1,6 +1,6 @@
-====================
+================================================================================
 main.ncl
-====================
+================================================================================
 
 # Merge several blocks into one final configuration. In a real world case, one
 # would also want contracts to validate the shape of the data.
@@ -9,7 +9,7 @@ let security = import "security.ncl" in
 # Disabling firewall in the final result
 server & security & {firewall.enabled = false}
 
----
+--------------------------------------------------------------------------------
 
 (source_expression
   (comment)
@@ -44,9 +44,9 @@ server & security & {firewall.enabled = false}
                 (attr_identifier))
               (Bool))))))))
 
-====================
+================================================================================
 server.ncl
-====================
+================================================================================
 
 {
   server.host.ip = "182.168.1.1",
@@ -54,7 +54,7 @@ server.ncl
   server.host.name = "hello-world.net",
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_expression
   (Record
@@ -81,9 +81,9 @@ server.ncl
         (StrChunk
           (StrChunkLiteral))))))
 
-====================
+================================================================================
 security.ncl
-====================
+================================================================================
 
 {
   server.host.options = "TLS",
@@ -93,37 +93,92 @@ security.ncl
   firewall.open_ports = [21, 80, 443],
 }
 
----
+--------------------------------------------------------------------------------
 
-(source_expression
-  (Record
-    (bind
-      (attrpath
-        (attr_identifier)
-        (attr_identifier)
-        (attr_identifier))
-      (Str
-        (StrChunk
-          (StrChunkLiteral))))
-    (bind
-      (attrpath
-        (attr_identifier)
-        (attr_identifier))
-      (Annot
-        (AnnotDefault))
-      (Bool))
-    (bind
-      (attrpath
-        (attr_identifier)
-        (attr_identifier))
-      (Str
-        (StrChunk
-          (StrChunkLiteral))))
-    (bind
-      (attrpath
-        (attr_identifier)
-        (attr_identifier))
-      (Arr
-        (Num)
-        (Num)
-        (Num)))))
+(term
+  (uni_term
+    (infix_expr
+      (applicative
+        (record_operand
+          (atom
+            (uni_record
+              (record_field
+                (field_path
+                  (field_path_elem
+                    (ident))
+                  (field_path_elem
+                    (ident))
+                  (field_path_elem
+                    (ident)))
+                (term
+                  (uni_term
+                    (infix_expr
+                      (applicative
+                        (record_operand
+                          (atom
+                            (str_chunks
+                              (str_chunks_single
+                                (chunk_literal))))))))))
+              (record_field
+                (field_path
+                  (field_path_elem
+                    (ident))
+                  (field_path_elem
+                    (ident)))
+                (annot
+                  (annot_atom))
+                (term
+                  (uni_term
+                    (infix_expr
+                      (applicative
+                        (record_operand
+                          (atom
+                            (bool))))))))
+              (record_field
+                (field_path
+                  (field_path_elem
+                    (ident))
+                  (field_path_elem
+                    (ident)))
+                (term
+                  (uni_term
+                    (infix_expr
+                      (applicative
+                        (record_operand
+                          (atom
+                            (str_chunks
+                              (str_chunks_single
+                                (chunk_literal))))))))))
+              (record_field
+                (field_path
+                  (field_path_elem
+                    (ident))
+                  (field_path_elem
+                    (ident)))
+                (term
+                  (uni_term
+                    (infix_expr
+                      (applicative
+                        (record_operand
+                          (atom
+                            (term
+                              (uni_term
+                                (infix_expr
+                                  (applicative
+                                    (record_operand
+                                      (atom
+                                        (num_literal)))))))
+                            (term
+                              (uni_term
+                                (infix_expr
+                                  (applicative
+                                    (record_operand
+                                      (atom
+                                        (num_literal)))))))
+                            (term
+                              (uni_term
+                                (infix_expr
+                                  (applicative
+                                    (record_operand
+                                      (atom
+                                        (num_literal)))))))))))))))))))))

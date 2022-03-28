@@ -54,11 +54,8 @@ module.exports = grammar({
   ],
 
   externals: $ => [
-    $._string_fragment,
-    $._multistring_start,
-    $._multistring_part_fixed,
-    $._multistring_ipol_start,
-    $._multistring_end,
+    $._multstr_start,
+    $._multstr_end,
   ],
 
   word: $ => $.keyword,
@@ -183,8 +180,7 @@ module.exports = grammar({
     //grammar.lalrpop: 264
     record_operation_chain: $ => choice(
       seq($.record_operand, ".", $.ident),
-      //TODO
-      //seq($.record_operand, ".", $.str_chunks),
+      seq($.record_operand, ".", $.str_chunks),
     ),
 
     //grammar.lalrpop: 276
@@ -204,7 +200,7 @@ module.exports = grammar({
       $.num_literal,
       "null",
       $.bool,
-      //$.str_chunks,
+      $.str_chunks,
       $.ident,
       // DIFERENT from lalrpop grammar. See NOTE[builtin].
       $.builtin,
@@ -234,8 +230,7 @@ module.exports = grammar({
     //grammar.lalrpop: 361
     field_path_elem: $ => choice(
       $.ident,
-      //TODO
-      //$.str_chunks,
+      $.str_chunks,
     ),
 
     //grammar.lalrpop: 374
@@ -268,17 +263,38 @@ module.exports = grammar({
       "false",
     ),
 
+    //grammar.lalrpop: 443
+    // Different from lalrpop grammar since we cannot assert. Instead split up
+    // into two rules
+    str_chunks: $ => choice(
+      $.str_chunks_single,
+      $.str_chunks_multi,
+    ),
+
+    str_chunks_single: $ => seq(
+      "\"",
+      //TODO
+      repeat(choice(/*$.chunk_expr,*/ $.chunk_literal)),
+      "\"",
+    ),
+
+    str_chunks_multi: $ => seq(
+      $._multstr_start,
+      //TODO
+      repeat(choice(/*$.chunk_expr,*/ $.chunk_literal)),
+      $._multstr_end,
+    ),
+
     // TODO: Replace with proper representation
-    // 480
-    chunk_literal: _ => /[0-9a-zA-Z]*/,
+    //grammar.lalrpop: 480
+    chunk_literal: _ => /[0-9a-zA-Z]+/,
 			//repeat1($.chunk_literal_part),
 
     //grammar.lalrpop: 496
     static_string: $ => choice(
       // Single line
       seq("\"", optional($.chunk_literal), "\""),
-      // TODO: Multi line
-      //seq("m%\"", optional($.chunk_literal), "\""),
+      seq($._multstr_start, optional($.chunk_literal), $._multstr_end),
     ),
 
     //grammar.lalrpop: 498

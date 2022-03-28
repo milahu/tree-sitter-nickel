@@ -341,6 +341,23 @@
               "name": "ident"
             }
           ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "record_operand"
+            },
+            {
+              "type": "STRING",
+              "value": "."
+            },
+            {
+              "type": "SYMBOL",
+              "name": "str_chunks"
+            }
+          ]
         }
       ]
     },
@@ -428,6 +445,10 @@
         {
           "type": "SYMBOL",
           "name": "bool"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "str_chunks"
         },
         {
           "type": "SYMBOL",
@@ -605,6 +626,10 @@
         {
           "type": "SYMBOL",
           "name": "ident"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "str_chunks"
         }
       ]
     },
@@ -752,9 +777,72 @@
         }
       ]
     },
+    "str_chunks": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "str_chunks_single"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "str_chunks_multi"
+        }
+      ]
+    },
+    "str_chunks_single": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\""
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "chunk_literal"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "\""
+        }
+      ]
+    },
+    "str_chunks_multi": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_multstr_start"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "chunk_literal"
+              }
+            ]
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_multstr_end"
+        }
+      ]
+    },
     "chunk_literal": {
       "type": "PATTERN",
-      "value": "[0-9a-zA-Z]*"
+      "value": "[0-9a-zA-Z]+"
     },
     "static_string": {
       "type": "CHOICE",
@@ -781,6 +869,31 @@
             {
               "type": "STRING",
               "value": "\""
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_multstr_start"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "chunk_literal"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_multstr_end"
             }
           ]
         }
@@ -1441,23 +1554,11 @@
   "externals": [
     {
       "type": "SYMBOL",
-      "name": "_string_fragment"
+      "name": "_multstr_start"
     },
     {
       "type": "SYMBOL",
-      "name": "_multistring_start"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "_multistring_part_fixed"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "_multistring_ipol_start"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "_multistring_end"
+      "name": "_multstr_end"
     }
   ],
   "inline": [],

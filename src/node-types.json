@@ -89,6 +89,10 @@
           "named": true
         },
         {
+          "type": "str_chunks",
+          "named": true
+        },
+        {
           "type": "term",
           "named": true
         },
@@ -182,6 +186,10 @@
       "types": [
         {
           "type": "ident",
+          "named": true
+        },
+        {
+          "type": "str_chunks",
           "named": true
         }
       ]
@@ -526,6 +534,10 @@
         {
           "type": "record_operand",
           "named": true
+        },
+        {
+          "type": "str_chunks",
+          "named": true
         }
       ]
     }
@@ -536,6 +548,55 @@
     "fields": {},
     "children": {
       "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "chunk_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "str_chunks",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "str_chunks_multi",
+          "named": true
+        },
+        {
+          "type": "str_chunks_single",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "str_chunks_multi",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "chunk_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "str_chunks_single",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
       "required": false,
       "types": [
         {

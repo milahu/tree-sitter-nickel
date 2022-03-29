@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <cwctype>
 #include <tree_sitter/parser.h>
 
 namespace {
@@ -84,6 +85,8 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
+    while (iswspace(lexer->lookahead)) skip(lexer);
+
     if (lexer->lookahead == 'm') {
       advance(lexer);
       if (lexer->lookahead == '%') {

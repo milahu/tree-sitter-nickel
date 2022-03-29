@@ -147,6 +147,63 @@
     }
   },
   {
+    "type": "chunk_expr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "interpolation",
+          "named": true
+        },
+        {
+          "type": "term",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "chunk_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "chunk_literal_part",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "chunk_literal_part",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "mult_str_literal",
+          "named": true
+        },
+        {
+          "type": "str_esc_char",
+          "named": true
+        },
+        {
+          "type": "str_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "destruct",
     "named": true,
     "fields": {},
@@ -402,6 +459,11 @@
     }
   },
   {
+    "type": "interpolation",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "ite_expr",
     "named": true,
     "fields": {},
@@ -604,6 +666,10 @@
       "required": false,
       "types": [
         {
+          "type": "chunk_expr",
+          "named": true
+        },
+        {
           "type": "chunk_literal",
           "named": true
         }
@@ -618,6 +684,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "chunk_expr",
+          "named": true
+        },
         {
           "type": "chunk_literal",
           "named": true
@@ -741,6 +811,10 @@
     "named": false
   },
   {
+    "type": "%{",
+    "named": false
+  },
+  {
     "type": "&",
     "named": false
   },
@@ -849,10 +923,6 @@
     "named": false
   },
   {
-    "type": "chunk_literal",
-    "named": true
-  },
-  {
     "type": "comment",
     "named": true
   },
@@ -901,11 +971,23 @@
     "named": false
   },
   {
+    "type": "mult_str_literal",
+    "named": true
+  },
+  {
     "type": "null",
     "named": false
   },
   {
     "type": "num_literal",
+    "named": true
+  },
+  {
+    "type": "str_esc_char",
+    "named": true
+  },
+  {
+    "type": "str_literal",
     "named": true
   },
   {

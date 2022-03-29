@@ -8,11 +8,18 @@ comment
 
 --------------------------------------------------------------------------------
 
-(source_expression
+(term
   (comment)
-  (Str
-    (StrChunk
-      (StrChunkLiteral))))
+  (uni_term
+    (infix_expr
+      (applicative
+        (record_operand
+          (atom
+            (str_chunks
+              (str_chunks_single
+                (chunk_literal
+                  (chunk_literal_part
+                    (str_literal)))))))))))
 
 ================================================================================
 identifier
@@ -535,7 +542,9 @@ a 1 "x"
           (atom
             (str_chunks
               (str_chunks_single
-                (chunk_literal)))))))))
+                (chunk_literal
+                  (chunk_literal_part
+                    (str_literal)))))))))))
 
 ================================================================================
 let bind apply

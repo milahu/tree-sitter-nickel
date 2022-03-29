@@ -60,7 +60,9 @@ module.exports = grammar({
 
   word: $ => $.keyword,
 
-  conflicts: _ => [
+  conflicts: $ => [
+    [ $.chunk_literal
+    ]
   ],
 
   rules: {
@@ -279,22 +281,33 @@ module.exports = grammar({
 
     str_chunks_single: $ => seq(
       "\"",
-      //TODO
-      repeat(choice(/*$.chunk_expr,*/ $.chunk_literal)),
+      repeat(choice($.chunk_expr, $.chunk_literal)),
       "\"",
     ),
 
     str_chunks_multi: $ => seq(
       $._multstr_start,
-      //TODO
-      repeat(choice(/*$.chunk_expr,*/ $.chunk_literal)),
+      repeat(choice($.chunk_expr, $.chunk_literal)),
       $._multstr_end,
     ),
 
-    // TODO: Replace with proper representation
     //grammar.lalrpop: 480
-    chunk_literal: _ => /[0-9a-zA-Z]+/,
-			//repeat1($.chunk_literal_part),
+    chunk_literal: $ => repeat1($.chunk_literal_part),
+
+    //grammar.lalrpop: 492
+    chunk_expr: $ => seq(
+      $.interpolation,
+      $.term,
+      "}",
+    ),
+
+    //grammar.lalrpop: 492
+    //TODO: I think to fully implement this requires additional changes to the
+    //scanner.
+    interpolation: $ => choice(
+      "%{",
+      $._multstr_start,
+    ),
 
     //grammar.lalrpop: 496
     static_string: $ => choice(
@@ -309,7 +322,21 @@ module.exports = grammar({
       $.static_string,
     ),
 
+    //grammar.lalrpop: 503
+    //TODO: Update the lexer to produce these tokens
+    chunk_literal_part: $ => choice(
+      $.str_literal,
+      $.mult_str_literal,
+      $.str_esc_char,
+    ),
+
+    str_literal: _ => /[^"%\\]+/,
+    mult_str_literal: _ => /[^"%]+/,
+    str_esc_char: _ => /\\./,
+
     //grammar.lalrpop: 509
+    // Different from lalrpop grammar, we parse all possible builtins, not just
+    // the defined ones.
     builtin: $ => seq(
       "%",
       $.ident,

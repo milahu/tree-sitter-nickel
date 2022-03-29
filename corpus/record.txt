@@ -67,40 +67,65 @@ Record
 
 {
   a = 1,
-  %{b} = "quux",
   "c" = 3.14,
   x.y.z = "foo"
 }
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (Record
-    (bind
-      (attrpath
-        (attr_identifier))
-      (Num))
-    (bind
-      (attrpath
-        (RichTerm
-          (Id)))
-      (Str
-        (StrChunk
-          (StrChunkLiteral))))
-    (bind
-      (attrpath
-        (Str
-          (StrChunk
-            (StrChunkLiteral))))
-      (Num))
-    (bind
-      (attrpath
-        (attr_identifier)
-        (attr_identifier)
-        (attr_identifier))
-      (Str
-        (StrChunk
-          (StrChunkLiteral))))))
+(term
+  (uni_term
+    (infix_expr
+      (applicative
+        (record_operand
+          (atom
+            (uni_record
+              (record_field
+                (field_path
+                  (field_path_elem
+                    (ident)))
+                (term
+                  (uni_term
+                    (infix_expr
+                      (applicative
+                        (record_operand
+                          (atom
+                            (num_literal))))))))
+              (record_field
+                (field_path
+                  (field_path_elem
+                    (str_chunks
+                      (str_chunks_single
+                        (chunk_literal
+                          (chunk_literal_part
+                            (str_literal)))))))
+                (term
+                  (uni_term
+                    (infix_expr
+                      (applicative
+                        (record_operand
+                          (atom
+                            (num_literal))))))))
+              (record_last_field
+                (record_field
+                  (field_path
+                    (field_path_elem
+                      (ident))
+                    (field_path_elem
+                      (ident))
+                    (field_path_elem
+                      (ident)))
+                  (term
+                    (uni_term
+                      (infix_expr
+                        (applicative
+                          (record_operand
+                            (atom
+                              (str_chunks
+                                (str_chunks_single
+                                  (chunk_literal
+                                    (chunk_literal_part
+                                      (str_literal))))))))))))))))))))
 
 ================================================================================
 Record with dangling comma

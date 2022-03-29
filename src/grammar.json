@@ -127,6 +127,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "annotated_infix_expr"
+        },
+        {
+          "type": "SYMBOL",
           "name": "let_expr"
         },
         {
@@ -230,6 +234,19 @@
         {
           "type": "SYMBOL",
           "name": "term"
+        }
+      ]
+    },
+    "annotated_infix_expr": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "infix_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "annot"
         }
       ]
     },

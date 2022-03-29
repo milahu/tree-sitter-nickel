@@ -34,6 +34,25 @@
     }
   },
   {
+    "type": "annotated_infix_expr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annot",
+          "named": true
+        },
+        {
+          "type": "infix_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "applicative",
     "named": true,
     "fields": {},
@@ -682,6 +701,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "annotated_infix_expr",
+          "named": true
+        },
         {
           "type": "fun_expr",
           "named": true

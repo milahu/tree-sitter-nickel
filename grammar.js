@@ -110,7 +110,7 @@ module.exports = grammar({
       // NOTE: We seperate the rules out into their own, otherwise it would get
       // a little much for this single rule.
       //TODO
-      //$.annotated_infix_expr,
+      $.annotated_infix_expr,
       //$.forall,
       $.let_expr,
       $.fun_expr,
@@ -142,6 +142,12 @@ module.exports = grammar({
       $.term,
       "else",
       $.term,
+    ),
+
+    //grammar.lalrpop: 224
+    annotated_infix_expr: $ => seq(
+      $.infix_expr,
+      $.annot,
     ),
 
     //grammar.lalrpop: 232

@@ -181,7 +181,6 @@ module.exports = grammar({
     //grammar.lalrpop: 258
     record_operand: $ => choice(
       $.atom,
-      // TODO
       $.record_operation_chain,
     ),
 

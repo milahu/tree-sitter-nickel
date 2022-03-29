@@ -471,28 +471,42 @@ let a = 1 in { }
                   (uni_record))))))))))
 
 ================================================================================
-select (four ids)
+select (three ids)
 ================================================================================
 
-u.v.%{w}."x%{y}z"
+u.v."x%{y}z"
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (select
-    (Id)
-    (attrpath
-      (attr_identifier)
-      (RichTerm
-        (Id))
-      (Str
-        (StrChunk
-          (StrChunkLiteral))
-        (StrChunk
-          (RichTerm
-            (Id)))
-        (StrChunk
-          (StrChunkLiteral))))))
+(term
+  (uni_term
+    (infix_expr
+      (applicative
+        (record_operand
+          (record_operation_chain
+            (record_operand
+              (record_operation_chain
+                (record_operand
+                  (atom
+                    (ident)))
+                (ident)))
+            (str_chunks
+              (str_chunks_single
+                (chunk_literal
+                  (chunk_literal_part
+                    (str_literal)))
+                (chunk_expr
+                  (interpolation)
+                  (term
+                    (uni_term
+                      (infix_expr
+                        (applicative
+                          (record_operand
+                            (atom
+                              (ident))))))))
+                (chunk_literal
+                  (chunk_literal_part
+                    (str_literal)))))))))))
 
 ================================================================================
 apply (multiple functions)

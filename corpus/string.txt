@@ -34,7 +34,9 @@ string (interpolation)
           (atom
             (str_chunks
               (str_chunks_single
-                (chunk_literal)
+                (chunk_literal
+                  (chunk_literal_part
+                    (str_literal)))
                 (chunk_expr
                   (interpolation)
                   (term
@@ -44,7 +46,9 @@ string (interpolation)
                           (record_operand
                             (atom
                               (ident))))))))
-                (chunk_literal)))))))))
+                (chunk_literal
+                  (chunk_literal_part
+                    (str_literal)))))))))))
 
 ================================================================================
 multistring

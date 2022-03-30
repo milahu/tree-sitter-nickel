@@ -1,8 +1,12 @@
 #include <cwctype>
+#include <iostream>
 #include <stdint.h>
 #include <tree_sitter/parser.h>
+#include <vector>
 
 namespace {
+
+using std::vector;
 
 enum TokenType {
   MULTSTR_START,
@@ -14,7 +18,7 @@ enum TokenType {
 };
 
 struct Scanner {
-  uint8_t interpolation_expected_percent_count;
+  vector<uint8_t> expected_percent_count;
 
   void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 
@@ -25,17 +29,29 @@ struct Scanner {
   }
 
   unsigned serialize(char *buffer) {
-    buffer[0] = interpolation_expected_percent_count;
-    return 1;
+    uint8_t i = 0;
+
+    buffer[i++] = expected_percent_count.size();
+    for (uint8_t count : expected_percent_count) {
+      buffer[i++] = count;
+    }
+    return i;
   }
 
   void deserialize(const char *buffer, unsigned length) {
     // We have a constant size state, so this case should never happen. In case
     // it does, we initialize a fresh state.
-    if (length != 1) {
-      interpolation_expected_percent_count = 0;
-    } else {
-      interpolation_expected_percent_count = buffer[0];
+    expected_percent_count.clear();
+    if (length != 0) {
+      uint8_t vec_length = buffer[0];
+
+      expected_percent_count.clear();
+
+      if (vec_length + 1 == length) {
+        for (uint8_t i = 1; i < length; i++) {
+          expected_percent_count.push_back(buffer[i]);
+        }
+      }
     }
   }
 
@@ -43,12 +59,12 @@ struct Scanner {
   // was already consumed.
   bool scan_multstr_start(TSLexer *lexer) {
     lexer->result_symbol = MULTSTR_START;
-    interpolation_expected_percent_count = 0;
+    uint8_t count = 0;
     bool quote = false;
 
     // Count the number of percentages
     while (lookahead(lexer) == '%') {
-      interpolation_expected_percent_count++;
+      count++;
       advance(lexer);
     }
 
@@ -56,6 +72,8 @@ struct Scanner {
       quote = true;
       advance(lexer);
     }
+
+    expected_percent_count.push_back(count);
 
     // A START is fully scanned with we started with an 'm' (precondition of
     // this function), more than 0 percent signs (precondition of this
@@ -68,10 +86,11 @@ struct Scanner {
     lexer->result_symbol = MULTSTR_END;
     bool m = false;
 
+    uint8_t count = expected_percent_count.back();
+
     // Consume all %-signs
-    while (lookahead(lexer) == '%' &&
-           interpolation_expected_percent_count > 0) {
-      interpolation_expected_percent_count--;
+    while (lookahead(lexer) == '%' && count > 0) {
+      count--;
       advance(lexer);
     }
 
@@ -80,9 +99,11 @@ struct Scanner {
       advance(lexer);
     }
 
+    expected_percent_count.pop_back();
+
     // An END is fully scanned when we started with an '"' (precondition of
     // this function), consumed all %-signs and ended with an m.
-    return (m && interpolation_expected_percent_count == 0);
+    return (m && count == 0);
   }
 
   // Precondition of this function is that the lookahead is '"'
@@ -90,7 +111,7 @@ struct Scanner {
     lexer->result_symbol = STR_START;
 
     // Interpolation in strings are preceded by a single % sign.
-    interpolation_expected_percent_count = 1;
+    expected_percent_count.push_back(1);
 
     advance(lexer);
 
@@ -103,6 +124,8 @@ struct Scanner {
 
     advance(lexer);
 
+    expected_percent_count.pop_back();
+
     return true;
   }
 
@@ -110,11 +133,10 @@ struct Scanner {
     lexer->result_symbol = INTERPOLATION_START;
 
     bool brace = false;
-    // local because we don't want to update the state
-    uint8_t percent_count = 0;
+    uint8_t count = expected_percent_count.back();
 
     while (lookahead(lexer) == '%') {
-      percent_count++;
+      count--;
       advance(lexer);
     }
 
@@ -123,7 +145,7 @@ struct Scanner {
       advance(lexer);
     }
 
-    return brace && (percent_count == interpolation_expected_percent_count);
+    return brace && (count == 0);
   }
 
   // Precondition of this function is that the lookahead is '}'

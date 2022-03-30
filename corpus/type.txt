@@ -55,6 +55,5 @@ type nested (FIXME this should be syntax error)
                   (atom
                     (str_chunks
                       (str_chunks_single
-                        (chunk_literal
-                          (chunk_literal_part
-                            (str_literal)))))))))))))))
+                        (chunk_literal_single
+                          (str_literal))))))))))))))

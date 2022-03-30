@@ -166,22 +166,7 @@
     }
   },
   {
-    "type": "chunk_literal",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "chunk_literal_part",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "chunk_literal_part",
+    "type": "chunk_literal_multi",
     "named": true,
     "fields": {},
     "children": {
@@ -192,6 +177,21 @@
           "type": "mult_str_literal",
           "named": true
         },
+        {
+          "type": "str_esc_char",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "chunk_literal_single",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
         {
           "type": "str_esc_char",
           "named": true
@@ -544,6 +544,11 @@
     }
   },
   {
+    "type": "percent",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "record_field",
     "named": true,
     "fields": {},
@@ -632,7 +637,11 @@
       "required": false,
       "types": [
         {
-          "type": "chunk_literal",
+          "type": "chunk_literal_multi",
+          "named": true
+        },
+        {
+          "type": "chunk_literal_single",
           "named": true
         }
       ]
@@ -670,7 +679,7 @@
           "named": true
         },
         {
-          "type": "chunk_literal",
+          "type": "chunk_literal_multi",
           "named": true
         }
       ]
@@ -689,7 +698,11 @@
           "named": true
         },
         {
-          "type": "chunk_literal",
+          "type": "chunk_literal_single",
+          "named": true
+        },
+        {
+          "type": "percent",
           "named": true
         }
       ]

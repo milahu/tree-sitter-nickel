@@ -14,9 +14,8 @@ string (simple)
           (atom
             (str_chunks
               (str_chunks_single
-                (chunk_literal
-                  (chunk_literal_part
-                    (str_literal)))))))))))
+                (chunk_literal_single
+                  (str_literal))))))))))
 
 ================================================================================
 string (interpolation)
@@ -34,9 +33,8 @@ string (interpolation)
           (atom
             (str_chunks
               (str_chunks_single
-                (chunk_literal
-                  (chunk_literal_part
-                    (str_literal)))
+                (chunk_literal_single
+                  (str_literal))
                 (chunk_expr
                   (interpolation)
                   (term
@@ -46,9 +44,8 @@ string (interpolation)
                           (record_operand
                             (atom
                               (ident))))))))
-                (chunk_literal
-                  (chunk_literal_part
-                    (str_literal)))))))))))
+                (chunk_literal_single
+                  (str_literal))))))))))
 
 ================================================================================
 multistring
@@ -66,9 +63,8 @@ m%"abc"%m
           (atom
             (str_chunks
               (str_chunks_multi
-                (chunk_literal
-                  (chunk_literal_part
-                    (str_literal)))))))))))
+                (chunk_literal_multi
+                  (mult_str_literal))))))))))
 
 ================================================================================
 multistring (multiline)
@@ -88,9 +84,8 @@ c"%m
           (atom
             (str_chunks
               (str_chunks_multi
-                (chunk_literal
-                  (chunk_literal_part
-                    (str_literal)))))))))))
+                (chunk_literal_multi
+                  (mult_str_literal))))))))))
 
 ================================================================================
 multistring (indent)
@@ -112,9 +107,8 @@ m%"
           (atom
             (str_chunks
               (str_chunks_multi
-                (chunk_literal
-                  (chunk_literal_part
-                    (str_literal)))))))))))
+                (chunk_literal_multi
+                  (mult_str_literal))))))))))
 
 ================================================================================
 multistring (indent) (interpolation)
@@ -136,9 +130,8 @@ m%"
           (atom
             (str_chunks
               (str_chunks_multi
-                (chunk_literal
-                  (chunk_literal_part
-                    (str_literal)))
+                (chunk_literal_multi
+                  (mult_str_literal))
                 (chunk_expr
                   (interpolation)
                   (term
@@ -148,9 +141,8 @@ m%"
                           (record_operand
                             (atom
                               (ident))))))))
-                (chunk_literal
-                  (chunk_literal_part
-                    (str_literal)))))))))))
+                (chunk_literal_multi
+                  (mult_str_literal))))))))))
 
 ================================================================================
 multistring (level 4)
@@ -168,9 +160,8 @@ m%%%%"a%%%%{b}c"%%%%m
           (atom
             (str_chunks
               (str_chunks_multi
-                (chunk_literal
-                  (chunk_literal_part
-                    (str_literal)))
+                (chunk_literal_multi
+                  (mult_str_literal))
                 (chunk_expr
                   (interpolation)
                   (term
@@ -180,20 +171,36 @@ m%%%%"a%%%%{b}c"%%%%m
                           (record_operand
                             (atom
                               (ident))))))))
-                (chunk_literal
-                  (chunk_literal_part
-                    (str_literal)))))))))))
+                (chunk_literal_multi
+                  (mult_str_literal))))))))))
 
 ================================================================================
 multistring (level 4) (extra % before expr)
 ================================================================================
 
-m%%%%"%%%%%{b}c"%%%%m
+m%%%%"%%%%%{"Hello "} world"%%%%m
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (MultiStr (MultiStrStart)
-  (MultiStrLiteral (MultiStrIpol
-    (Id))
-  (MultiStrLiteral (MultiStrEnd))
+(term
+  (uni_term
+    (infix_expr
+      (applicative
+        (record_operand
+          (atom
+            (str_chunks
+              (str_chunks_multi
+                (chunk_expr
+                  (interpolation)
+                  (term
+                    (uni_term
+                      (infix_expr
+                        (applicative
+                          (record_operand
+                            (atom
+                              (str_chunks
+                                (str_chunks_single
+                                  (chunk_literal_single
+                                    (str_literal)))))))))))
+                (chunk_literal_multi
+                  (mult_str_literal))))))))))

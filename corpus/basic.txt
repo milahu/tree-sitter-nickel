@@ -17,9 +17,8 @@ comment
           (atom
             (str_chunks
               (str_chunks_single
-                (chunk_literal
-                  (chunk_literal_part
-                    (str_literal)))))))))))
+                (chunk_literal_single
+                  (str_literal))))))))))
 
 ================================================================================
 identifier
@@ -492,9 +491,8 @@ u.v."x%{y}z"
                 (ident)))
             (str_chunks
               (str_chunks_single
-                (chunk_literal
-                  (chunk_literal_part
-                    (str_literal)))
+                (chunk_literal_single
+                  (str_literal))
                 (chunk_expr
                   (interpolation)
                   (term
@@ -504,9 +502,8 @@ u.v."x%{y}z"
                           (record_operand
                             (atom
                               (ident))))))))
-                (chunk_literal
-                  (chunk_literal_part
-                    (str_literal)))))))))))
+                (chunk_literal_single
+                  (str_literal))))))))))
 
 ================================================================================
 apply (multiple functions)
@@ -556,9 +553,8 @@ a 1 "x"
           (atom
             (str_chunks
               (str_chunks_single
-                (chunk_literal
-                  (chunk_literal_part
-                    (str_literal)))))))))))
+                (chunk_literal_single
+                  (str_literal))))))))))
 
 ================================================================================
 let bind apply

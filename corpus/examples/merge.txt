@@ -23,9 +23,8 @@ server & security & {firewall.enabled = false}
           (infix_expr
             (applicative
               (static_string
-                (chunk_literal
-                  (chunk_literal_part
-                    (str_literal))))))))
+                (chunk_literal_single
+                  (str_literal)))))))
       (term
         (uni_term
           (let_expr
@@ -36,9 +35,8 @@ server & security & {firewall.enabled = false}
                 (infix_expr
                   (applicative
                     (static_string
-                      (chunk_literal
-                        (chunk_literal_part
-                          (str_literal))))))))
+                      (chunk_literal_single
+                        (str_literal)))))))
             (comment)
             (term
               (uni_term
@@ -111,9 +109,8 @@ server.ncl
                           (atom
                             (str_chunks
                               (str_chunks_single
-                                (chunk_literal
-                                  (chunk_literal_part
-                                    (str_literal))))))))))))
+                                (chunk_literal_single
+                                  (str_literal)))))))))))
               (record_field
                 (field_path
                   (field_path_elem
@@ -145,9 +142,8 @@ server.ncl
                           (atom
                             (str_chunks
                               (str_chunks_single
-                                (chunk_literal
-                                  (chunk_literal_part
-                                    (str_literal)))))))))))))))))))
+                                (chunk_literal_single
+                                  (str_literal))))))))))))))))))
 
 ================================================================================
 security.ncl
@@ -186,9 +182,8 @@ security.ncl
                           (atom
                             (str_chunks
                               (str_chunks_single
-                                (chunk_literal
-                                  (chunk_literal_part
-                                    (str_literal))))))))))))
+                                (chunk_literal_single
+                                  (str_literal)))))))))))
               (record_field
                 (field_path
                   (field_path_elem
@@ -218,9 +213,8 @@ security.ncl
                           (atom
                             (str_chunks
                               (str_chunks_single
-                                (chunk_literal
-                                  (chunk_literal_part
-                                    (str_literal))))))))))))
+                                (chunk_literal_single
+                                  (str_literal)))))))))))
               (record_field
                 (field_path
                   (field_path_elem

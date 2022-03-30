@@ -96,9 +96,8 @@ Record
                   (field_path_elem
                     (str_chunks
                       (str_chunks_single
-                        (chunk_literal
-                          (chunk_literal_part
-                            (str_literal)))))))
+                        (chunk_literal_single
+                          (str_literal))))))
                 (term
                   (uni_term
                     (infix_expr
@@ -123,9 +122,8 @@ Record
                             (atom
                               (str_chunks
                                 (str_chunks_single
-                                  (chunk_literal
-                                    (chunk_literal_part
-                                      (str_literal))))))))))))))))))))
+                                  (chunk_literal_single
+                                    (str_literal)))))))))))))))))))
 
 ================================================================================
 Record with dangling comma

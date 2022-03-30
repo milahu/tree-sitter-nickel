@@ -65,8 +65,8 @@ module.exports = grammar({
   word: $ => $.keyword,
 
   conflicts: $ => [
-    [ $.chunk_literal
-    ]
+    [ $.str_literal,
+    ],
   ],
 
   rules: {
@@ -284,18 +284,30 @@ module.exports = grammar({
 
     str_chunks_single: $ => seq(
       $._str_start,
-      repeat(choice($.chunk_expr, $.chunk_literal)),
+      repeat(choice(
+        prec(0, $.chunk_expr),
+        // TODO: We really don't want to have this here.
+        prec(1, $.percent),
+        prec(2, $.chunk_literal_single),
+      )),
       $._str_end,
     ),
 
+    // TODO: We really don't want to have this here.
+    percent: _ => "%",
+
     str_chunks_multi: $ => seq(
       $._multstr_start,
-      repeat(choice($.chunk_expr, $.chunk_literal)),
+      repeat(choice(
+        prec(0, $.chunk_expr),
+        prec(1, "%"),
+        prec(2, $.chunk_literal_multi),
+      )),
       $._multstr_end,
     ),
 
     //grammar.lalrpop: 480
-    chunk_literal: $ => repeat1($.chunk_literal_part),
+    //chunk_literal: $ => repeat1($.chunk_literal_part),
 
     //grammar.lalrpop: 492
     chunk_expr: $ => seq(
@@ -315,8 +327,8 @@ module.exports = grammar({
     //grammar.lalrpop: 496
     static_string: $ => choice(
       // Single line
-      seq($._str_start, optional($.chunk_literal), $._str_end),
-      seq($._multstr_start, optional($.chunk_literal), $._multstr_end),
+      seq($._str_start, optional($.chunk_literal_single), $._str_end),
+      seq($._multstr_start, optional($.chunk_literal_multi), $._multstr_end),
     ),
 
     //grammar.lalrpop: 498
@@ -326,9 +338,12 @@ module.exports = grammar({
     ),
 
     //grammar.lalrpop: 503
-    //TODO: Update the lexer to produce these tokens?
-    chunk_literal_part: $ => choice(
+    chunk_literal_single: $ => choice(
       $.str_literal,
+      $.str_esc_char,
+    ),
+
+    chunk_literal_multi: $ => choice(
       $.mult_str_literal,
       $.str_esc_char,
     ),

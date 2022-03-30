@@ -160,11 +160,29 @@ m%%%%"a%%%%{b}c"%%%%m
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (MultiStr (MultiStrStart)
-  (MultiStrLiteral (MultiStrIpol
-    (Id))
-  (MultiStrLiteral (MultiStrEnd))
+(term
+  (uni_term
+    (infix_expr
+      (applicative
+        (record_operand
+          (atom
+            (str_chunks
+              (str_chunks_multi
+                (chunk_literal
+                  (chunk_literal_part
+                    (str_literal)))
+                (chunk_expr
+                  (interpolation)
+                  (term
+                    (uni_term
+                      (infix_expr
+                        (applicative
+                          (record_operand
+                            (atom
+                              (ident))))))))
+                (chunk_literal
+                  (chunk_literal_part
+                    (str_literal)))))))))))
 
 ================================================================================
 multistring (level 4) (extra % before expr)

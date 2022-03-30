@@ -56,6 +56,10 @@ module.exports = grammar({
   externals: $ => [
     $._multstr_start,
     $._multstr_end,
+    $._str_start,
+    $._str_end,
+    $._interpolation_start,
+    $._interpolation_end,
   ],
 
   word: $ => $.keyword,
@@ -279,9 +283,9 @@ module.exports = grammar({
     ),
 
     str_chunks_single: $ => seq(
-      "\"",
+      $._str_start,
       repeat(choice($.chunk_expr, $.chunk_literal)),
-      "\"",
+      $._str_end,
     ),
 
     str_chunks_multi: $ => seq(
@@ -295,23 +299,23 @@ module.exports = grammar({
 
     //grammar.lalrpop: 492
     chunk_expr: $ => seq(
+      // TODO: Maybe just _interpolation_start?
       $.interpolation,
       $.term,
-      "}",
+      $._interpolation_end,
     ),
 
     //grammar.lalrpop: 492
-    //TODO: I think to fully implement this requires additional changes to the
-    //scanner.
     interpolation: $ => choice(
-      "%{",
-      $._multstr_start,
+      $._interpolation_start,
+      // TODO: Do we need this here?
+      //$._multstr_start,
     ),
 
     //grammar.lalrpop: 496
     static_string: $ => choice(
       // Single line
-      seq("\"", optional($.chunk_literal), "\""),
+      seq($._str_start, optional($.chunk_literal), $._str_end),
       seq($._multstr_start, optional($.chunk_literal), $._multstr_end),
     ),
 
@@ -322,7 +326,7 @@ module.exports = grammar({
     ),
 
     //grammar.lalrpop: 503
-    //TODO: Update the lexer to produce these tokens
+    //TODO: Update the lexer to produce these tokens?
     chunk_literal_part: $ => choice(
       $.str_literal,
       $.mult_str_literal,

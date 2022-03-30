@@ -1,5 +1,5 @@
-#include <stdint.h>
 #include <cwctype>
+#include <stdint.h>
 #include <tree_sitter/parser.h>
 
 namespace {
@@ -7,33 +7,35 @@ namespace {
 enum TokenType {
   MULTSTR_START,
   MULTSTR_END,
+  STR_START,
+  STR_END,
+  INTERPOLATION_START,
+  INTERPOLATION_END,
 };
 
 struct Scanner {
-  uint8_t delimiter_percent_count;
-  bool started_multstr;
+  uint8_t interpolation_expected_percent_count;
 
   void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 
-  void advance(TSLexer *lexer) {
-    lexer->advance(lexer, false);
+  void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
+
+  int32_t lookahead(TSLexer *lexer) {
+    return lexer->lookahead;
   }
 
   unsigned serialize(char *buffer) {
-    buffer[0] = delimiter_percent_count;
-    buffer[1] = started_multstr;
-    return 2;
+    buffer[0] = interpolation_expected_percent_count;
+    return 1;
   }
 
   void deserialize(const char *buffer, unsigned length) {
     // We have a constant size state, so this case should never happen. In case
     // it does, we initialize a fresh state.
-    if (length != 2) {
-      delimiter_percent_count = 0;
-      started_multstr = false;
+    if (length != 1) {
+      interpolation_expected_percent_count = 0;
     } else {
-      delimiter_percent_count = buffer[0];
-      started_multstr = buffer[1];
+      interpolation_expected_percent_count = buffer[0];
     }
   }
 
@@ -41,17 +43,16 @@ struct Scanner {
   // was already consumed.
   bool scan_multstr_start(TSLexer *lexer) {
     lexer->result_symbol = MULTSTR_START;
-    started_multstr = true;
-    delimiter_percent_count = 0;
+    interpolation_expected_percent_count = 0;
     bool quote = false;
 
     // Count the number of percentages
-    while (lexer->lookahead == '%') {
-      delimiter_percent_count++;
+    while (lookahead(lexer) == '%') {
+      interpolation_expected_percent_count++;
       advance(lexer);
     }
 
-    if (lexer->lookahead == '"') {
+    if (lookahead(lexer) == '"') {
       quote = true;
       advance(lexer);
     }
@@ -65,40 +66,108 @@ struct Scanner {
   // Scans the multistring end. Assumes that the " has already been consumed
   bool scan_multstr_end(TSLexer *lexer) {
     lexer->result_symbol = MULTSTR_END;
-    started_multstr = false;
     bool m = false;
 
     // Consume all %-signs
-    while (lexer->lookahead == '%' && delimiter_percent_count > 0) {
-      delimiter_percent_count--;
+    while (lookahead(lexer) == '%' &&
+           interpolation_expected_percent_count > 0) {
+      interpolation_expected_percent_count--;
       advance(lexer);
     }
 
-    if (lexer->lookahead == 'm') {
+    if (lookahead(lexer) == 'm') {
       m = true;
       advance(lexer);
     }
 
     // An END is fully scanned when we started with an '"' (precondition of
     // this function), consumed all %-signs and ended with an m.
-    return (m && delimiter_percent_count == 0);
+    return (m && interpolation_expected_percent_count == 0);
+  }
+
+  // Precondition of this function is that the lookahead is '"'
+  bool scan_str_start(TSLexer *lexer) {
+    lexer->result_symbol = STR_START;
+
+    // Interpolation in strings are preceded by a single % sign.
+    interpolation_expected_percent_count = 1;
+
+    advance(lexer);
+
+    return true;
+  }
+
+  // Precondition of this function is that the lookahead is '"'
+  bool scan_str_end(TSLexer *lexer) {
+    lexer->result_symbol = STR_END;
+
+    advance(lexer);
+
+    return true;
+  }
+
+  bool scan_interpolation_start(TSLexer *lexer) {
+    lexer->result_symbol = INTERPOLATION_START;
+
+    bool brace = false;
+    // local because we don't want to update the state
+    uint8_t percent_count = 0;
+
+    while (lookahead(lexer) == '%') {
+      percent_count++;
+      advance(lexer);
+    }
+
+    if (lookahead(lexer) == '{') {
+      brace = true;
+      advance(lexer);
+    }
+
+    return brace && (percent_count == interpolation_expected_percent_count);
+  }
+
+  // Precondition of this function is that the lookahead is '}'
+  bool scan_interpolation_end(TSLexer *lexer) {
+    lexer->result_symbol = INTERPOLATION_END;
+
+    advance(lexer);
+
+    return true;
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
-    while (iswspace(lexer->lookahead)) skip(lexer);
+    while (iswspace(lookahead(lexer))) {
+      skip(lexer);
+    }
 
-    if (lexer->lookahead == 'm') {
+    if (lookahead(lexer) == 'm' && valid_symbols[MULTSTR_START]) {
       advance(lexer);
-      if (lexer->lookahead == '%') {
+      if (lookahead(lexer) == '%') {
         return scan_multstr_start(lexer);
       }
     }
 
-    if (lexer->lookahead == '"') {
+    if (lookahead(lexer) == '"' && valid_symbols[MULTSTR_END]) {
       advance(lexer);
-      if (lexer->lookahead == '%') {
+      if (lookahead(lexer) == '%') {
         return scan_multstr_end(lexer);
       }
+    }
+
+    if (lookahead(lexer) == '"' && valid_symbols[STR_START]) {
+      return scan_str_start(lexer);
+    }
+
+    if (lookahead(lexer) == '"' && valid_symbols[STR_END]) {
+      return scan_str_end(lexer);
+    }
+
+    if (lookahead(lexer) == '%' && valid_symbols[INTERPOLATION_START]) {
+      return scan_interpolation_start(lexer);
+    }
+
+    if (lookahead(lexer) == '}' && valid_symbols[INTERPOLATION_END]) {
+      return scan_interpolation_end(lexer);
     }
 
     return false;

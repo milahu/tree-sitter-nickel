@@ -193,6 +193,10 @@
       "required": true,
       "types": [
         {
+          "type": "percent",
+          "named": true
+        },
+        {
           "type": "str_esc_char",
           "named": true
         },
@@ -633,7 +637,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
@@ -699,10 +703,6 @@
         },
         {
           "type": "chunk_literal_single",
-          "named": true
-        },
-        {
-          "type": "percent",
           "named": true
         }
       ]

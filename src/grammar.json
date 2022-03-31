@@ -832,14 +832,6 @@
                 "value": 1,
                 "content": {
                   "type": "SYMBOL",
-                  "name": "percent"
-                }
-              },
-              {
-                "type": "PREC",
-                "value": 2,
-                "content": {
-                  "type": "SYMBOL",
                   "name": "chunk_literal_single"
                 }
               }
@@ -851,10 +843,6 @@
           "name": "_str_end"
         }
       ]
-    },
-    "percent": {
-      "type": "STRING",
-      "value": "%"
     },
     "str_chunks_multi": {
       "type": "SEQ",
@@ -879,14 +867,6 @@
               {
                 "type": "PREC",
                 "value": 1,
-                "content": {
-                  "type": "STRING",
-                  "value": "%"
-                }
-              },
-              {
-                "type": "PREC",
-                "value": 2,
                 "content": {
                   "type": "SYMBOL",
                   "name": "chunk_literal_multi"
@@ -938,16 +918,11 @@
               "name": "_str_start"
             },
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "chunk_literal_single"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "chunk_literal_single"
+              }
             },
             {
               "type": "SYMBOL",
@@ -963,16 +938,11 @@
               "name": "_multstr_start"
             },
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "chunk_literal_multi"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "chunk_literal_multi"
+              }
             },
             {
               "type": "SYMBOL",
@@ -999,12 +969,28 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "str_literal"
+          "type": "PREC",
+          "value": 0,
+          "content": {
+            "type": "SYMBOL",
+            "name": "str_esc_char"
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "str_esc_char"
+          "type": "PREC",
+          "value": 1,
+          "content": {
+            "type": "SYMBOL",
+            "name": "str_literal"
+          }
+        },
+        {
+          "type": "PREC",
+          "value": 2,
+          "content": {
+            "type": "SYMBOL",
+            "name": "percent"
+          }
         }
       ]
     },
@@ -1012,22 +998,34 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "mult_str_literal"
+          "type": "PREC",
+          "value": 0,
+          "content": {
+            "type": "SYMBOL",
+            "name": "str_esc_char"
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "str_esc_char"
+          "type": "PREC",
+          "value": 1,
+          "content": {
+            "type": "SYMBOL",
+            "name": "mult_str_literal"
+          }
         }
       ]
     },
+    "percent": {
+      "type": "STRING",
+      "value": "%"
+    },
     "str_literal": {
       "type": "PATTERN",
-      "value": "[^\"%\\\\]+"
+      "value": "[^\"\\\\]+"
     },
     "mult_str_literal": {
       "type": "PATTERN",
-      "value": "[^\"%]+"
+      "value": "[^\"]+"
     },
     "str_esc_char": {
       "type": "PATTERN",

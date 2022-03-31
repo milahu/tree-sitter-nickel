@@ -286,27 +286,23 @@ module.exports = grammar({
       $._str_start,
       repeat(choice(
         prec(0, $.chunk_expr),
-        // TODO: We really don't want to have this here.
-        prec(1, $.percent),
-        prec(2, $.chunk_literal_single),
+        prec(1, $.chunk_literal_single),
       )),
       $._str_end,
     ),
-
-    // TODO: We really don't want to have this here.
-    percent: _ => "%",
 
     str_chunks_multi: $ => seq(
       $._multstr_start,
       repeat(choice(
         prec(0, $.chunk_expr),
-        prec(1, "%"),
-        prec(2, $.chunk_literal_multi),
+        prec(1, $.chunk_literal_multi),
       )),
       $._multstr_end,
     ),
 
     //grammar.lalrpop: 480
+    //NOTE: Because we cannot parameterize grammar rules, we instead create two
+    //versions. `chunk_literal_single` and `chunk_literal_multi`.
     //chunk_literal: $ => repeat1($.chunk_literal_part),
 
     //grammar.lalrpop: 492
@@ -326,9 +322,10 @@ module.exports = grammar({
 
     //grammar.lalrpop: 496
     static_string: $ => choice(
-      // Single line
-      seq($._str_start, optional($.chunk_literal_single), $._str_end),
-      seq($._multstr_start, optional($.chunk_literal_multi), $._multstr_end),
+      // "Single line"
+      seq($._str_start, repeat($.chunk_literal_single), $._str_end),
+      // m%"Multi line"%m
+      seq($._multstr_start, repeat($.chunk_literal_multi), $._multstr_end),
     ),
 
     //grammar.lalrpop: 498
@@ -339,14 +336,19 @@ module.exports = grammar({
 
     //grammar.lalrpop: 503
     chunk_literal_single: $ => choice(
-      $.str_literal,
-      $.str_esc_char,
+      prec(0, $.str_esc_char),
+      prec(1, $.str_literal),
+      prec(2, $.percent),
     ),
 
     chunk_literal_multi: $ => choice(
-      $.mult_str_literal,
-      $.str_esc_char,
+      prec(0, $.str_esc_char),
+      prec(1, $.mult_str_literal),
+      prec(2, $.percent),
     ),
+
+    // TODO: We really don't want to have this here.
+    percent: _ => "%",
 
     str_literal: _ => /[^"%\\]+/,
     mult_str_literal: _ => /[^"%]+/,

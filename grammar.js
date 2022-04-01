@@ -112,8 +112,6 @@ module.exports = grammar({
 
     //grammar.lalrpop: 165
     uni_term: $ => choice(
-      // Conflict for {} (could be a switch or a record). Prefer record in that
-      // case
       $.infix_expr,
       // NOTE: We seperate the rules out into their own, otherwise it would get
       // a little much for this single rule.
@@ -143,13 +141,13 @@ module.exports = grammar({
       $.term,
     ),
 
-    switch_expr: $ => prec(0, seq(
+    switch_expr: $ => seq(
       "switch",
       "{",
       seq(commaSep($.switch_case), optional(",")),
       "}",
       $.term,
-    )),
+    ),
 
     ite_expr: $ => seq(
       "if",
@@ -205,13 +203,13 @@ module.exports = grammar({
     ),
 
     //grammar.lalrpop: 276
-    uni_record: $ => prec(1, seq(
+    uni_record: $ => seq(
       "{",
       repeat(seq($.record_field, ",")),
       optional($.record_last_field),
       optional(";"),
       "}",
-    )),
+    ),
 
     //grammar.lalrpop: 306
     atom: $ => choice(

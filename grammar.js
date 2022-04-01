@@ -196,8 +196,7 @@ module.exports = grammar({
       seq("`", $.enum_tag),
       // NOTE: Arrays may have a trailing comma in Nickel
       square(seq(commaSep($.term), optional(","))),
-      // TODO
-      //$.type_atom,
+      $.type_atom,
     ),
 
     //grammar.lalrpop: 328
@@ -456,6 +455,32 @@ module.exports = grammar({
       prec.left(-9, seq($.infix_expr, $.infix_lazy_b_op_9, $.infix_expr)),
       prec.left(-10, seq($.infix_expr, $.infix_lazy_b_op_10, $.infix_expr)),
       prec.right(-11, seq($.infix_expr, "->", $.infix_expr)),
+    ),
+
+    //grammar.lalrpop: 736
+    type_builtin: _ => choice(
+      "Dyn",
+      "Num",
+      "Bool",
+      "Str",
+    ),
+
+    //grammar.lalrpop: 743
+    type_atom: $ => choice(
+      $.type_builtin,
+      seq(
+        "[|",
+        commaSep($.enum_tag),
+        optional(seq(";", $.enum_tag)),
+        "|]",
+      ),
+      seq(
+        "{",
+        "_",
+        ":",
+        $.types,
+        "}",
+      ),
     ),
 
   },

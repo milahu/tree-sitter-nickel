@@ -120,6 +120,10 @@
           "named": true
         },
         {
+          "type": "type_atom",
+          "named": true
+        },
+        {
           "type": "uni_record",
           "named": true
         },
@@ -828,6 +832,34 @@
     }
   },
   {
+    "type": "type_atom",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "enum_tag",
+          "named": true
+        },
+        {
+          "type": "type_builtin",
+          "named": true
+        },
+        {
+          "type": "types",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_builtin",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "types",
     "named": true,
     "fields": {},
@@ -1009,7 +1041,27 @@
     "named": false
   },
   {
+    "type": "Bool",
+    "named": false
+  },
+  {
+    "type": "Dyn",
+    "named": false
+  },
+  {
+    "type": "Num",
+    "named": false
+  },
+  {
+    "type": "Str",
+    "named": false
+  },
+  {
     "type": "[",
+    "named": false
+  },
+  {
+    "type": "[|",
     "named": false
   },
   {
@@ -1114,6 +1166,10 @@
   },
   {
     "type": "|>",
+    "named": false
+  },
+  {
+    "type": "|]",
     "named": false
   },
   {

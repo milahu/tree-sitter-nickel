@@ -21,7 +21,8 @@ type simple
               (applicative
                 (record_operand
                   (atom
-                    (ident)))))))))))
+                    (type_atom
+                      (type_builtin))))))))))))
 
 ================================================================================
 type nested (FIXME this should be syntax error)
@@ -46,7 +47,8 @@ type nested (FIXME this should be syntax error)
               (applicative
                 (record_operand
                   (atom
-                    (ident)))))))
+                    (type_atom
+                      (type_builtin))))))))
         (annot_atom
           (types
             (infix_expr

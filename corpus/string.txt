@@ -206,3 +206,22 @@ m%%%%"%%%%%{"Hello "} world"%%%%m
                                     (str_literal)))))))))))
                 (chunk_literal_multi
                   (mult_str_literal))))))))))
+
+================================================================================
+quote in multistring
+================================================================================
+
+m%"""%m
+
+--------------------------------------------------------------------------------
+
+(term
+  (uni_term
+    (infix_expr
+      (applicative
+        (record_operand
+          (atom
+            (str_chunks
+              (str_chunks_multi
+                (chunk_literal_multi
+                  (double_quote))))))))))

@@ -346,10 +346,12 @@ module.exports = grammar({
       $.str_esc_char,
       $.mult_str_literal,
       $.percent,
+      $.double_quote,
     ),
 
     // TODO: We really don't want to have this here.
     percent: _ => "%",
+    double_quote: _ => "\"",
 
     str_literal: _ => /[^"%\\]+/,
     mult_str_literal: _ => /[^"%]+/,

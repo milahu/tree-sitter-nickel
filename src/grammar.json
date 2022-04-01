@@ -1174,12 +1174,20 @@
         {
           "type": "SYMBOL",
           "name": "percent"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "double_quote"
         }
       ]
     },
     "percent": {
       "type": "STRING",
       "value": "%"
+    },
+    "double_quote": {
+      "type": "STRING",
+      "value": "\""
     },
     "str_literal": {
       "type": "PATTERN",

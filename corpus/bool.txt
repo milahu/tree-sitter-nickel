@@ -41,17 +41,17 @@ true && false
 (term
   (uni_term
     (infix_expr
-      (infix_b_op
-        (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (bool)))))
-        (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (bool)))))))))
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (bool)))))
+      (infix_lazy_b_op_9)
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (bool))))))))
 
 ================================================================================
 bool ||
@@ -64,17 +64,17 @@ true || false
 (term
   (uni_term
     (infix_expr
-      (infix_b_op
-        (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (bool)))))
-        (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (bool)))))))))
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (bool)))))
+      (infix_lazy_b_op_10)
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (bool))))))))
 
 ================================================================================
 bool nested
@@ -87,24 +87,24 @@ true || false && true
 (term
   (uni_term
     (infix_expr
-      (infix_b_op
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (bool)))))
+      (infix_lazy_b_op_10)
+      (infix_expr
         (infix_expr
           (applicative
             (record_operand
               (atom
                 (bool)))))
+        (infix_lazy_b_op_9)
         (infix_expr
-          (infix_b_op
-            (infix_expr
-              (applicative
-                (record_operand
-                  (atom
-                    (bool)))))
-            (infix_expr
-              (applicative
-                (record_operand
-                  (atom
-                    (bool)))))))))))
+          (applicative
+            (record_operand
+              (atom
+                (bool)))))))))
 
 ================================================================================
 bool negate
@@ -117,12 +117,12 @@ bool negate
 (term
   (uni_term
     (infix_expr
-      (infix_u_op
-        (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (bool)))))))))
+      (infix_u_op_5)
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (bool))))))))
 
 ================================================================================
 bool negate parentheses
@@ -135,21 +135,21 @@ bool negate parentheses
 (term
   (uni_term
     (infix_expr
-      (infix_u_op
-        (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (uni_term
+      (infix_u_op_5)
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (uni_term
+                (infix_expr
                   (infix_expr
-                    (infix_b_op
-                      (infix_expr
-                        (applicative
-                          (record_operand
-                            (atom
-                              (bool)))))
-                      (infix_expr
-                        (applicative
-                          (record_operand
-                            (atom
-                              (bool))))))))))))))))
+                    (applicative
+                      (record_operand
+                        (atom
+                          (bool)))))
+                  (infix_lazy_b_op_9)
+                  (infix_expr
+                    (applicative
+                      (record_operand
+                        (atom
+                          (bool))))))))))))))

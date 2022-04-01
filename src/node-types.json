@@ -218,7 +218,17 @@
   {
     "type": "curried_op",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "infix_op",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "destruct",
@@ -329,105 +339,74 @@
   {
     "type": "infix_b_op",
     "named": true,
-    "fields": {
-      "left": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "infix_expr",
-            "named": true
-          }
-        ]
-      },
-      "operator": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "!=",
-            "named": false
-          },
-          {
-            "type": "&",
-            "named": false
-          },
-          {
-            "type": "&&",
-            "named": false
-          },
-          {
-            "type": "*",
-            "named": false
-          },
-          {
-            "type": "+",
-            "named": false
-          },
-          {
-            "type": "++",
-            "named": false
-          },
-          {
-            "type": "-",
-            "named": false
-          },
-          {
-            "type": "->",
-            "named": false
-          },
-          {
-            "type": "/",
-            "named": false
-          },
-          {
-            "type": "<",
-            "named": false
-          },
-          {
-            "type": "<=",
-            "named": false
-          },
-          {
-            "type": "==",
-            "named": false
-          },
-          {
-            "type": ">",
-            "named": false
-          },
-          {
-            "type": ">=",
-            "named": false
-          },
-          {
-            "type": "@",
-            "named": false
-          },
-          {
-            "type": "||",
-            "named": false
-          }
-        ]
-      },
-      "right": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "infix_expr",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "infix_b_op_2",
+          "named": true
+        },
+        {
+          "type": "infix_b_op_3",
+          "named": true
+        },
+        {
+          "type": "infix_b_op_4",
+          "named": true
+        },
+        {
+          "type": "infix_b_op_6",
+          "named": true
+        },
+        {
+          "type": "infix_b_op_7",
+          "named": true
+        },
+        {
+          "type": "infix_b_op_8",
+          "named": true
+        }
+      ]
     }
+  },
+  {
+    "type": "infix_b_op_2",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "infix_b_op_3",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "infix_b_op_4",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "infix_b_op_6",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "infix_b_op_7",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "infix_b_op_8",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "infix_expr",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -435,44 +414,103 @@
           "named": true
         },
         {
-          "type": "infix_b_op",
+          "type": "infix_b_op_2",
           "named": true
         },
         {
-          "type": "infix_u_op",
+          "type": "infix_b_op_3",
+          "named": true
+        },
+        {
+          "type": "infix_b_op_4",
+          "named": true
+        },
+        {
+          "type": "infix_b_op_6",
+          "named": true
+        },
+        {
+          "type": "infix_b_op_7",
+          "named": true
+        },
+        {
+          "type": "infix_b_op_8",
+          "named": true
+        },
+        {
+          "type": "infix_expr",
+          "named": true
+        },
+        {
+          "type": "infix_lazy_b_op_10",
+          "named": true
+        },
+        {
+          "type": "infix_lazy_b_op_9",
+          "named": true
+        },
+        {
+          "type": "infix_u_op_5",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "infix_u_op",
+    "type": "infix_lazy_b_op_10",
     "named": true,
-    "fields": {
-      "argument": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "infix_expr",
-            "named": true
-          }
-        ]
-      },
-      "operator": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "!",
-            "named": false
-          },
-          {
-            "type": "-",
-            "named": false
-          }
-        ]
-      }
+    "fields": {}
+  },
+  {
+    "type": "infix_lazy_b_op_9",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "infix_op",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "infix_b_op",
+          "named": true
+        },
+        {
+          "type": "infix_u_op_or_lazy_b_op",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "infix_u_op_5",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "infix_u_op_or_lazy_b_op",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "infix_lazy_b_op_10",
+          "named": true
+        },
+        {
+          "type": "infix_lazy_b_op_9",
+          "named": true
+        },
+        {
+          "type": "infix_u_op_5",
+          "named": true
+        }
+      ]
     }
   },
   {

@@ -9,36 +9,6 @@
 // a Types rule, but with post-processing. We don't do any post-processing in
 // tree-sitter, so we just parse them as a `Types`.
 
-// Precedence values are taken from lalrpop grammar
-// https://github.com/tweag/nickel/blob/master/src/grammar.lalrpop
-// In lalrpop the highest precedence is 0.
-// Higher numbers imply a lower precedence. In tree-sitter however, a high
-// number implies a high precedence. To solve this issue, while keeping
-// the numbers the same, all precedence values are negated.
-const PREC = {
-  Applicative: -0,  // f x
-  Negate: -1,       // -1
-  StrConcat: -2,    // "a" ++ "b"
-  ArrayConcat: -2,  // [1] @ [2]
-  Mult: -3,         // 1 * 2
-  Div: -3,          // 1 / 2
-  Modulo: -3,       // 1 % 2
-  Plus: -4,         // 1 + 2
-  Sub: -4,          // 1 - 2
-  BoolNot: -5,      // !true
-  Merge: -6,        // { a = "a" } & { b = "b" }
-  RightPipe: -6,    // "Hello World" |> string.split " "
-  LessThan: -7,     // 1 < 2
-  LessOrEq: -7,     // 1 <= 2
-  GreaterThan: -7,  // 1 > 2
-  GreaterOrEq: -7,  // 1 >= 2
-  Eq: -8,           // 1 == 2
-  Neq: -8,          // 1 != 2
-  BoolAnd: -9,      // true && false
-  BoolOr: -10,      // true || false
-  Arrow: -11,       // Num -> Num
-}
-
 module.exports = grammar({
   name: 'nickel',
 
@@ -378,68 +348,114 @@ module.exports = grammar({
     ),
 
     //grammar.lalrpop: 554
-    infix_b_op: $ => choice(
-      // left assoc.
-      ...[
-        ['==', PREC.Eq],
-        ['!=', PREC.Neq],
-        ['<', PREC.LessThan],
-        ['<=', PREC.LessOrEq],
-        ['>', PREC.GreaterThan],
-        ['>=', PREC.GreaterOrEq],
-        ['&&', PREC.BoolAnd],
-        ['||', PREC.BoolOr],
-        ['+', PREC.Plus],
-        ['-', PREC.Sub],
-        ['*', PREC.Mult],
-        ['/', PREC.Div],
-      ].map(([operator, precedence]) =>
-      prec.left(precedence, seq(
-        field('left', $.infix_expr),
-        field('operator', operator),
-        field('right', $.infix_expr)
-      ))),
-      // right assoc.
-      ...[
-        ['->', PREC.Arrow],
-        ['&', PREC.Merge],
-        ['++', PREC.StrConcat],
-        ['@', PREC.ArrayConcat],
-      ].map(([operator, precedence]) =>
-      prec.right(precedence, seq(
-        field('left', $.infix_expr),
-        field('operator', operator),
-        field('right', $.infix_expr)
-      )))
+    infix_b_op_2: _ => choice(
+      "++",
+      "@",
     ),
 
-    // Combines all InfixUOps from the lalrpop grammar
-    // 570
-    infix_u_op: $ => choice(
-      ...[
-        ['!', PREC.BoolNot],
-        ['-', PREC.Negate],
-      ].map(([operator, precedence]) =>
-        prec(precedence, seq(
-          field('operator', operator),
-          field('argument', $.infix_expr)
-        ))
-      )
+    //grammar.lalrpop: 559
+    infix_b_op_3: _ => choice(
+      "*",
+      "/",
+      "%",
+    ),
+
+    //grammar.lalrpop: 565
+    infix_b_op_4: _ => choice(
+      "+",
+      "-",
+    ),
+
+    //grammar.lalrpop: 570
+    infix_u_op_5: _ => choice(
+      "!",
+    ),
+
+    //grammar.lalrpop: 574
+    infix_b_op_6: _ => choice(
+      "&",
+    ),
+
+    //grammar.lalrpop: 578
+    infix_b_op_7: _ => choice(
+      "<",
+      "<=",
+      ">",
+      ">=",
+    ),
+
+    //grammar.lalrpop: 585
+    infix_b_op_8: _ => choice(
+      "==",
+    ),
+
+    //grammar.lalrpop: 589
+    infix_lazy_b_op_9: _ => choice(
+      "&&",
+    ),
+
+    //grammar.lalrpop: 593
+    infix_lazy_b_op_10: _ => choice(
+      "||",
+    ),
+
+    //grammar.lalrpop: 597
+    infix_b_op: $ => choice(
+        $.infix_b_op_2,
+        $.infix_b_op_3,
+        $.infix_b_op_4,
+        $.infix_b_op_6,
+        $.infix_b_op_7,
+        $.infix_b_op_8,
+    ),
+
+    //grammar.lalrpop: 606
+    infix_u_op_or_lazy_b_op: $ => choice(
+        $.infix_u_op_5,
+        $.infix_lazy_b_op_9,
+        $.infix_lazy_b_op_10,
+    ),
+
+    //grammar.lalrpop: 606
+    infix_op: $ => choice(
+      $.infix_b_op,
+      $.infix_u_op_or_lazy_b_op,
     ),
 
     //grammar.lalrpop: 617
     curried_op: $ => choice(
-      //TODO: Rework infix expressions based on lalrpop
-      //$.infix_op,
+      $.infix_op,
       "|>",
       "!=",
     ),
 
     //grammar.lalrpop: 662
+    // Precedence values are taken from lalrpop grammar
+    // https://github.com/tweag/nickel/blob/master/src/grammar.lalrpop
+    // In lalrpop the highest precedence is 0.
+    // Higher numbers imply a lower precedence. In tree-sitter however, a high
+    // number implies a high precedence. To solve this issue, while keeping
+    // the numbers the same, all precedence values are negated.
+    //
+    // Additionally, we don't actually construct an AST, so special rules (such
+    // as |> and !=) are standardised.
     infix_expr: $ => choice(
-      prec(0, $.applicative),
-      $.infix_u_op,
-      $.infix_b_op,
+      prec.left(-0, $.applicative),
+      prec(-1, seq("-", $.infix_expr)),
+      prec.left(-2, seq($.infix_expr, $.infix_b_op_2, $.infix_expr)),
+      prec.left(-3, seq($.infix_expr, $.infix_b_op_3, $.infix_expr)),
+      prec.left(-4, seq($.infix_expr, $.infix_b_op_4, $.infix_expr)),
+      prec.left(-5, seq($.infix_u_op_5, $.infix_expr)),
+      prec.left(-6, seq($.infix_expr, $.infix_b_op_6, $.infix_expr)),
+      // TODO: Make part of infix_b_op_6
+      prec.left(-6, seq($.infix_expr, "|>", $.infix_expr)),
+      prec.left(-7, seq($.infix_expr, $.infix_b_op_7, $.infix_expr)),
+      prec.left(-8, seq($.infix_expr, $.infix_b_op_8, $.infix_expr)),
+      // TODO: Make part of infix_b_op_8
+      prec.left(-8, seq($.infix_expr, "!=", $.infix_expr)),
+      prec.left(-9, seq($.infix_expr, $.infix_lazy_b_op_9, $.infix_expr)),
+      prec.left(-10, seq($.infix_expr, $.infix_lazy_b_op_10, $.infix_expr)),
+      prec.right(-11, seq($.infix_expr, "->", $.infix_expr)),
     ),
 
   },

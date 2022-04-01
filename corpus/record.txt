@@ -9,41 +9,41 @@ Record Merge
 (term
   (uni_term
     (infix_expr
-      (infix_b_op
-        left: (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (uni_record
-                  (record_last_field
-                    (record_field
-                      (field_path
-                        (field_path_elem
-                          (ident)))
-                      (term
-                        (uni_term
-                          (infix_expr
-                            (applicative
-                              (record_operand
-                                (atom
-                                  (num_literal))))))))))))))
-        right: (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (uni_record
-                  (record_last_field
-                    (record_field
-                      (field_path
-                        (field_path_elem
-                          (ident)))
-                      (term
-                        (uni_term
-                          (infix_expr
-                            (applicative
-                              (record_operand
-                                (atom
-                                  (num_literal))))))))))))))))))
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (uni_record
+                (record_last_field
+                  (record_field
+                    (field_path
+                      (field_path_elem
+                        (ident)))
+                    (term
+                      (uni_term
+                        (infix_expr
+                          (applicative
+                            (record_operand
+                              (atom
+                                (num_literal))))))))))))))
+      (infix_b_op_6)
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (uni_record
+                (record_last_field
+                  (record_field
+                    (field_path
+                      (field_path_elem
+                        (ident)))
+                    (term
+                      (uni_term
+                        (infix_expr
+                          (applicative
+                            (record_operand
+                              (atom
+                                (num_literal)))))))))))))))))
 
 ================================================================================
 Record (empty)

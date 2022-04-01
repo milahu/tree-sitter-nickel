@@ -129,12 +129,11 @@ number int negative
 (term
   (uni_term
     (infix_expr
-      (infix_u_op
-        (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (num_literal)))))))))
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (num_literal))))))))
 
 ================================================================================
 number float negative
@@ -147,12 +146,11 @@ number float negative
 (term
   (uni_term
     (infix_expr
-      (infix_u_op
-        (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (num_literal)))))))))
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (num_literal))))))))
 
 ================================================================================
 infix binary operator: plus int int
@@ -165,17 +163,17 @@ infix binary operator: plus int int
 (term
   (uni_term
     (infix_expr
-      (infix_b_op
-        (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (num_literal)))))
-        (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (num_literal)))))))))
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (num_literal)))))
+      (infix_b_op_4)
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (num_literal))))))))
 
 ================================================================================
 infix binary operator: plus int int: no space
@@ -188,17 +186,17 @@ infix binary operator: plus int int: no space
 (term
   (uni_term
     (infix_expr
-      (infix_b_op
-        (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (num_literal)))))
-        (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (num_literal)))))))))
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (num_literal)))))
+      (infix_b_op_4)
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (num_literal))))))))
 
 ================================================================================
 infix binary operator: plus int float
@@ -211,17 +209,17 @@ infix binary operator: plus int float
 (term
   (uni_term
     (infix_expr
-      (infix_b_op
-        (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (num_literal)))))
-        (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (num_literal)))))))))
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (num_literal)))))
+      (infix_b_op_4)
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (num_literal))))))))
 
 ================================================================================
 infix binary operator: plus int int int
@@ -234,24 +232,24 @@ infix binary operator: plus int int int
 (term
   (uni_term
     (infix_expr
-      (infix_b_op
-        (infix_expr
-          (infix_b_op
-            (infix_expr
-              (applicative
-                (record_operand
-                  (atom
-                    (num_literal)))))
-            (infix_expr
-              (applicative
-                (record_operand
-                  (atom
-                    (num_literal)))))))
+      (infix_expr
         (infix_expr
           (applicative
             (record_operand
               (atom
-                (num_literal)))))))))
+                (num_literal)))))
+        (infix_b_op_4)
+        (infix_expr
+          (applicative
+            (record_operand
+              (atom
+                (num_literal))))))
+      (infix_b_op_4)
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (num_literal))))))))
 
 ================================================================================
 infix binary operator: minus int int
@@ -264,17 +262,17 @@ infix binary operator: minus int int
 (term
   (uni_term
     (infix_expr
-      (infix_b_op
-        (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (num_literal)))))
-        (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (num_literal)))))))))
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (num_literal)))))
+      (infix_b_op_4)
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (num_literal))))))))
 
 ================================================================================
 infix binary operator: minus id id
@@ -287,17 +285,17 @@ a - b
 (term
   (uni_term
     (infix_expr
-      (infix_b_op
-        (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (ident)))))
-        (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (ident)))))))))
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (ident)))))
+      (infix_b_op_4)
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (ident))))))))
 
 ================================================================================
 infix binary operator: minus int int: no space
@@ -310,17 +308,17 @@ infix binary operator: minus int int: no space
 (term
   (uni_term
     (infix_expr
-      (infix_b_op
-        (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (num_literal)))))
-        (infix_expr
-          (applicative
-            (record_operand
-              (atom
-                (num_literal)))))))))
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (num_literal)))))
+      (infix_b_op_4)
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (num_literal))))))))
 
 ================================================================================
 Ite (if then else)
@@ -605,30 +603,29 @@ square 2 + -pi - 42.0
 (term
   (uni_term
     (infix_expr
-      (infix_b_op
-        (infix_expr
-          (infix_b_op
-            (infix_expr
-              (applicative
-                (applicative
-                  (record_operand
-                    (atom
-                      (ident))))
-                (record_operand
-                  (atom
-                    (num_literal)))))
-            (infix_expr
-              (infix_u_op
-                (infix_expr
-                  (applicative
-                    (record_operand
-                      (atom
-                        (ident)))))))))
+      (infix_expr
         (infix_expr
           (applicative
+            (applicative
+              (record_operand
+                (atom
+                  (ident))))
             (record_operand
               (atom
-                (num_literal)))))))))
+                (num_literal)))))
+        (infix_b_op_4)
+        (infix_expr
+          (infix_expr
+            (applicative
+              (record_operand
+                (atom
+                  (ident)))))))
+      (infix_b_op_4)
+      (infix_expr
+        (applicative
+          (record_operand
+            (atom
+              (num_literal))))))))
 
 ================================================================================
 parens

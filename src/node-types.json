@@ -96,6 +96,10 @@
           "named": true
         },
         {
+          "type": "curried_op",
+          "named": true
+        },
+        {
           "type": "enum_tag",
           "named": true
         },
@@ -178,6 +182,10 @@
           "named": true
         },
         {
+          "type": "percent",
+          "named": true
+        },
+        {
           "type": "str_esc_char",
           "named": true
         }
@@ -206,6 +214,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "curried_op",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "destruct",
@@ -709,6 +722,44 @@
     }
   },
   {
+    "type": "switch_case",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "enum_tag",
+          "named": true
+        },
+        {
+          "type": "term",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "switch_expr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "switch_case",
+          "named": true
+        },
+        {
+          "type": "term",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "term",
     "named": true,
     "fields": {},
@@ -802,6 +853,10 @@
         },
         {
           "type": "let_expr",
+          "named": true
+        },
+        {
+          "type": "switch_expr",
           "named": true
         }
       ]
@@ -924,6 +979,10 @@
     "named": false
   },
   {
+    "type": "_",
+    "named": false
+  },
+  {
     "type": "`",
     "named": false
   },
@@ -996,6 +1055,10 @@
     "named": true
   },
   {
+    "type": "switch",
+    "named": false
+  },
+  {
     "type": "then",
     "named": false
   },
@@ -1009,6 +1072,10 @@
   },
   {
     "type": "|",
+    "named": false
+  },
+  {
+    "type": "|>",
     "named": false
   },
   {

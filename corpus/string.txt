@@ -190,6 +190,8 @@ m%%%%"%%%%%{"Hello "} world"%%%%m
           (atom
             (str_chunks
               (str_chunks_multi
+                (chunk_literal_multi
+                  (percent))
                 (chunk_expr
                   (interpolation)
                   (term

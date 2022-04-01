@@ -112,6 +112,8 @@ module.exports = grammar({
 
     //grammar.lalrpop: 165
     uni_term: $ => choice(
+      // Conflict for {} (could be a switch or a record). Prefer record in that
+      // case
       $.infix_expr,
       // NOTE: We seperate the rules out into their own, otherwise it would get
       // a little much for this single rule.
@@ -120,7 +122,7 @@ module.exports = grammar({
       //$.forall,
       $.let_expr,
       $.fun_expr,
-      //$.switch_expr,
+      $.switch_expr,
       $.ite_expr, // if then else
     ),
 
@@ -140,6 +142,14 @@ module.exports = grammar({
       "=>",
       $.term,
     ),
+
+    switch_expr: $ => prec(0, seq(
+      "switch",
+      "{",
+      seq(commaSep($.switch_case), optional(",")),
+      "}",
+      $.term,
+    )),
 
     ite_expr: $ => seq(
       "if",
@@ -195,18 +205,17 @@ module.exports = grammar({
     ),
 
     //grammar.lalrpop: 276
-    uni_record: $ => seq(
+    uni_record: $ => prec(1, seq(
       "{",
       repeat(seq($.record_field, ",")),
       optional($.record_last_field),
       optional(";"),
       "}",
-    ),
+    )),
 
     //grammar.lalrpop: 306
     atom: $ => choice(
-      // TODO
-      //parens($.curried_op),
+      parens($.curried_op),
       parens($.uni_term),
       $.num_literal,
       "null",
@@ -219,6 +228,7 @@ module.exports = grammar({
       seq("`", $.enum_tag),
       // NOTE: Arrays may have a trailing comma in Nickel
       square(seq(commaSep($.term), optional(","))),
+      // TODO
       //$.type_atom,
     ),
 
@@ -285,8 +295,8 @@ module.exports = grammar({
     str_chunks_single: $ => seq(
       $._str_start,
       repeat(choice(
-        prec(0, $.chunk_expr),
-        prec(1, $.chunk_literal_single),
+        $.chunk_expr,
+        $.chunk_literal_single,
       )),
       $._str_end,
     ),
@@ -294,8 +304,8 @@ module.exports = grammar({
     str_chunks_multi: $ => seq(
       $._multstr_start,
       repeat(choice(
-        prec(0, $.chunk_expr),
-        prec(1, $.chunk_literal_multi),
+        $.chunk_expr,
+        $.chunk_literal_multi,
       )),
       $._multstr_end,
     ),
@@ -336,15 +346,15 @@ module.exports = grammar({
 
     //grammar.lalrpop: 503
     chunk_literal_single: $ => choice(
-      prec(0, $.str_esc_char),
-      prec(1, $.str_literal),
-      prec(2, $.percent),
+      $.str_esc_char,
+      $.str_literal,
+      $.percent,
     ),
 
     chunk_literal_multi: $ => choice(
-      prec(0, $.str_esc_char),
-      prec(1, $.mult_str_literal),
-      prec(2, $.percent),
+      $.str_esc_char,
+      $.mult_str_literal,
+      $.percent,
     ),
 
     // TODO: We really don't want to have this here.
@@ -361,6 +371,12 @@ module.exports = grammar({
       "%",
       $.ident,
       "%",
+    ),
+
+    //grammar.lalrpop: 546
+    switch_case: $ => choice(
+      seq("`", $.enum_tag, "=>", $.term),
+      seq("_", "=>", $.term),
     ),
 
     //grammar.lalrpop: 554
@@ -411,6 +427,14 @@ module.exports = grammar({
           field('argument', $.infix_expr)
         ))
       )
+    ),
+
+    //grammar.lalrpop: 617
+    curried_op: $ => choice(
+      //TODO: Rework infix expressions based on lalrpop
+      //$.infix_op,
+      "|>",
+      "!=",
     ),
 
     //grammar.lalrpop: 662

@@ -1,6 +1,5 @@
-#include <cwctype>
-#include <iostream>
-#include <stdint.h>
+#include <cwctype> // iswspace
+#include <stdint.h> // uint8_t, int32_t
 #include <tree_sitter/parser.h>
 #include <vector>
 
@@ -18,15 +17,16 @@ enum TokenType {
 };
 
 struct Scanner {
+  // For every nested string we push the expected percent count to this vector.
+  // When that string is terminated its expected percent count is popped from
+  // this vector.
   vector<uint8_t> expected_percent_count;
 
   void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 
   void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
-  int32_t lookahead(TSLexer *lexer) {
-    return lexer->lookahead;
-  }
+  int32_t lookahead(TSLexer *lexer) { return lexer->lookahead; }
 
   unsigned serialize(char *buffer) {
     uint8_t i = 0;
@@ -75,7 +75,7 @@ struct Scanner {
 
     expected_percent_count.push_back(count);
 
-    // A START is fully scanned with we started with an 'm' (precondition of
+    // A START is fully scanned when we started with an 'm' (precondition of
     // this function), more than 0 percent signs (precondition of this
     // function), and a quote character.
     return quote;
@@ -158,6 +158,7 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
+    // Skip over all whitespace
     while (iswspace(lookahead(lexer))) {
       skip(lexer);
     }

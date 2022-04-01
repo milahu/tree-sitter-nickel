@@ -172,12 +172,18 @@ module.exports = grammar({
       seq($.record_operand, ".", $.str_chunks),
     ),
 
+    //grammar.lalrpop: 269
+    row_tail: $ => choice(
+      $.ident,
+      "Dyn",
+    ),
+
     //grammar.lalrpop: 276
     uni_record: $ => seq(
       "{",
       repeat(seq($.record_field, ",")),
       optional($.record_last_field),
-      optional(";"),
+      optional(seq(";", $.row_tail)),
       "}",
     ),
 
@@ -221,6 +227,12 @@ module.exports = grammar({
       $.str_chunks,
     ),
 
+    //grammar.lalrpop: 361
+    last_match: $ => choice(
+      $.match,
+      seq("..", optional($.ident)),
+    ),
+
     //grammar.lalrpop: 374
     // The right hand side of an `=` inside a destructuring pattern.
     pattern: $ => choice(
@@ -231,18 +243,30 @@ module.exports = grammar({
     //grammar.lalrpop: 380
     destruct: $ => seq(
       "{",
-      seq(commaSep($.match), optional(",")),
+      seq(repeat(seq($.match, ",")), optional($.last_match)),
       "}",
     ),
 
     //grammar.lalrpop: 396
-    match: $ => seq(
-      $.ident,
-      optional($.annot),
-      //TODO
-      //optional($.default_annot),
-      "=",
-      $.pattern,
+    match: $ => choice(
+      seq(
+        $.ident,
+        optional($.annot),
+        optional($.default_annot),
+        "=",
+        $.pattern,
+      ),
+      seq(
+        $.ident,
+        optional($.annot),
+        optional($.default_annot),
+      ),
+    ),
+
+    //grammar.lalrpop: 428
+    default_annot: $ => seq(
+      "?",
+      $.term,
     ),
 
     //grammar.lalrpop: 437

@@ -50,7 +50,7 @@ module.exports = grammar({
       seq('#', /[^\n]*/),
     ),
 
-    keyword: _ => token(/if|then|else|foreall|in|let|switch|null|true|false|fun|import|merge|default|doc/),
+    keyword: _ => token(/if|then|else|forall|in|let|switch|null|true|false|fun|import|merge|default|doc/),
 
     num_literal: _ => /[0-9]*\.?[0-9]+/,
 
@@ -85,9 +85,8 @@ module.exports = grammar({
       $.infix_expr,
       // NOTE: We seperate the rules out into their own, otherwise it would get
       // a little much for this single rule.
-      //TODO
       $.annotated_infix_expr,
-      //$.forall,
+      $.forall,
       $.let_expr,
       $.fun_expr,
       $.switch_expr,

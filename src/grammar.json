@@ -26,7 +26,7 @@
       "type": "TOKEN",
       "content": {
         "type": "PATTERN",
-        "value": "if|then|else|foreall|in|let|switch|null|true|false|fun|import|merge|default|doc"
+        "value": "if|then|else|forall|in|let|switch|null|true|false|fun|import|merge|default|doc"
       }
     },
     "num_literal": {
@@ -128,6 +128,10 @@
         {
           "type": "SYMBOL",
           "name": "annotated_infix_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "forall"
         },
         {
           "type": "SYMBOL",

@@ -975,6 +975,10 @@
           "named": true
         },
         {
+          "type": "forall",
+          "named": true
+        },
+        {
           "type": "fun_expr",
           "named": true
         },

@@ -1,4 +1,4 @@
-#include <cwctype> // iswspace
+#include <cwctype>  // iswspace
 #include <stdint.h> // uint8_t, int32_t
 #include <tree_sitter/parser.h>
 #include <vector>
@@ -163,34 +163,37 @@ struct Scanner {
       skip(lexer);
     }
 
-    if (lookahead(lexer) == 'm' && valid_symbols[MULTSTR_START]) {
-      advance(lexer);
-      if (lookahead(lexer) == '%') {
-        return scan_multstr_start(lexer);
+    switch (lookahead(lexer)) {
+    case 'm':
+      if (valid_symbols[MULTSTR_START]) {
+        advance(lexer);
+        if (lookahead(lexer) == '%') {
+          return scan_multstr_start(lexer);
+        }
       }
-    }
-
-    if (lookahead(lexer) == '"' && valid_symbols[MULTSTR_END]) {
-      advance(lexer);
-      if (lookahead(lexer) == '%') {
-        return scan_multstr_end(lexer);
+      break;
+    case '"':
+      if (valid_symbols[MULTSTR_END]) {
+        advance(lexer);
+        if (lookahead(lexer) == '%') {
+          return scan_multstr_end(lexer);
+        }
+      } else if (valid_symbols[STR_START]) {
+        return scan_str_start(lexer);
+      } else if (valid_symbols[STR_END]) {
+        return scan_str_end(lexer);
       }
-    }
-
-    if (lookahead(lexer) == '"' && valid_symbols[STR_START]) {
-      return scan_str_start(lexer);
-    }
-
-    if (lookahead(lexer) == '"' && valid_symbols[STR_END]) {
-      return scan_str_end(lexer);
-    }
-
-    if (lookahead(lexer) == '%' && valid_symbols[INTERPOLATION_START]) {
-      return scan_interpolation_start(lexer);
-    }
-
-    if (lookahead(lexer) == '}' && valid_symbols[INTERPOLATION_END]) {
-      return scan_interpolation_end(lexer);
+      break;
+    case '%':
+      if (valid_symbols[INTERPOLATION_START]) {
+        return scan_interpolation_start(lexer);
+      }
+      break;
+    case '}':
+      if (valid_symbols[INTERPOLATION_END]) {
+        return scan_interpolation_end(lexer);
+      }
+      break;
     }
 
     return false;

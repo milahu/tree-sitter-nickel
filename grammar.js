@@ -9,6 +9,11 @@
 // a Types rule, but with post-processing. We don't do any post-processing in
 // tree-sitter, so we just parse them as a `Types`.
 
+// NOTE[special-infix] The lalrpop grammer produces an AST. In tree-sitter we
+// don't have to do this. Hence, we don't have to treat the "|>" and "!="
+// operators differently from others. This means we can unify them with the
+// other _b_op rules.
+
 module.exports = grammar({
   name: 'nickel',
 
@@ -146,13 +151,12 @@ module.exports = grammar({
       seq("import", $.static_string),
       $.type_array,
       seq($.applicative, $.record_operand),
-      // We don't explicitly have the UOp rule. Instead we match generically on
-      // builtin functions.
+      // We don't explicitly have the the following three rules. Instead we
+      // match generically on builtin functions.
       // This is different from the lalrpop grammar. See NOTE[builtin].
       //seq($.u_op, $.record_operand),
-      // TODO
-      // BOpPre?
-      // NOpPre?
+      //seq($.b_op_pre, $.record_operand, $.atom),
+      //seq($.n_op_pre),
       $.record_operand,
     ),
 
@@ -307,18 +311,17 @@ module.exports = grammar({
 
     //grammar.lalrpop: 492
     chunk_expr: $ => seq(
-      // TODO: Maybe just _interpolation_start?
-      $.interpolation,
+      $._interpolation_start,
       $.term,
       $._interpolation_end,
     ),
 
     //grammar.lalrpop: 492
-    interpolation: $ => choice(
-      $._interpolation_start,
-      // TODO: Do we need this here?
-      //$._multstr_start,
-    ),
+    //NOTE: We deal with this in the lexer.
+    //interpolation: $ => choice(
+    //  $._interpolation_start,
+    //  $._multstr_start,
+    //),
 
     //grammar.lalrpop: 496
     static_string: $ => choice(
@@ -348,7 +351,6 @@ module.exports = grammar({
       $.double_quote,
     ),
 
-    // TODO: We really don't want to have this here.
     percent: _ => "%",
     double_quote: _ => "\"",
 
@@ -398,6 +400,7 @@ module.exports = grammar({
     //grammar.lalrpop: 574
     infix_b_op_6: _ => choice(
       "&",
+      "|>",
     ),
 
     //grammar.lalrpop: 578
@@ -411,6 +414,7 @@ module.exports = grammar({
     //grammar.lalrpop: 585
     infix_b_op_8: _ => choice(
       "==",
+      "!=",
     ),
 
     //grammar.lalrpop: 589
@@ -449,8 +453,9 @@ module.exports = grammar({
     //grammar.lalrpop: 617
     curried_op: $ => choice(
       $.infix_op,
-      "|>",
-      "!=",
+      // NOTE: Removed, see NOTE[special-infix].
+      //"|>",
+      //"!=",
     ),
 
     //grammar.lalrpop: 662
@@ -470,13 +475,13 @@ module.exports = grammar({
       prec.left(-3, seq($.infix_expr, $.infix_b_op_3, $.infix_expr)),
       prec.left(-4, seq($.infix_expr, $.infix_b_op_4, $.infix_expr)),
       prec.left(-5, seq($.infix_u_op_5, $.infix_expr)),
+      // NOTE: The "|>" rule is part of the infix_b_op_6 rule because we don't
+      // need to treat is specially. See NOTE[special-infix].
       prec.left(-6, seq($.infix_expr, $.infix_b_op_6, $.infix_expr)),
-      // TODO: Make part of infix_b_op_6
-      prec.left(-6, seq($.infix_expr, "|>", $.infix_expr)),
       prec.left(-7, seq($.infix_expr, $.infix_b_op_7, $.infix_expr)),
+      // NOTE: The "!=" rule is part of the infix_b_op_8 rule because we don't
+      // need to treat is specially. See NOTE[special-infix].
       prec.left(-8, seq($.infix_expr, $.infix_b_op_8, $.infix_expr)),
-      // TODO: Make part of infix_b_op_8
-      prec.left(-8, seq($.infix_expr, "!=", $.infix_expr)),
       prec.left(-9, seq($.infix_expr, $.infix_lazy_b_op_9, $.infix_expr)),
       prec.left(-10, seq($.infix_expr, $.infix_lazy_b_op_10, $.infix_expr)),
       prec.right(-11, seq($.infix_expr, "->", $.infix_expr)),

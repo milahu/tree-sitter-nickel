@@ -1068,7 +1068,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "interpolation"
+          "name": "_interpolation_start"
         },
         {
           "type": "SYMBOL",
@@ -1077,15 +1077,6 @@
         {
           "type": "SYMBOL",
           "name": "_interpolation_end"
-        }
-      ]
-    },
-    "interpolation": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_interpolation_start"
         }
       ]
     },
@@ -1323,6 +1314,10 @@
         {
           "type": "STRING",
           "value": "&"
+        },
+        {
+          "type": "STRING",
+          "value": "|>"
         }
       ]
     },
@@ -1353,6 +1348,10 @@
         {
           "type": "STRING",
           "value": "=="
+        },
+        {
+          "type": "STRING",
+          "value": "!="
         }
       ]
     },
@@ -1439,14 +1438,6 @@
         {
           "type": "SYMBOL",
           "name": "infix_op"
-        },
-        {
-          "type": "STRING",
-          "value": "|>"
-        },
-        {
-          "type": "STRING",
-          "value": "!="
         }
       ]
     },
@@ -1581,27 +1572,6 @@
         },
         {
           "type": "PREC_LEFT",
-          "value": -6,
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "infix_expr"
-              },
-              {
-                "type": "STRING",
-                "value": "|>"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "infix_expr"
-              }
-            ]
-          }
-        },
-        {
-          "type": "PREC_LEFT",
           "value": -7,
           "content": {
             "type": "SEQ",
@@ -1634,27 +1604,6 @@
               {
                 "type": "SYMBOL",
                 "name": "infix_b_op_8"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "infix_expr"
-              }
-            ]
-          }
-        },
-        {
-          "type": "PREC_LEFT",
-          "value": -8,
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "infix_expr"
-              },
-              {
-                "type": "STRING",
-                "value": "!="
               },
               {
                 "type": "SYMBOL",

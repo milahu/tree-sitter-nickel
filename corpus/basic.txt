@@ -492,7 +492,6 @@ u.v."x%{y}z"
                 (chunk_literal_single
                   (str_literal))
                 (chunk_expr
-                  (interpolation)
                   (term
                     (uni_term
                       (infix_expr

@@ -6,22 +6,6 @@
       "type": "SYMBOL",
       "name": "uni_term"
     },
-    "comment": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "#"
-          },
-          {
-            "type": "PATTERN",
-            "value": "[^\\n]*"
-          }
-        ]
-      }
-    },
     "keyword": {
       "type": "TOKEN",
       "content": {
@@ -1840,6 +1824,10 @@
     {
       "type": "SYMBOL",
       "name": "_interpolation_end"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "comment"
     }
   ],
   "inline": [],

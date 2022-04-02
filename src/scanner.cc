@@ -14,6 +14,7 @@ enum TokenType {
   STR_END,
   INTERPOLATION_START,
   INTERPOLATION_END,
+  COMMENT,
 };
 
 struct Scanner {
@@ -157,6 +158,26 @@ struct Scanner {
     return true;
   }
 
+  bool scan_comment(TSLexer *lexer) {
+    lexer->result_symbol = COMMENT;
+
+    // The length of the vector gives us the current level of nesting. Thus, an
+    // empty vector implies that we are currently not in a string. For anything
+    // else, we return false.
+    if (!expected_percent_count.empty()) {
+      return false;
+    }
+
+    // Consume the #
+    advance(lexer);
+
+    while (lookahead(lexer) != '\n' && lookahead(lexer) != '\0') {
+      advance(lexer);
+    }
+
+    return true;
+  }
+
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
     // Skip over all whitespace
     while (iswspace(lookahead(lexer))) {
@@ -192,6 +213,11 @@ struct Scanner {
     case '}':
       if (valid_symbols[INTERPOLATION_END]) {
         return scan_interpolation_end(lexer);
+      }
+      break;
+    case '#':
+      if (valid_symbols[COMMENT]) {
+        return scan_comment(lexer);
       }
       break;
     }

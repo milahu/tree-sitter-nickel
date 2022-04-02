@@ -35,6 +35,7 @@ module.exports = grammar({
     $._str_end,
     $._interpolation_start,
     $._interpolation_end,
+    $.comment,
   ],
 
   word: $ => $.keyword,
@@ -50,11 +51,6 @@ module.exports = grammar({
     ////////////////////////////
     // LEXER RELATED RULES (lexer.rs)
     ////////////////////////////
-    // NOTE: Nickel only has single line comments
-    comment: _ => token(
-      seq('#', /[^\n]*/),
-    ),
-
     keyword: _ => token(/if|then|else|forall|in|let|switch|null|true|false|fun|import|merge|default|doc/),
 
     num_literal: _ => /[0-9]*\.?[0-9]+/,

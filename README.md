@@ -1,3 +1,13 @@
+# deprecated
+
+this project is deprecated in favor of [nickel-lang/tree-sitter-nickel](https://github.com/nickel-lang/tree-sitter-nickel)
+
+see also PR #5 [Full grammar and scanner rewrite](https://github.com/milahu/tree-sitter-nickel/pull/5)
+
+thanks @ErinvanderVeen
+
+thanks @tweag
+
 tree-sitter-nickel
 ================
 
